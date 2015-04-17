@@ -1,0 +1,124 @@
+apply plugin: 'android-library'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.9.+'
+    }
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.0.3"
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 19
+        testPackageName "com.mixpanel.android.mpmetrics"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+android.libraryVariants.all { variant ->
+    task("generate${variant.name}Javadoc", type: Javadoc) {
+        description "Generates Javadoc for $variant.name."
+        source = variant.javaCompile.source
+        ext.androidJar = "${android.plugin.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+        classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
+        exclude '**/R.*', '**/BuildConfig.java'
+        options {
+            encoding = 'UTF-8'
+            docEncoding = 'UTF-8'
+            charSet = 'UTF-8'
+        }
+    }
+}
+
+def isReleaseVersion() {
+    return !version.endsWith("SNAPSHOT");
+}
+
+configurations {
+    archives {
+        extendsFrom configurations.default
+    }
+}
+
+if (isReleaseVersion()) {
+    signing {
+        required { gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+    }
+}
+
+uploadArchives {
+    configuration = configurations.archives
+
+    repositories.mavenDeployer {
+        pom.project {
+            name project.name
+            packaging 'aar'
+            description 'An Android library for Mixpanel Analytics \n' +
+                    'http://mixpanel.com/android-analytics/'
+            url 'https://github.com/mixpanel/mixpanel-android'
+            scm {
+                url 'http://github.com/mixpanel/mixpanel-android'
+                connection 'scm:git:http://github.com/mixpanel/mixpanel-android'
+                developerConnection 'scm:git:git@github.com:mixpanel/mixpanel-android.git'
+            }
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/license/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            developers {
+                developer {
+                    id 'jbwyme'
+                    name 'Josh Wymer'
+                    email 'josh@mixpanel.com'
+                }
+                developer {
+                    id 'joeatwork'
+                    name 'Joe Bowers'
+                    email 'joe@mixpanel.com'
+                }
+            }
+        }
+
+        if (isReleaseVersion()) {
+            /**
+             * In order to do nexus deploys, you'll need to setup a gradle.properties file in $HOME/.gradle
+             * with the following properties. You'll need the mixpanel.key file and then import it using GnuPG
+             * which will provide you with the keyId and the secring.gpg file
+             * signing.keyId=
+             * signing.password=
+             * signing.secretKeyRingFile=
+             *
+             * sonatypeRepo=https://oss.sonatype.org/service/local/staging/deploy/maven2/
+             * sonatypeUsername=
+             * sonatypePassword=
+             */
+
+            beforeDeployment {
+                MavenDeployment deployment -> signing.signPom(deployment)
+            }
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+        } else {
+            repository(url:'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath)
+        }
+
+    }
+}
+

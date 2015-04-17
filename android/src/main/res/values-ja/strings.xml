@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    
+  	<string name="tab_measure">測定</string>
+    <string name="tab_map">マップ</string>
+    <string name="tab_history">履歴</string>
+    <string name="tab_about">情報</string>
+    
+	<string name="back">戻る</string>
+	
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_ms">m/s</string>
+    <string name="unit_mph">mph</string>
+    <string name="unit_kn">kt</string>
+    <string name="unit_bft">bft</string>
+    
+    <string name="rel_time_future">未来</string>
+    <string name="rel_time_now">現在</string>
+    <string name="rel_time_1_min_ago">1分前</string>
+    <string name="rel_time_x_mins_ago">%d分前</string>
+    <string name="rel_time_1_hour_ago">1時間前</string>
+    <string name="rel_time_x_hours_ago">%d時間前</string>
+    <string name="rel_time_1_day_ago">1日前</string>
+    <string name="rel_time_x_days_ago">%d日前</string>
+
+    <string name="heading_average">平均</string>
+    <string name="heading_current">現在</string>
+    <string name="heading_max">最大</string>
+    <string name="heading_unit">単位</string>
+    <string name="direction_unit">方向</string>
+    <string name="heading_nearby_measurements">付近の測定結果</string>
+    <string name="no_compass_measurements">この携帯電話\nではデジタル コンパス\nが利用できません</string>
+
+    <string name="button_start">開始</string>
+    <string name="button_stop">停止</string>
+    <string name="button_cancel">キャンセル</string>
+    <string name="button_ok">OK</string>
+    <string name="button_done">終了</string>
+    
+    <string name="info_measuring">計測中です</string>
+    <string name="info_no_signal">信号がありません</string>
+    <string name="info_keep_steady">縦方向に保ち安定させてください</string>
+    
+    <string name="x_hours">%d時間</string>
+    <string name="map_refresh_error_title">マップ更新エラー</string>
+    <string name="map_refresh_error_message">携帯データ通信またはWi-Fiに接続されていることを確認してください。</string>
+    
+    <string name="history_title">履歴</string>
+    <string name="history_register_teaser">完全な測定履歴を表示するにはサインアップしてください</string>
+	<string name="history_no_measurements">まだ測定結果がありません</string>
+	<string name="history_go_to_measure">測定画面に移動し開始を押して利用を開始してください！</string>
+    
+    <string name="about_title">情報</string>
+    <string name="about_vaavud_text">Vaavudはデンマークの新規参入企業です。\n当社のミッションは、有用性、機能、およびサードパーティー統合の面において世界一の風力計を製作することです。\n詳細情報やVaavudウィンドメーターのご購入はVaavud.comをご覧ください。\n &#169; Vaavud ApS 2014, all rights reserved\n Version: %1$s</string>
+    <string name="link_terms_of_service">サービス規約</string>
+    <string name="link_privacy_policy">プライバシーポリシー</string>
+    
+    <string name="register_title_signup">サインアップ</string>
+    <string name="register_title_login">ログイン</string>
+    <string name="register_or">または</string>
+    <string name="register_terms_and">と</string>
+    <string name="register_button_login_with_facebook">Facebookでログイン</string>
+    <string name="register_signup_with_facebook">Facebookでサインアップ</string>
+    <string name="register_facebook_disclaimer">当社がお客様の許可なしにFacebookに書き込むことはありません</string>
+	<string name="register_button_create">作成</string>
+	<string name="register_button_login">ログイン</string>
+	<string name="register_button_logout">ログアウト</string>
+	<string name="register_field_first_name">名</string>
+	<string name="register_field_last_name">姓</string>
+	<string name="register_field_email">メールアドレス</string>
+	<string name="register_field_password">パスワード</string>
+
+	<string name="register_create_feedback_first_name_empty_title">名前を入力してください</string>
+	<string name="register_create_feedback_first_name_empty_message">上のお名前だけで結構です。</string>
+	<string name="register_create_feedback_email_empty_title">メールアドレスを入力してください</string>
+	<string name="register_create_feedback_email_empty_message">メールアドレスを第三者に提供することはありません！</string>
+	<string name="register_create_feedback_password_short_title">パスワードが短すぎます</string>
+	<string name="register_create_feedback_password_short_message">4文字以上。</string>
+	<string name="register_feedback_invalid_credentials_title">ログインできませんでした</string>
+	<string name="register_feedback_invalid_credentials_message">メールアドレスまたはパスワードが正しくありません。</string>
+	<string name="register_feedback_account_exists_title">このアカウントは既に存在します</string>
+	<string name="register_feedback_account_exists_message">メールアドレスまたはパスワードが正しくありません。</string>
+	<string name="register_feedback_account_exists_login_with_facebook">Facebookでログインしてください。</string>
+	<string name="register_feedback_account_exists_provide_password">Facebookでのログインを許可するにはVaavudアカウントのパスワードを入力してください：</string>
+	<string name="register_feedback_malformed_email_title">メールアドレスが正しくありません</string>
+	<string name="register_feedback_malformed_email_message">有効なメールアドレスではない可能性があります。</string>
+	<string name="register_feedback_no_reachability_title">接続に関する問題</string>
+	<string name="register_feedback_no_reachability_message">携帯データ通信またはWi-Fiに接続されていることを確認してください。</string>
+	<string name="register_feedback_error_title">エラー</string>
+	<string name="register_feedback_error_message">後程再試行してください。</string>
+	
+	<!-- Settings -->
+    <string name="button_settings">設定</string>
+    <string name="button_buy">ウィンドメーターを買う</string>
+	<string name="button_enable_share">Facebookのシェアを有効にします</string>
+	<string name="button_settings_measuring_tips">測定時のヒント</string>
+
+    <string name="message_sure">本当にいいですか？</string>
+	
+	<!-- Only used in Android App -->
+	<string name="register_feedback_conecting_server">荷積...</string>
+	
+    <!--  Menu Items -->
+	<string name="option_login">ログイン/サインアップ</string>
+    <string name="option_about">情報</string>
+    <string name="option_logout">ログアウト</string>
+    <string name="option_delete">消す</string>
+	
+	<!-- Share Items -->
+    <string name="share_to_facebook_title">Facebookでシェアしますか？</string>
+    <string name="share_guide">これはどのようになるのですか？</string>
+    <string name="share_take_photo">写真を撮影</string>
+    <string name="share_choose_existing">既存のものを選択</string>
+
+    <!-- IntroFlow -->
+    <string name="intro_flow_screen_1">Vaavud Wind Meterは携帯を風速計として使うようにするハイテクな気象用ツールです。</string>
+    <string name="intro_flow_screen_2">ライブマップを使用し、お気に入りスポットに行く前に風速状況を確認しましょう。</string>
+    <string name="intro_flow_skip_button">今はスキップします</string>
+    <string name="intro_flow_have_a_wind_meter">既にVaavud Wind Meterをお持ちですか？</string>
+    <string name="intro_flow_want_buy">今すぐVaavud Wind Meterを購入しますか？</string>
+    <string name="instruction_flow_screen_1">こちらは正確な風速値を得るためのヒントです。</string>
+    <string name="instruction_flow_screen_2">正確な風速値を得るためには携帯を頭よりも高い位置で垂直にし、しっかりと抑えてください。</string>
+    <string name="instruction_flow_screen_3">草木、機器、岩などの背後に立って使用しないでください。</string>
+    <string name="instruction_flow_screen_4">正確な平均値を得るには、少なくとも進捗インジケータがフルになるまで測り続けてください。</string>
+    <string name="intro_flow_later_button">後で行います</string>
+    <string name="intro_flow_yes_button">はい</string>
+    <string name="intro_flow_no_button">いいえ</string>
+    <string name="intro_flow_got_it_button">OK、了解しました！</string>
+    
+    <string name="calibration">校正</string>
+	<string name="calibration_howto_text">Sleipnirの校正方法</string>
+	<string name="calibration_tip_text">室内で風速計に強い風を吹き込み、回転が遅くなり次第、もう一度吹き込んでください。</string>
+	<string name="calibration_accessmenu_text">Sleipnirの校正は、いつでも設定メニューから行うことができます。</string>
+	<string name="calibration_cancel_text">キャンセル</string>
+	<string name="calibration_later_text">後で</string>
+	<string name="calibration_start_text">校正を開始</string>
+	<string name="calibration_message_text">風を吹き込んでからお待ちいただき、回転が遅くなり次第、もう一度吹き込んでください</string>
+	<string name="calibration_completed_text">校正の完了！</string>
+	<string name="calibration_finish_text">完了</string>
+	
+	<string name="sound_disclaimer_title">注目</string>
+	<string name="sound_disclaimer">sleipnir風速計は、魔法と携帯の音声シグナルによって測定を行います。ですから、音量レベルの警告でOKを押してください。</string>
+    
+	<string name="calibration_upload_dialog_title">う～ん、何か問題が発生したようです。</string>
+    <string name="calibration_upload_dialog_text">詳しく分析するためにVaavudにエラーレポートを送りますか？</string>
+    <string name="calibration_sending_dialog_title">レポートを送信中…</string>
+    <string name="calibration_not_sleipnir_toast">Sleipnirが接続されていません</string>
+    
+    <string name="conectivity_error_message">携帯データ通信またはWi-Fiに接続されていることを確認してください。</string>
+	
+    <!--  App ID -->
+    <string name="app_name">Vaavud</string>
+    <string name="app_id">624217360948538</string>
+</resources>

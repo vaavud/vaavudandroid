@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="50dp"
+    android:padding="3dp" >
+
+    <TextView
+        android:id="@+id/nearby_speedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="28.8"
+        android:textColor="@color/red"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/nearby_unitTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/nearby_speedTextView"
+        android:layout_alignBottom="@+id/nearby_speedTextView"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/nearby_speedTextView"
+        android:text="km/h" />
+
+    <TextView
+        android:id="@+id/nearby_hoursTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/nearby_unitTextView"
+        android:layout_alignBottom="@+id/nearby_unitTextView"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:text="14 hours ago" />
+    
+    <ImageView
+        android:id="@+id/nearby_windArrowView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignBottom="@+id/nearby_unitTextView"
+        android:layout_toRightOf="@+id/nearby_unitTextView"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/nearby_windTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/nearby_windArrowView"
+        android:layout_alignBottom="@+id/nearby_windArrowView"
+        android:textColor="@color/red"
+        android:text="-"
+        android:textSize="20sp" />
+
+</RelativeLayout>

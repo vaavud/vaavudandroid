@@ -1,0 +1,53 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="@android:style/Theme.Holo">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+
+    </style>
+
+    <!-- Action Bar Style -->
+    <!--<style name="VaavudActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">-->
+        <!--&lt;!&ndash;<item name="android:displayOptions">showHome|useLogo</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:logo">@drawable/logo</item>&ndash;&gt;-->
+        <!--<item name="android:background">@color/blue_20</item>-->
+    <!--</style>-->
+    <!-- Action Bar Tab Style -->
+    <!--<style name="VaavudActionBarTabStyle" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">-->
+        <!--<item name="android:background">@drawable/ab_tab_indicator</item>-->
+        <!--<item name="android:backgroundSplit">@drawable/ab_bottom_solid</item>-->
+    <!--</style>-->
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:actionBarStyle">@style/VaavudActionBar</item>
+        <!--<item name="android:actionBarTabStyle">@style/VaavudActionBarTabStyle</item>-->
+        <!--<item name="android:actionModeBackground">@drawable/cab_background_top_apptheme</item>-->
+        <!--<item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_apptheme</item>-->
+        <item name="circularProgressBarStyle">@style/CircularProgressBar</item>
+
+
+    </style>
+
+    <style name="WindMarker.TextAppearance" parent="android:TextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#ffffffff</item>
+    </style>
+
+    <style name="VaavudActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <!--<item name="android:displayOptions">showHome|useLogo</item>-->
+        <!--<item name="android:logo">@drawable/logo</item>-->
+        <item name="android:background">@color/blue_20</item>
+    </style>
+
+
+</resources>

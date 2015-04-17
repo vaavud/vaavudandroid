@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    
+    <string name="tab_measure">Measure</string>
+    <string name="tab_map">Map</string>
+    <string name="tab_history">History</string>
+    <string name="tab_about">About</string>
+    <string name="folder_name">regular</string>
+    
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_ms">m/s</string>
+    <string name="unit_mph">mph</string>
+    <string name="unit_kn">kt</string>
+    <string name="unit_bft">bft</string>
+    <string name="unit_cardinal">Cardinal</string>
+    <string name="unit_degrees">Degrees</string>
+    
+    <string name="rel_time_future">future</string>
+    <string name="rel_time_now">just now</string>
+    <string name="rel_time_1_min_ago">1 min ago</string>
+    <string name="rel_time_x_mins_ago">%d mins ago</string>
+    <string name="rel_time_1_hour_ago">1 hour ago</string>
+    <string name="rel_time_x_hours_ago">%d hours ago</string>
+    <string name="rel_time_1_day_ago">1 day ago</string>
+    <string name="rel_time_x_days_ago">%d days ago</string>
+
+    <string name="heading_average">Average</string>
+    <string name="heading_current">Current</string>
+    <string name="heading_max">Max</string>
+    <string name="heading_unit">Unit</string>
+    <string name="direction_unit">Direction</string>
+    <string name="heading_nearby_measurements">Nearby Measurements</string>
+    <string name="no_compass_measurements">No digital\n compass available\nin this device</string>
+
+    <string name="button_start">Start</string>
+    <string name="button_stop">Stop</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
+    
+    <string name="info_measuring">Measurement in progress</string>
+    <string name="info_no_signal">No signal</string>
+    <string name="info_keep_steady">Keep vertical &#038; steady</string>
+    
+    <string name="x_hours">%d hours</string>
+    <string name="map_refresh_error_title">Map Refresh Error</string>
+    <string name="map_refresh_error_message">Make sure you have cellular data or Wi-Fi connectivity.</string>
+    
+    <string name="history_title">History</string>
+    <string name="history_register_teaser">Register to see your entire measurement history</string>
+	<string name="history_no_measurements">No measurements yet.</string>
+	<string name="history_go_to_measure">Go to Measure and press Start to get going!</string>
+    
+    <string name="about_title">About</string>
+    <string name="about_back">Back</string>
+    <string name="about_vaavud_text" formatted="false">Vaavud is a Danish technology start-up.\n Our mission is to make the best wind meters on the planet in terms of usability, features, and third party integration.\n To learn more and to purchase a Vaavud wind meter visit Vaavud.com\n &#169; Vaavud ApS 2014, all rights reserved\n Version: %1$s </string>
+    <string name="link_terms_of_service">Terms of Service</string>
+    <string name="link_privacy_policy">Privacy Policy</string>
+    
+    <string name="register_title_signup">Sign Up</string>
+    <string name="register_title_login">Log In</string>
+    <string name="register_or">Or</string>
+    <string name="register_terms_and">and</string>
+    <string name="register_button_login_with_facebook">Log in with Facebook</string>
+    <string name="register_signup_with_facebook">Sign up with Facebook</string>
+    <string name="register_facebook_disclaimer">We\'ll never post to Facebook without your permission</string>
+	<string name="register_button_create">Create</string>
+	<string name="register_button_login">Log in</string>
+	<string name="register_button_logout">Log out</string>
+	<string name="register_field_first_name">First name</string>
+	<string name="register_field_last_name">Last name</string>
+	<string name="register_field_email">Email</string>
+	<string name="register_field_password">Password</string>
+
+	<string name="register_create_feedback_first_name_empty_title">Enter your name</string>
+	<string name="register_create_feedback_first_name_empty_message">Just your first name will do.</string>
+	<string name="register_create_feedback_email_empty_title">Enter your email</string>
+	<string name="register_create_feedback_email_empty_message">We won\'t give your email to 3rd parties!</string>
+	<string name="register_create_feedback_password_short_title">Password too short</string>
+	<string name="register_create_feedback_password_short_message">4 characters or more</string>
+	<string name="register_feedback_invalid_credentials_title">Couldn\'t login</string>
+	<string name="register_feedback_invalid_credentials_message">Email or password is not correct.</string>
+	<string name="register_feedback_account_exists_title">Account already exists</string>
+	<string name="register_feedback_account_exists_message">Email or password is not correct</string>
+	<string name="register_feedback_account_exists_login_with_facebook">Log in with Facebook</string>
+	<string name="register_feedback_account_exists_provide_password">Provide the password for the Vaavud account to allow log in with Facebook:</string>
+	<string name="register_feedback_malformed_email_title">Incorrect email</string>
+	<string name="register_feedback_malformed_email_message">Doesn\'t appear to be a valid email.</string>
+	<string name="register_feedback_no_reachability_title">Connectivity problem</string>
+	<string name="register_feedback_no_reachability_message">Make sure you have cellular data or Wi-Fi connectivity</string>
+	<string name="register_feedback_error_title">Error</string>
+	<string name="register_feedback_error_message">Please try again later</string>
+	
+	<!-- Settings -->
+	<string name="button_settings">Settings</string>
+    <string name="button_buy">Buy a wind meter</string>
+    <string name="button_enable_share">Enable Facebook sharing</string>
+	<string name="button_settings_measuring_tips">Measuring tips</string>
+
+    
+	
+	<!-- Only used in Android App -->
+	<string name="register_feedback_conecting_server">Loading...</string>
+	
+    <!--  Menu Items -->
+	<string name="option_login">Login/Sign Up</string>
+    <string name="option_about">About</string>
+    <string name="option_logout">Logout</string>
+    <string name="option_delete">Delete</string>
+    
+    <!-- Share Items -->
+    <string name="share_to_facebook_title">Share to Facebook?</string>
+    <string name="share_guide">What\'s it like</string>
+    <string name="share_take_photo">Take Photo</string>
+    <string name="share_choose_existing">Choose Existing</string>
+    
+    <!-- IntroFlow -->
+    <string name="intro_flow_screen_1">The Vaavud wind meter turns your phone into a high-tech meteorological tool</string>
+    <string name="intro_flow_screen_2">Use the live map to check the conditions at your favorite spots before you go.</string>
+    <string name="intro_flow_skip_button">Skip for now.</string>
+    <string name="intro_flow_have_a_wind_meter">Do you already have a Vaavud wind meter?</string>
+    <string name="intro_flow_want_buy">Do you want to buy a wind meter now?</string>
+    <string name="instruction_flow_screen_1">Here are a few tips for making good wind measurements.</string>
+    <string name="instruction_flow_screen_2">For maximum precision hold the phone steady and vertical above your head.</string>
+    <string name="instruction_flow_screen_3">Don\'t stand behind vegetation, equipment, rocks etc.</string>
+    <string name="instruction_flow_screen_4">Keep measuring at least until the progress indicator is full to get a proper average.</string>
+    <string name="intro_flow_later_button">Later</string>
+    <string name="intro_flow_yes_button">Yes</string>
+    <string name="intro_flow_no_button">No</string>
+    <string name="intro_flow_got_it_button">Ok, got it!</string>
+    
+    <!-- Calibration -->
+    <string name="calibration">Calibration</string>
+    <string name="calibration_howto_text">How to calibrate your Sleipnir</string>
+    <string name="calibration_tip_text">Go indoors and blow into the wind meter firmly when it slows down blow again.</string>
+    <string name="calibration_accessmenu_text">You can calibrate your Sleipnir at any time through the settings menu.</string>
+    <string name="calibration_cancel_text">Cancel</string>
+    <string name="calibration_later_text">Do this later</string>
+    <string name="calibration_start_text">Start calibration</string>
+    <string name="calibration_message_text">Blow and wait until it slows down to blow again</string>
+    <string name="calibration_completed_text">Calibration Complete!</string>
+    <string name="calibration_finish_text">Done</string>
+    
+    <string name="sound_disclaimer_title">Warning</string>
+    <string name="sound_disclaimer">The sleipnir wind meter works by magic - and by drawing an audio signal from your phone. So please click OK to the volume level warning</string>
+    
+    <string name="calibration_upload_dialog_title">Hmmm...Something\'s not right</string>
+    <string name="calibration_upload_dialog_text">Do you want to send an error report to Vaavud for further analysis?</string>
+    <string name="calibration_sending_dialog_title">Sending report...</string>
+    <string name="calibration_not_sleipnir_toast">Sleipnir not connected</string>
+    
+    <string name="conectivity_error_message">Make sure you have cellular data or Wi-Fi connectivity.</string>
+    
+    <!--  App ID -->
+    <string name="app_name">Vaavud</string>
+    <string name="app_id">624217360948538</string>
+</resources>

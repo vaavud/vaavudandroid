@@ -1,0 +1,4 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/option_login" android:title="@string/option_login" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/option_settings" android:title="@string/button_settings" android:showAsAction="ifRoom"></item>
+</menu>

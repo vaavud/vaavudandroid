@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    
+  	<string name="tab_measure">測量</string>
+    <string name="tab_map">地圖</string>
+    <string name="tab_history">歷史記錄</string>
+    <string name="tab_about">關於</string>
+    
+	<string name="back">返回</string>
+	
+    <string name="unit_kmh">公里/時</string>
+    <string name="unit_ms">米/秒</string>
+    <string name="unit_mph">英里/時</string>
+    <string name="unit_kn">節</string>
+    <string name="unit_bft">蒲福風級</string>
+    
+    <string name="rel_time_future">未來</string>
+    <string name="rel_time_now">現在</string>
+    <string name="rel_time_1_min_ago">1分鐘前</string>
+    <string name="rel_time_x_mins_ago">%d分鐘前</string>
+    <string name="rel_time_1_hour_ago">1小時前</string>
+    <string name="rel_time_x_hours_ago">%d小時前</string>
+    <string name="rel_time_1_day_ago">1天前</string>
+    <string name="rel_time_x_days_ago">%d天前</string>
+
+    <string name="heading_average">平均</string>
+    <string name="heading_current">當前</string>
+    <string name="heading_max">最大</string>
+    <string name="heading_unit">單位</string>
+    <string name="direction_unit">方向</string>
+    <string name="heading_nearby_measurements">附近測量值</string>
+    <string name="no_compass_measurements">這部\n電話里沒有\n數位羅盤</string>
+	
+    
+
+    <string name="button_start">開始</string>
+    <string name="button_stop">停止</string>
+    <string name="button_ok">確定</string>
+    <string name="button_cancel">取消</string>
+    <string name="button_done">完成</string>
+    
+    <string name="info_measuring">正在測量</string>
+    <string name="info_no_signal">無訊號</string>
+    <string name="info_keep_steady">保持垂直和穩定</string>
+    
+    <string name="x_hours">%d小時</string>
+    <string name="map_refresh_error_title">題圖刷新錯誤</string>
+    <string name="map_refresh_error_message">確認您開啟行動數據或 Wi-Fi 連線。</string>
+    
+    <string name="history_title">歷史記錄</string>
+    <string name="history_register_teaser">登入查看您的全部測量歷史記錄</string>
+	<string name="history_no_measurements">尚無測量值</string>
+	<string name="history_go_to_measure">轉到測量頁面，按開始進行測量！</string>
+    
+    <string name="about_title">關於</string>
+    <string name="about_vaavud_text">Vaavud 是一家丹麥新創企業. \n我們的目標是打造在易用性、功能和第三方整合方面皆全球最佳的風速計。\n垂詢詳細資料或購買 Vaavud 風速計，請瀏覽 Vaavud.com\n &#169; Vaavud ApS 2014著作權所有，并保留一切權利\n版本：%1$s</string>
+    <string name="link_terms_of_service">服務條款</string>
+    <string name="link_privacy_policy">隱私權原則</string>
+    
+    <string name="register_title_signup">註冊</string>
+    <string name="register_title_login">登入</string>
+    <string name="register_or">或</string>
+    <string name="register_terms_and">和</string>
+    <string name="register_button_login_with_facebook">使用 Facebook 登入</string>
+    <string name="register_signup_with_facebook">使用 Facebook 註冊</string>
+    <string name="register_facebook_disclaimer">未經您同意，我們絕不會張貼到 Facebook</string>
+	<string name="register_button_create">建立</string>
+	<string name="register_button_login">登入</string>
+	<string name="register_button_logout">登出</string>
+	<string name="register_field_first_name">名</string>
+	<string name="register_field_last_name">姓</string>
+	<string name="register_field_email">電子郵件</string>
+	<string name="register_field_password">密碼</string>
+
+	<string name="register_create_feedback_first_name_empty_title">輸入名字</string>
+	<string name="register_create_feedback_first_name_empty_message">輸入名即可。</string>
+	<string name="register_create_feedback_email_empty_title">輸入您的電子郵件</string>
+	<string name="register_create_feedback_email_empty_message">我們不會將您的電子郵件透露給第三方！</string>
+	<string name="register_create_feedback_password_short_title">密碼太短</string>
+	<string name="register_create_feedback_password_short_message">至少4個字符。</string>
+	<string name="register_feedback_invalid_credentials_title">無法登入</string>
+	<string name="register_feedback_invalid_credentials_message">電子郵件或密碼不正確。</string>
+	<string name="register_feedback_account_exists_title">帳戶已存在</string>
+	<string name="register_feedback_account_exists_message">電子郵件或密碼不正確。</string>
+	<string name="register_feedback_account_exists_login_with_facebook">使用 Facebook 登入。</string>
+	<string name="register_feedback_account_exists_provide_password">提供允許使用 Facebook 登入 Vaavud 帳戶所使用的密碼：</string>
+	<string name="register_feedback_malformed_email_title">電子郵件不正確</string>
+	<string name="register_feedback_malformed_email_message">似乎不是有效電子郵件。</string>
+	<string name="register_feedback_no_reachability_title">連線問題</string>
+	<string name="register_feedback_no_reachability_message">確認您開啟行動數據或 Wi-Fi 連線。</string>
+	<string name="register_feedback_error_title">錯誤</string>
+	<string name="register_feedback_error_message">請稍後再試。</string>
+	
+	<!-- Settings -->
+	<string name="button_settings">設定</string>
+    <string name="button_buy">購買風力計</string>
+    <string name="button_enable_share">啟用Facebook分享</string>
+	<string name="button_settings_measuring_tips">測量小貼士</string>
+
+    <string name="message_sure">您確定嗎？</string>
+	
+	<!-- Only used in Android App -->
+	<string name="register_feedback_conecting_server">加载...</string>
+	
+    <!--  Menu Items -->
+	<string name="option_login">登入/註冊</string>
+    <string name="option_about">關於</string>
+    <string name="option_logout">登出</string>
+    <string name="option_delete">删除</string>
+	
+	<!-- Share Items -->
+    <string name="share_to_facebook_title">分享至Facebook？</string>
+    <string name="share_guide">它是什麽樣的？</string>
+    <string name="share_take_photo">拍照</string>
+    <string name="share_choose_existing">選擇現有的</string>
+
+    <!-- IntroFlow -->
+    <string name="intro_flow_screen_1">Vaavud風力計能夠將您的手機變成一種高科技的氣象工具。</string>
+    <string name="intro_flow_screen_2">出行前，使用實時地圖檢查您最喜歡的地點的狀況。</string>
+    <string name="intro_flow_skip_button">暫時跳過</string>
+    <string name="intro_flow_have_a_wind_meter">您是否已經擁有一個Vaavud風力計？</string>
+    <string name="intro_flow_want_buy">您是否想要馬上購買一個風力計？</string>
+    <string name="instruction_flow_screen_1">以下是進行正確風力測量的一些小貼士。</string>
+    <string name="instruction_flow_screen_2">為了獲得最大的精確度，請垂直握穩手機於您的頭部上方。</string>
+    <string name="instruction_flow_screen_3">切勿站在植被、設備、巖石等後面。</string>
+    <string name="instruction_flow_screen_4">請持續測量，直至進度指示器走滿能夠獲得一個恰當的平均。</string>
+    <string name="intro_flow_later_button">以後再說</string>
+    <string name="intro_flow_yes_button">是</string>
+    <string name="intro_flow_no_button">否</string>
+    <string name="intro_flow_got_it_button">好的，明白！</string>
+    
+    
+    <string name="calibration">校準</string>
+	<string name="calibration_howto_text">如何校準你的</string>
+	<string name="calibration_tip_text">到室內，在減慢時，牢牢吹進風儀。</string>
+	<string name="calibration_accessmenu_text">您可以在任何時間透過設置菜單來校準 Sleipnir 。</string>
+	<string name="calibration_cancel_text">取消</string>
+	<string name="calibration_later_text">稍後再做</string>
+	<string name="calibration_start_text">開始校準</string>
+	<string name="calibration_message_text">吹，等到它減慢時再次吹</string>
+	<string name="calibration_completed_text">校準完成！</string>
+	<string name="calibration_finish_text">完成</string>
+	
+	<string name="sound_disclaimer_title">注意</string>
+	<string name="sound_disclaimer">  Sleipnir测风仪像魔法般运行——通过从您的电话获取音频信号。所以请在音量大小警告处点击OK。</string>
+	
+	<string name="calibration_upload_dialog_title">唔...出错了。</string>
+    <string name="calibration_upload_dialog_text">您想要把错误报告发给Vaavud做进一步分析吗?</string>
+    <string name="calibration_sending_dialog_title">发送报告中...</string>
+    <string name="calibration_not_sleipnir_toast">Sleipnir未连接</string>
+	
+	<string name="conectivity_error_message">確認您開啟行動數據或 Wi-Fi 連線。</string>
+    <!--  App ID -->
+    <string name="app_name">Vaavud</string>
+    <string name="app_id">624217360948538</string>
+</resources>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/info_mapThumbnailImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:maxHeight="100dp"
+        android:maxWidth="100dp"
+        android:minHeight="100dp"
+        android:minWidth="100dp" />
+    
+    <RelativeLayout
+        android:id="@+id/info_detailsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/info_mapThumbnailImageView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/info_mapThumbnailImageView" >
+    
+    <TextView
+        android:id="@+id/info_hoursAgoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="5 hours ago" />
+
+    <TextView
+        android:id="@+id/info_maxUnitTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/info_hoursAgoTextView"
+        android:layout_below="@+id/info_hoursAgoTextView"
+        android:layout_marginTop="12dp"
+        android:text="km/h" />
+
+    <TextView
+        android:id="@+id/info_maxTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/info_maxUnitTextView"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/info_maxUnitTextView"
+        android:text="28.8"
+        android:textColor="@color/blue"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/info_maxLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/info_maxUnitTextView"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/info_maxTextView"
+        android:text="MAX" />
+
+    <TextView
+        android:id="@+id/info_unitTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/info_maxUnitTextView"
+        android:text="km/h" />
+
+    <TextView
+        android:id="@+id/info_avgSpeedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/info_unitTextView"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/info_unitTextView"
+        android:text="28.8"
+        android:textColor="@color/red"
+        android:textSize="40sp" />
+    </RelativeLayout>
+    
+    <TextView
+        android:id="@+id/info_nearbyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/info_mapThumbnailImageView"
+        android:layout_marginTop="10dp"
+        android:background="@color/lightgray"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="2dp"
+        android:text="NEARBY MEASUREMENTS" />
+
+    <ListView
+        android:id="@+id/info_nearbyListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/info_nearbyTextView" >
+    </ListView>
+
+</RelativeLayout>

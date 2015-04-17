@@ -1,0 +1,5 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_measure" android:title="@string/tab_measure" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/action_map" android:title="@string/tab_map" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/action_history" android:title="@string/tab_history" android:showAsAction="ifRoom"></item>
+</menu>

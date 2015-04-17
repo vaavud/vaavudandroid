@@ -1,0 +1,10 @@
+.DS_Store
+*~
+local.properties
+libs
+bin
+gen
+docs
+*.iml
+.idea
+build/

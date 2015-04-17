@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_unit_entries">
+        <item>@string/unit_ms</item>
+        <item>@string/unit_mph</item>
+        <item>@string/unit_kmh</item>
+        <item>@string/unit_kn</item>
+        <item>@string/unit_bft</item>
+    </string-array>
+    <string-array name="pref_unit_values">
+        <item>MS</item>
+        <item>MPH</item>
+        <item>KMH</item>
+        <item>KN</item>
+        <item>BFT</item>
+    </string-array>
+    
+    <string-array name="pref_direction_entries">
+        <item>@string/unit_cardinal</item>
+        <item>@string/unit_degrees</item>
+    </string-array>
+    <string-array name="pref_direction_values">
+        <item>CARDINAL</item>
+        <item>DEGREES</item>
+    </string-array>
+    
+</resources>

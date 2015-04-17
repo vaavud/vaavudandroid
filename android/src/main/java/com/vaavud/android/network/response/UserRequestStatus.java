@@ -1,0 +1,13 @@
+package com.vaavud.android.network.response;
+
+public enum UserRequestStatus {
+	CREATED,
+	PAIRED,
+	EMAIL_USED_PROVIDE_PASSWORD,
+	INVALID_FACEBOOK_ACCESS_TOKEN,
+	LOGIN_WITH_FACEBOOK,
+	INVALID_CREDENTIALS,
+	MALFORMED_EMAIL;
+	
+}
+

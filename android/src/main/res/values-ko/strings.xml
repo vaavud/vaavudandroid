@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    
+  	<string name="tab_measure">측정</string>
+    <string name="tab_map">지도</string>
+    <string name="tab_history">내역</string>
+    <string name="tab_about">회사 소개</string>
+    
+	<string name="back">뒤로</string>
+	
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_ms">m/s</string>
+    <string name="unit_mph">mph</string>
+    <string name="unit_kn">kt</string>
+    <string name="unit_bft">bft</string>
+    
+    <string name="rel_time_future">미래</string>
+    <string name="rel_time_now">지금 </string>
+    <string name="rel_time_1_min_ago">1분 전</string>
+    <string name="rel_time_x_mins_ago">%d분 전</string>
+    <string name="rel_time_1_hour_ago">1시간 전</string>
+    <string name="rel_time_x_hours_ago">%d시간 전</string>
+    <string name="rel_time_1_day_ago">1일 전</string>
+    <string name="rel_time_x_days_ago">%d일 전</string>
+
+    <string name="heading_average">평균</string>
+    <string name="heading_current">현재</string>
+    <string name="heading_max">최고</string>
+    <string name="heading_unit">단위</string>
+    <string name="direction_unit">방향</string>
+    <string name="heading_nearby_measurements">최근의 측정</string>
+	<string name="no_compass_measurements">이 휴대전화에는\n디지털 나침반\n기능이 없습니다</string>
+	
+    <string name="button_start">시작</string>
+    <string name="button_stop">중지</string>
+    <string name="button_ok">확인</string>
+    <string name="button_cancel">취소</string>
+    <string name="button_done">완료</string>
+    
+    <string name="info_measuring">측정 진행 중</string>
+    <string name="info_no_signal">신호 없음</string>
+    <string name="info_keep_steady">세로로 고정 상태를 유지하세요</string>
+    
+    <string name="x_hours">%d 시간</string>
+    <string name="map_refresh_error_title">지도 새로고침 오류</string>
+    <string name="map_refresh_error_message">셀룰러 데이터가 켜져있는지, 또는 Wi-Fi가 연결되어 있는지 확인하세요 .</string>
+    
+    <string name="history_title">내역</string>
+    <string name="history_register_teaser">측정 내역을 모두 보려면 등록하세요</string>
+	<string name="history_no_measurements">아직 측정한 것이 없습니다</string>
+	<string name="history_go_to_measure">측정으로 가서 시작을 누르고 계속하세요!</string>
+    
+    <string name="about_title">회사 소개</string>
+    <string name="about_vaavud_text">Vaavud는 덴마크의 신생 테크놀로지 회사입니다.\n 당사의 사명은 유용성, 기능 및 제3자와의 통합 면에서 지구상 최고의 풍속계를 만드는 것입니다. \n  Vaavud 풍속계에 대한 상세 정보 및 구입 방법에 대해 아시고 싶으면 Vaavud.com을 찾아 주십시오. \n &#169; Vaavud ApS 2014, 무단 전재 금지\n 버전: %1$s</string>
+    <string name="link_terms_of_service">서비스 약관</string>
+    <string name="link_privacy_policy">개인정보 취급방침</string>
+    
+    <string name="register_title_signup">등록</string>
+    <string name="register_title_login">로그인</string>
+    <string name="register_or">또는</string>
+    <string name="register_terms_and">및</string>
+    <string name="register_button_login_with_facebook">Facebook 계정으로 로그인</string>
+    <string name="register_signup_with_facebook">Facebook 계정으로 등록</string>
+    <string name="register_facebook_disclaimer">귀하의 허가 없이는 절대 Facebook에 게시하지 않겠습니다</string>
+	<string name="register_button_create">새로 만들기</string>
+	<string name="register_button_login">로그인</string>
+	<string name="register_button_logout">로그아웃</string>
+	<string name="register_field_first_name">이름</string>
+	<string name="register_field_last_name">성</string>
+	<string name="register_field_email">이메일</string>
+	<string name="register_field_password">암호</string>
+
+	<string name="register_create_feedback_first_name_empty_title">이름을 입력하세요</string>
+	<string name="register_create_feedback_first_name_empty_message">이름만 입력하면 됩니다.</string>
+	<string name="register_create_feedback_email_empty_title">이메일을 입력하세요</string>
+	<string name="register_create_feedback_email_empty_message">귀하의 이메일을 제3자에게 제공하지 않겠습니다!</string>
+	<string name="register_create_feedback_password_short_title">암호가 너무 짧습니다</string>
+	<string name="register_create_feedback_password_short_message">4 자 이상이어야 합니다.</string>
+	<string name="register_feedback_invalid_credentials_title">로그인할 수 없습니다</string>
+	<string name="register_feedback_invalid_credentials_message">이메일이나 암호가 틀립니다.</string>
+	<string name="register_feedback_account_exists_title">이미 존재하는 계정입니다</string>
+	<string name="register_feedback_account_exists_message">이메일이나 암호가 틀립니다.</string>
+	<string name="register_feedback_account_exists_login_with_facebook">Facebook 계정으로 로그인 하세요.</string>
+	<string name="register_feedback_account_exists_provide_password">Facebook 계정으로 로그인 하기를 허용하려면 Vaavud 계정 암호를 제시해 주세요:</string>
+	<string name="register_feedback_malformed_email_title">이메일이 틀립니다</string>
+	<string name="register_feedback_malformed_email_message">유효한 이메일이 아닌 것 같습니다.</string>
+	<string name="register_feedback_no_reachability_title">연결에 문제</string>
+	<string name="register_feedback_no_reachability_message">셀룰러 데이터가 켜져있는지, 또는 Wi-Fi가 연결되어 있는지 확인하세요.</string>
+	<string name="register_feedback_error_title">오류</string>
+	<string name="register_feedback_error_message">나중에 다시 해보세요.</string>
+	
+	<!-- Settings -->
+	<string name="button_settings">설정</string>
+    <string name="button_buy">바람 측정기 구매</string>
+    <string name="button_enable_share">페이스 북이 공유 활성화</string>
+	<string name="button_settings_measuring_tips">측정팁</string>
+
+    <string name="message_sure">계속하시겠습니까?</string>
+	
+	<!-- Only used in Android App -->
+	<string name="register_feedback_conecting_server">로딩...</string>
+	
+    <!--  Menu Items -->
+	<string name="option_login">로그인/등록</string>
+    <string name="option_about">회사 소개</string>
+    <string name="option_logout">로그아웃</string>
+    <string name="option_delete">지우다</string>
+	
+	<!-- Share Items -->
+    <string name="share_to_facebook_title">페이스 북에 공유?</string>
+    <string name="share_guide">그것은 어떻습니까?</string>
+    <string name="share_take_photo">사진찍기</string>
+    <string name="share_choose_existing">기존에서 선택</string>
+   
+    <!-- IntroFlow -->
+    <string name="intro_flow_screen_1">Vaavud 바람 미터는 당신의 전화를 첨단 기상 도구로 바꿉니다.</string>
+    <string name="intro_flow_screen_2">당신이 마음에 드는 장소에 가기전에 그곳의 조건을 확인하기 위해 라이브 맵을 사용합니다.</string>
+    <string name="intro_flow_skip_button">지금은 건너 뛰기</string>
+    <string name="intro_flow_have_a_wind_meter">Vaavud 바람 미터를 이미 가지고 계십니까?</string>
+    <string name="intro_flow_want_buy">바람 미터를 지금 구매하기 원하십니까?</string>
+    <string name="instruction_flow_screen_1">여기에 좋은 바람 측정을위한 몇 가지 팁을 제공 합니다.</string>
+    <string name="instruction_flow_screen_2">최대 정밀도를 위해 머리 위 수직으로 전화를 잘 잡으십시오.</string>
+    <string name="instruction_flow_screen_3">식물, 장비, 바위 등등의 뒤에 서 있지 마십시오</string>
+    <string name="instruction_flow_screen_4">진행 표시기가 적절한 평균을 얻을 때 까지 측정하십시오.</string>
+    <string name="intro_flow_later_button">나중에</string>
+    <string name="intro_flow_yes_button">네</string>
+    <string name="intro_flow_no_button">아니오</string>
+    <string name="intro_flow_got_it_button">네, 받았습니다!</string>
+    
+    <string name="calibration">측정</string>
+	<string name="calibration_howto_text">슬레이프니르의 측정 방법</string>
+	<string name="calibration_tip_text">다시 불도록 느려진 경우, 실내로 이동하고 풍속계를 확실히 붑니다.</string>
+	<string name="calibration_accessmenu_text">설정 메뉴를 통해 항상 슬레이프니르를 측정할 수 있습니다.</string>
+	<string name="calibration_cancel_text">취소</string>
+	<string name="calibration_later_text">나중에 실행</string>
+	<string name="calibration_start_text">측정 시작</string>
+	<string name="calibration_message_text">불고 다시 불기 위해 느려질 때까지 대기</string>
+	<string name="calibration_completed_text">측정이 완료되었습니다!</string>
+	<string name="calibration_finish_text">완료</string>
+	
+	<string name="sound_disclaimer_title">주의</string>
+	<string name="sound_disclaimer">Sleipnir 바람 미터는 마법과 휴대폰에서의 오디오 신호를 그려 작동합니다. 그러므로, 볼륨 레벨 경고에 확인을 클릭하십시오.</string>
+    
+	<string name="calibration_upload_dialog_title">음... 문제가 발생했습니다. </string>
+    <string name="calibration_upload_dialog_text">향후 분석을 위해 Vaavud로 오류 보고서를 전송하시겠습니까?</string>
+    <string name="calibration_sending_dialog_title">보고서 전송 중...</string>
+    <string name="calibration_not_sleipnir_toast">Sleipnir 연결되지 않음</string>
+    
+    <string name="conectivity_error_message">셀룰러 데이터가 켜져있는지, 또는 Wi-Fi가 연결되어 있는지 확인하세요.</string>
+    <!--  App ID -->
+    <string name="app_name">Vaavud</string>
+    <string name="app_id">624217360948538</string>
+</resources>

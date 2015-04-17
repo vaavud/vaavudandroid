@@ -1,0 +1,346 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Manifest Merging:
+-----------------
+Your project uses libraries that provide manifests, and your Eclipse
+project did not explicitly turn on manifest merging. In Android Gradle
+projects, manifests are always merged (meaning that contents from your
+libraries' manifests will be merged into the app manifest. If you had
+manually copied contents from library manifests into your app manifest
+you may need to remove these for the app to build correctly.
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+From Android:
+* .DS_Store
+* README.txt
+* ic_launcher-web.png
+* proguard-project.txt
+* vaavud_launcher_icon_web.png
+From AndroidHoloCircularProgressBar:
+* build.gradle
+* gradle.properties
+* proguard-project.txt
+From AndroidSleipnirSDK:
+* .gitignore
+* ic_launcher-web.png
+* proguard-project.txt
+From FacebookSDK:
+* build.gradle
+* build.xml
+* facebook.iml
+From ViewPagerIndicator:
+* ViewPagerIndicator.iml
+* pom.xml
+From Volley:
+* .DS_Store
+From android-maps-utils:
+* .gitignore
+* android-maps-utils.iml
+* build.gradle
+* tests/
+* tests/src/
+* tests/src/com/
+* tests/src/com/google/
+* tests/src/com/google/maps/
+* tests/src/com/google/maps/android/
+* tests/src/com/google/maps/android/PolyUtilTest.java
+* tests/src/com/google/maps/android/SphericalUtilTest.java
+* tests/src/com/google/maps/android/quadtree/
+* tests/src/com/google/maps/android/quadtree/PointQuadTreeTest.java
+From android-support-v4-preferencefragment-master:
+* .gitignore
+* LICENSE
+* README.md
+* android-support-v4-preferencefragment-master.iml
+From mixpanel-android:
+* ant.properties
+* build.xml
+* main.iml
+From slidinguppanel:
+* .gitignore
+* build.gradle
+* pom.xml
+* slidinguppanel.iml
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v7-appcompat.jar => com.android.support:appcompat-v7:21.0.3
+gson-2.2.4.jar => com.google.code.gson:gson:2.2.4
+
+Potentially Missing Dependency:
+-------------------------------
+When we replaced the following .jar files with a Gradle dependency, we
+inferred the dependency version number from the filename. This
+specific version may not actually be available from the repository.
+If you get a build error stating that the dependency is missing, edit
+the version number to for example "+" to pick up the latest version
+instead. (This may require you to update your code if the library APIs
+have changed.)
+
+gson-2.2.4.jar => version 2.2.4 in com.google.code.gson:gson:2.2.4
+
+Replaced Libraries with Dependencies:
+-------------------------------------
+The importer recognized the following library projects as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the source files in your project were of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the library replacement in the import wizard and try
+again:
+
+android-support-v7-appcompat => [com.android.support:appcompat-v7:21.0.3]
+google-play-services_lib => [com.google.android.gms:play-services:+]
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+In AndroidHoloCircularProgressBar:
+* AndroidManifest.xml => androidHoloCircularProgressBar/src/main/AndroidManifest.xml
+* assets/ => androidHoloCircularProgressBar/src/main/assets
+* res/ => androidHoloCircularProgressBar/src/main/res/
+* src/ => androidHoloCircularProgressBar/src/main/java/
+In AndroidSleipnirSDK:
+* AndroidManifest.xml => androidSleipnirSDK/src/main/AndroidManifest.xml
+* assets/ => androidSleipnirSDK/src/main/assets
+* lint.xml => androidSleipnirSDK/lint.xml
+* res/ => androidSleipnirSDK/src/main/res
+* src/ => androidSleipnirSDK/src/main/java/
+In FacebookSDK:
+* AndroidManifest.xml => facebookSDK/src/main/AndroidManifest.xml
+* assets/ => facebookSDK/src/main/assets
+* libs/bolts.jar => facebookSDK/libs/bolts.jar
+* lint.xml => facebookSDK/lint.xml
+* res/ => facebookSDK/src/main/res/
+* src/ => facebookSDK/src/main/java/
+In ViewPagerIndicator:
+* AndroidManifest.xml => viewPagerIndicator/src/main/AndroidManifest.xml
+* assets/ => viewPagerIndicator/src/main/assets
+* lint.xml => viewPagerIndicator/lint.xml
+* res/ => viewPagerIndicator/src/main/res/
+* src/ => viewPagerIndicator/src/main/java/
+In Volley:
+* AndroidManifest.xml => volley/src/main/AndroidManifest.xml
+* assets/ => volley/src/main/assets
+* res/ => volley/src/main/res
+* src/ => volley/src/main/java/
+In android-maps-utils:
+* AndroidManifest.xml => androidmapsutils/src/main/AndroidManifest.xml
+* assets/ => androidmapsutils/src/main/assets
+* lint.xml => androidmapsutils/lint.xml
+* res/ => androidmapsutils/src/main/res/
+* src/ => androidmapsutils/src/main/java/
+In android-support-v4-preferencefragment-master:
+* AndroidManifest.xml => androidsupportv4preferencefragmentmaster/src/main/AndroidManifest.xml
+* assets/ => androidsupportv4preferencefragmentmaster/src/main/assets
+* lint.xml => androidsupportv4preferencefragmentmaster/lint.xml
+* res/ => androidsupportv4preferencefragmentmaster/src/main/res/
+* src/ => androidsupportv4preferencefragmentmaster/src/main/java/
+* src/.readme => androidsupportv4preferencefragmentmaster/src/main/resources/.readme
+In mixpanel-android:
+* AndroidManifest.xml => mixpanelandroid/src/main/AndroidManifest.xml
+* assets/ => mixpanelandroid/src/main/assets
+* java/ => mixpanelandroid/src/main/java/
+* lint.xml => mixpanelandroid/lint.xml
+* res/ => mixpanelandroid/src/main/res/
+* src/ => mixpanelandroid/src/main/java/
+In slidinguppanel:
+* AndroidManifest.xml => slidinguppanel/src/main/AndroidManifest.xml
+* assets/ => slidinguppanel/src/main/assets
+* lint.xml => slidinguppanel/lint.xml
+* res/ => slidinguppanel/src/main/res/
+* src/ => slidinguppanel/src/main/java/
+In Android:
+* AndroidManifest.xml => android/src/main/AndroidManifest.xml
+* assets/ => android/src/main/assets/
+* libs/achartengine-1.1.0.jar => android/libs/achartengine-1.1.0.jar
+* libs/aws-android-sdk-2.1.7-cognito.jar => android/libs/aws-android-sdk-2.1.7-cognito.jar
+* libs/aws-android-sdk-2.1.7-core.jar => android/libs/aws-android-sdk-2.1.7-core.jar
+* libs/aws-android-sdk-2.1.7-s3.jar => android/libs/aws-android-sdk-2.1.7-s3.jar
+* libs/crittercism_v5_0_4_sdkonly.jar => android/libs/crittercism_v5_0_4_sdkonly.jar
+* libs/libGoogleAnalyticsServices.jar => android/libs/libGoogleAnalyticsServices.jar
+* lint.xml => android/lint.xml
+* res/ => android/src/main/res/
+* src/ => android/src/main/java/
+* src/.DS_Store => android/src/main/resources/.DS_Store
+* src/com/.DS_Store => android/src/main/resources/com/.DS_Store
+* src/com/vaavud/.DS_Store => android/src/main/resources/com/vaavud/.DS_Store
+* src/com/vaavud/android/.DS_Store => android/src/main/resources/com/vaavud/android/.DS_Store
+* src/com/vaavud/android/model/.DS_Store => android/src/main/resources/com/vaavud/android/model/.DS_Store
+* src/com/vaavud/android/model/entity/.DS_Store => android/src/main/resources/com/vaavud/android/model/entity/.DS_Store
+* src/com/vaavud/android/network/.DS_Store => android/src/main/resources/com/vaavud/android/network/.DS_Store
+* src/com/vaavud/android/network/response/.DS_Store => android/src/main/resources/com/vaavud/android/network/response/.DS_Store
+* src/com/vaavud/android/ui/.DS_Store => android/src/main/resources/com/vaavud/android/ui/.DS_Store
+* src/com/vaavud/util/.DS_Store => android/src/main/resources/com/vaavud/util/.DS_Store
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/ => android/src/main/java/
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/.gitignore => android/src/main/resources/.gitignore
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/BUILDING.txt => android/src/main/resources/BUILDING.txt
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/LICENSE => android/src/main/resources/LICENSE
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/README.md => android/src/main/resources/README.md
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/build.gradle => android/src/main/resources/build.gradle
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/default.properties => android/src/main/resources/default.properties
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/gradle.properties => android/src/main/resources/gradle.properties
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/gradlew => android/src/main/resources/gradlew
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/gradlew.bat => android/src/main/resources/gradlew.bat
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/project.properties => android/src/main/resources/project.properties
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/settings.gradle => android/src/main/resources/settings.gradle
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/.classpath => android/src/main/resources/src/main/.classpath
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/.project => android/src/main/resources/src/main/.project
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/AndroidManifest.xml => android/src/main/resources/src/main/AndroidManifest.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/ant.properties => android/src/main/resources/src/main/ant.properties
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/AndroidManifest.xml => android/src/main/resources/src/main/bin/AndroidManifest.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/R.txt => android/src/main/resources/src/main/bin/R.txt
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_arrowleft.png => android/src/main/resources/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_arrowleft.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_arrowleft_faded.png => android/src/main/resources/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_arrowleft_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_arrowright.png => android/src/main/resources/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_arrowright.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_arrowright_faded.png => android/src/main/resources/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_arrowright_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_checkmark.png => android/src/main/resources/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_checkmark.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_logo.png => android/src/main/resources/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_logo.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_square_dropshadow.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_square_dropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_square_nodropshadow.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable-hdpi/com_mixpanel_android_square_nodropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-ldpi/com_mixpanel_android_arrowleft.png => android/src/main/resources/src/main/bin/res/crunch/drawable-ldpi/com_mixpanel_android_arrowleft.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-ldpi/com_mixpanel_android_arrowleft_faded.png => android/src/main/resources/src/main/bin/res/crunch/drawable-ldpi/com_mixpanel_android_arrowleft_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-ldpi/com_mixpanel_android_arrowright.png => android/src/main/resources/src/main/bin/res/crunch/drawable-ldpi/com_mixpanel_android_arrowright.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-ldpi/com_mixpanel_android_arrowright_faded.png => android/src/main/resources/src/main/bin/res/crunch/drawable-ldpi/com_mixpanel_android_arrowright_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-ldpi/com_mixpanel_android_checkmark.png => android/src/main/resources/src/main/bin/res/crunch/drawable-ldpi/com_mixpanel_android_checkmark.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-ldpi/com_mixpanel_android_logo.png => android/src/main/resources/src/main/bin/res/crunch/drawable-ldpi/com_mixpanel_android_logo.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_arrowleft.png => android/src/main/resources/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_arrowleft.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_arrowleft_faded.png => android/src/main/resources/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_arrowleft_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_arrowright.png => android/src/main/resources/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_arrowright.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_arrowright_faded.png => android/src/main/resources/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_arrowright_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_checkmark.png => android/src/main/resources/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_checkmark.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_logo.png => android/src/main/resources/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_logo.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_square_dropshadow.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_square_dropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_square_nodropshadow.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable-mdpi/com_mixpanel_android_square_nodropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_arrowleft.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_arrowleft.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_arrowleft_faded.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_arrowleft_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_arrowright.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_arrowright.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_arrowright_faded.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_arrowright_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_checkmark.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_checkmark.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_logo.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_logo.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_square_dropshadow.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_square_dropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_square_nodropshadow.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xhdpi/com_mixpanel_android_square_nodropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_arrowleft.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_arrowleft.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_arrowleft_faded.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_arrowleft_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_arrowright.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_arrowright.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_arrowright_faded.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_arrowright_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_checkmark.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_checkmark.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_logo.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_logo.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_square_dropshadow.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_square_dropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_square_nodropshadow.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable-xxhdpi/com_mixpanel_android_square_nodropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable/com_mixpanel_android_close.png => android/src/main/resources/src/main/bin/res/crunch/drawable/com_mixpanel_android_close.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable/com_mixpanel_android_notification_placeholder.png => android/src/main/resources/src/main/bin/res/crunch/drawable/com_mixpanel_android_notification_placeholder.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable/com_mixpanel_android_rounded_bottom.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable/com_mixpanel_android_rounded_bottom.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable/com_mixpanel_android_rounded_bottom_selected.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable/com_mixpanel_android_rounded_bottom_selected.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable/com_mixpanel_android_rounded_top.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable/com_mixpanel_android_rounded_top.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable/com_mixpanel_android_rounded_top_selected.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable/com_mixpanel_android_rounded_top_selected.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable/com_mixpanel_android_square.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable/com_mixpanel_android_square.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/bin/res/crunch/drawable/com_mixpanel_android_square_selected.9.png => android/src/main/resources/src/main/bin/res/crunch/drawable/com_mixpanel_android_square_selected.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/build.xml => android/src/main/resources/src/main/build.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/lint.xml => android/src/main/resources/src/main/lint.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/main.iml => android/src/main/resources/src/main/main.iml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/project.properties => android/src/main/resources/src/main/project.properties
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/anim/com_mixpanel_android_fade_in.xml => android/src/main/resources/src/main/res/anim/com_mixpanel_android_fade_in.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/anim/com_mixpanel_android_fade_out.xml => android/src/main/resources/src/main/res/anim/com_mixpanel_android_fade_out.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/anim/com_mixpanel_android_slide_down.xml => android/src/main/resources/src/main/res/anim/com_mixpanel_android_slide_down.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-hdpi/com_mixpanel_android_arrowleft.png => android/src/main/resources/src/main/res/drawable-hdpi/com_mixpanel_android_arrowleft.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-hdpi/com_mixpanel_android_arrowleft_faded.png => android/src/main/resources/src/main/res/drawable-hdpi/com_mixpanel_android_arrowleft_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-hdpi/com_mixpanel_android_arrowright.png => android/src/main/resources/src/main/res/drawable-hdpi/com_mixpanel_android_arrowright.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-hdpi/com_mixpanel_android_arrowright_faded.png => android/src/main/resources/src/main/res/drawable-hdpi/com_mixpanel_android_arrowright_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-hdpi/com_mixpanel_android_checkmark.png => android/src/main/resources/src/main/res/drawable-hdpi/com_mixpanel_android_checkmark.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-hdpi/com_mixpanel_android_logo.png => android/src/main/resources/src/main/res/drawable-hdpi/com_mixpanel_android_logo.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-hdpi/com_mixpanel_android_square_dropshadow.9.png => android/src/main/resources/src/main/res/drawable-hdpi/com_mixpanel_android_square_dropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-hdpi/com_mixpanel_android_square_nodropshadow.9.png => android/src/main/resources/src/main/res/drawable-hdpi/com_mixpanel_android_square_nodropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-ldpi/com_mixpanel_android_arrowleft.png => android/src/main/resources/src/main/res/drawable-ldpi/com_mixpanel_android_arrowleft.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-ldpi/com_mixpanel_android_arrowleft_faded.png => android/src/main/resources/src/main/res/drawable-ldpi/com_mixpanel_android_arrowleft_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-ldpi/com_mixpanel_android_arrowright.png => android/src/main/resources/src/main/res/drawable-ldpi/com_mixpanel_android_arrowright.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-ldpi/com_mixpanel_android_arrowright_faded.png => android/src/main/resources/src/main/res/drawable-ldpi/com_mixpanel_android_arrowright_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-ldpi/com_mixpanel_android_checkmark.png => android/src/main/resources/src/main/res/drawable-ldpi/com_mixpanel_android_checkmark.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-ldpi/com_mixpanel_android_logo.png => android/src/main/resources/src/main/res/drawable-ldpi/com_mixpanel_android_logo.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-mdpi/com_mixpanel_android_arrowleft.png => android/src/main/resources/src/main/res/drawable-mdpi/com_mixpanel_android_arrowleft.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-mdpi/com_mixpanel_android_arrowleft_faded.png => android/src/main/resources/src/main/res/drawable-mdpi/com_mixpanel_android_arrowleft_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-mdpi/com_mixpanel_android_arrowright.png => android/src/main/resources/src/main/res/drawable-mdpi/com_mixpanel_android_arrowright.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-mdpi/com_mixpanel_android_arrowright_faded.png => android/src/main/resources/src/main/res/drawable-mdpi/com_mixpanel_android_arrowright_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-mdpi/com_mixpanel_android_checkmark.png => android/src/main/resources/src/main/res/drawable-mdpi/com_mixpanel_android_checkmark.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-mdpi/com_mixpanel_android_logo.png => android/src/main/resources/src/main/res/drawable-mdpi/com_mixpanel_android_logo.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-mdpi/com_mixpanel_android_square_dropshadow.9.png => android/src/main/resources/src/main/res/drawable-mdpi/com_mixpanel_android_square_dropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-mdpi/com_mixpanel_android_square_nodropshadow.9.png => android/src/main/resources/src/main/res/drawable-mdpi/com_mixpanel_android_square_nodropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xhdpi/com_mixpanel_android_arrowleft.png => android/src/main/resources/src/main/res/drawable-xhdpi/com_mixpanel_android_arrowleft.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xhdpi/com_mixpanel_android_arrowleft_faded.png => android/src/main/resources/src/main/res/drawable-xhdpi/com_mixpanel_android_arrowleft_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xhdpi/com_mixpanel_android_arrowright.png => android/src/main/resources/src/main/res/drawable-xhdpi/com_mixpanel_android_arrowright.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xhdpi/com_mixpanel_android_arrowright_faded.png => android/src/main/resources/src/main/res/drawable-xhdpi/com_mixpanel_android_arrowright_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xhdpi/com_mixpanel_android_checkmark.png => android/src/main/resources/src/main/res/drawable-xhdpi/com_mixpanel_android_checkmark.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xhdpi/com_mixpanel_android_logo.png => android/src/main/resources/src/main/res/drawable-xhdpi/com_mixpanel_android_logo.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xhdpi/com_mixpanel_android_square_dropshadow.9.png => android/src/main/resources/src/main/res/drawable-xhdpi/com_mixpanel_android_square_dropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xhdpi/com_mixpanel_android_square_nodropshadow.9.png => android/src/main/resources/src/main/res/drawable-xhdpi/com_mixpanel_android_square_nodropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xxhdpi/com_mixpanel_android_arrowleft.png => android/src/main/resources/src/main/res/drawable-xxhdpi/com_mixpanel_android_arrowleft.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xxhdpi/com_mixpanel_android_arrowleft_faded.png => android/src/main/resources/src/main/res/drawable-xxhdpi/com_mixpanel_android_arrowleft_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xxhdpi/com_mixpanel_android_arrowright.png => android/src/main/resources/src/main/res/drawable-xxhdpi/com_mixpanel_android_arrowright.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xxhdpi/com_mixpanel_android_arrowright_faded.png => android/src/main/resources/src/main/res/drawable-xxhdpi/com_mixpanel_android_arrowright_faded.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xxhdpi/com_mixpanel_android_checkmark.png => android/src/main/resources/src/main/res/drawable-xxhdpi/com_mixpanel_android_checkmark.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xxhdpi/com_mixpanel_android_logo.png => android/src/main/resources/src/main/res/drawable-xxhdpi/com_mixpanel_android_logo.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xxhdpi/com_mixpanel_android_square_dropshadow.9.png => android/src/main/resources/src/main/res/drawable-xxhdpi/com_mixpanel_android_square_dropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable-xxhdpi/com_mixpanel_android_square_nodropshadow.9.png => android/src/main/resources/src/main/res/drawable-xxhdpi/com_mixpanel_android_square_nodropshadow.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_arrowleft_insets.xml => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_arrowleft_insets.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_arrowleft_states.xml => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_arrowleft_states.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_arrowright_insets.xml => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_arrowright_insets.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_arrowright_states.xml => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_arrowright_states.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_checkmark_states.xml => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_checkmark_states.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_choice_first_states.xml => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_choice_first_states.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_choice_last_states.xml => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_choice_last_states.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_choice_middle_states.xml => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_choice_middle_states.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_close.png => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_close.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_cta_button.xml => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_cta_button.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_cta_button_highlight.xml => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_cta_button_highlight.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_nocolor_list.xml => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_nocolor_list.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_notification_placeholder.png => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_notification_placeholder.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_rounded_bottom.9.png => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_rounded_bottom.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_rounded_bottom_selected.9.png => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_rounded_bottom_selected.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_rounded_top.9.png => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_rounded_top.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_rounded_top_selected.9.png => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_rounded_top_selected.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_square.9.png => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_square.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_square_selected.9.png => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_square_selected.9.png
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/drawable/com_mixpanel_android_text_answer_border.xml => android/src/main/resources/src/main/res/drawable/com_mixpanel_android_text_answer_border.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/layout-land/com_mixpanel_android_activity_notification_full.xml => android/src/main/resources/src/main/res/layout-land/com_mixpanel_android_activity_notification_full.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/layout/com_mixpanel_android_activity_notification_full.xml => android/src/main/resources/src/main/res/layout/com_mixpanel_android_activity_notification_full.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/layout/com_mixpanel_android_activity_notification_mini.xml => android/src/main/resources/src/main/res/layout/com_mixpanel_android_activity_notification_mini.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/layout/com_mixpanel_android_activity_survey.xml => android/src/main/resources/src/main/res/layout/com_mixpanel_android_activity_survey.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/layout/com_mixpanel_android_first_choice_answer.xml => android/src/main/resources/src/main/res/layout/com_mixpanel_android_first_choice_answer.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/layout/com_mixpanel_android_last_choice_answer.xml => android/src/main/resources/src/main/res/layout/com_mixpanel_android_last_choice_answer.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/layout/com_mixpanel_android_middle_choice_answer.xml => android/src/main/resources/src/main/res/layout/com_mixpanel_android_middle_choice_answer.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/layout/com_mixpanel_android_question_card.xml => android/src/main/resources/src/main/res/layout/com_mixpanel_android_question_card.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/values/colors.xml => android/src/main/resources/src/main/res/values/colors.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/values/strings.xml => android/src/main/resources/src/main/res/values/strings.xml
+* /Users/juan/SourceCode/mixpanel-android-4.2.1/src/main/res/values/styles.xml => android/src/main/resources/src/main/res/values/styles.xml
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

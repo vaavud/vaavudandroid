@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    
+  	<string name="tab_measure">Mesure</string>
+    <string name="tab_map">Carte</string>
+    <string name="tab_history">Historique</string>
+    <string name="tab_about">À propos</string>
+    
+	<string name="back">Retour</string>
+	
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_ms">m/s</string>
+    <string name="unit_mph">mph</string>
+    <string name="unit_kn">kt</string>
+    <string name="unit_bft">bft</string>
+    
+    <string name="rel_time_future">futur</string>
+    <string name="rel_time_now">à l\'instant</string>
+    <string name="rel_time_1_min_ago">il y a 1 min</string>
+    <string name="rel_time_x_mins_ago">il y a %d min</string>
+    <string name="rel_time_1_hour_ago">il y a 1 heure</string>
+    <string name="rel_time_x_hours_ago">il y a %d heures</string>
+    <string name="rel_time_1_day_ago">il y a 1 jour</string>
+    <string name="rel_time_x_days_ago">il y a %d jours</string>
+
+    <string name="heading_average">Moyenne</string>
+    <string name="heading_current">Actuelle</string>
+    <string name="heading_max">Max</string>
+    <string name="heading_unit">Unité</string>
+    <string name="direction_unit">Direction</string>
+    <string name="heading_nearby_measurements">Mesures de proximité</string>
+    <string name="no_compass_measurements">Aucune boussole\ndigitale n\'est disponible\nsur ce téléphone</string>
+
+    <string name="button_start">Marche</string>
+    <string name="button_stop">Arrêt</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Annuler</string>
+    <string name="button_done">Terminé</string>
+    
+    <string name="info_measuring">Mesure en cours</string>
+    <string name="info_no_signal">Pas de signal</string>
+    <string name="info_keep_steady">Bien tenir en position verticale</string>
+    
+    <string name="x_hours">%d heures</string>
+    <string name="map_refresh_error_title">Erreur d\'actualisation de la carte</string>
+    <string name="map_refresh_error_message">Assurez-vous que vous avez une connexion mobile ou Wi-Fi.</string>
+    
+    <string name="history_title">Historique</string>
+    <string name="history_register_teaser">Connectez-vous pour voir votre historique complet des mesures</string>
+	<string name="history_no_measurements">Pas encore de mesures</string>
+	<string name="history_go_to_measure">Assez sur Mesure et appuyez Démarrer pour commencer !</string>
+    
+    <string name="about_title">À propos</string>
+    <string name="about_vaavud_text">Vaavud est une start-up technologique danoise.\n Notre mission consiste à produire les meilleurs anémomètres du monde en termes de facilité d\'utilisation, de fonctionnalités et d\'intégration de tierces parties.\n Pour en savoir plus et pour acheter un anémomètre Vaavud, visitez Vaavud.com\n &#169; Vaavud ApS 2014, tous droits réservés\n Version: %1$s</string>
+    <string name="link_terms_of_service">Conditions d\'utilisation</string>
+    <string name="link_privacy_policy">Politique de confidentialité</string>
+    
+    <string name="register_title_signup">Inscrivez-vous</string>
+    <string name="register_title_login">Connexion</string>
+    <string name="register_or">Ou</string>
+    <string name="register_terms_and">et</string>
+    <string name="register_button_login_with_facebook">Ouvrez une session sur Facebook</string>
+    <string name="register_signup_with_facebook">Inscrivez-vous sur Facebook</string>
+    <string name="register_facebook_disclaimer">Nous ne posterons jamais sur Facebook sans votre permission</string>
+	<string name="register_button_create">Créer</string>
+	<string name="register_button_login">Connexion</string>
+	<string name="register_button_logout">Déconnexion</string>
+	<string name="register_field_first_name">Prénom</string>
+	<string name="register_field_last_name">Nom</string>
+	<string name="register_field_email">E-mail</string>
+	<string name="register_field_password">Mot de passe</string>
+
+	<string name="register_create_feedback_first_name_empty_title">Saisissez votre nom</string>
+	<string name="register_create_feedback_first_name_empty_message">Votre prénom est suffisant.</string>
+	<string name="register_create_feedback_email_empty_title">Saisissez votre e-mail</string>
+	<string name="register_create_feedback_email_empty_message">Nous ne communiquerons pas votre e-mail à des parties tierces !</string>
+	<string name="register_create_feedback_password_short_title">Mot de passe trop court</string>
+	<string name="register_create_feedback_password_short_message">4 caractères ou plus.</string>
+	<string name="register_feedback_invalid_credentials_title">Connexion impossible</string>
+	<string name="register_feedback_invalid_credentials_message">E-mail ou mot de passe non valide.</string>
+	<string name="register_feedback_account_exists_title">Ce compte existe déjà</string>
+	<string name="register_feedback_account_exists_message">E-mail ou mot de passe non valide.</string>
+	<string name="register_feedback_account_exists_login_with_facebook">Ouvrez une session sur Facebook</string>
+	<string name="register_feedback_account_exists_provide_password">Veuillez fournir le mot de passe du compte Vaavud pour vous autoriser à ouvrir une session sur Facebook :</string>
+	<string name="register_feedback_malformed_email_title">E-mail invalide</string>
+	<string name="register_feedback_malformed_email_message">Ne semble pas être un e-mail valide.</string>
+	<string name="register_feedback_no_reachability_title">Problème de connectivité</string>
+	<string name="register_feedback_no_reachability_message">Assurez-vous que vous avez une connexion mobile ou Wi-Fi.</string>
+	<string name="register_feedback_error_title">Erreur</string>
+	<string name="register_feedback_error_message">Veuillez réessayer ultérieurement.</string>
+	
+    <string name="button_settings">Paramètres</string>
+    <string name="button_buy">Acheter l\'anémomètre</string>
+    <string name="button_enable_share">Activer le partage Facebook</string>
+	<string name="button_settings_measuring_tips">Conseils de mesure</string>
+
+    <string name="message_sure">Êtes-vous sûr?</string>
+	
+	<!-- Only used in Android App -->
+	<string name="register_feedback_conecting_server">Chargement...</string>
+	
+    <!--  Menu Items -->
+	<string name="option_login">Connexion/Créer</string>
+    <string name="option_about">À propos</string>
+    <string name="option_logout">Déconnexion</string>
+    <string name="option_delete">Effacer</string>
+	
+	<!-- Share Items -->
+    <string name="share_to_facebook_title">Partager sur Facebook ?</string>
+    <string name="share_guide">À quoi cela ressemble ?</string>
+    <string name="share_take_photo">Prendre une photo</string>
+    <string name="share_choose_existing">Choisir une photo existante</string>
+
+    <!-- IntroFlow -->
+    <string name="intro_flow_screen_1">L\'anémomètre Vaavud transforme votre téléphone en un outil météorologique de haute technologie.</string>
+    <string name="intro_flow_screen_2">Avant de partir, utilisez la carte pour vous informer en direct des conditions à vos endroits préférés.</string>
+    <string name="intro_flow_skip_button">Passer l\'étape</string>
+    <string name="intro_flow_have_a_wind_meter">Possédez-vous déjà un anémomètre Vaavud?</string>
+    <string name="intro_flow_want_buy">Souhaitez-vous acheter un anémomètre maintenant ?</string>
+    <string name="instruction_flow_screen_1">Voici quelques conseils pour faire de bonnes mesures du vent.</string>
+    <string name="instruction_flow_screen_2">Pour un maximum de précision, tenez le téléphone immobile et vertical au-dessus de votre tête.</string>
+    <string name="instruction_flow_screen_3">Ne restez pas derrière de la végétation, des installations, des rochers etc.</string>
+    <string name="instruction_flow_screen_4">Continuez de mesurer au moins jusqu\'à ce que l\'indicateur de progression soit plein pour obtenir une bonne moyenne.</string>
+    <string name="intro_flow_later_button">Plus tard</string>
+    <string name="intro_flow_yes_button">Oui</string>
+    <string name="intro_flow_no_button">Non</string>
+    <string name="intro_flow_got_it_button">Ok, j\'ai compris!</string>
+    
+    
+    <string name="calibration">Étalonnage</string>
+	<string name="calibration_howto_text">Comment calibrer votre Sleipnir</string>
+	<string name="calibration_tip_text">Allez à l\'intérieur et soufflez fermement dans l\'anémomètre ; soufflez à nouveau lorsqu\'il ralentit.</string>
+	<string name="calibration_accessmenu_text">Vous pouvez calibrer votre Sleipnir à tout moment via le menu des paramètres.</string>
+	<string name="calibration_cancel_text">Annuler</string>
+	<string name="calibration_later_text">Faire cela plus tard</string>
+	<string name="calibration_start_text">Démarrer l\'étalonnage</string>
+	<string name="calibration_message_text">Soufflez et attendez qu\'il ralentisse pour souffler à nouveau</string>
+	<string name="calibration_completed_text">Étalonnage effectué !</string>
+	<string name="calibration_finish_text">Terminé</string>
+	
+	<string name="sound_disclaimer_title">Alerte</string>
+	<string name="sound_disclaimer">Le Sleipnir fonctionne par magie - et accessoirement en utilisant le signal audio de votre téléphone. Donc veuillez cliquer “OK” sur le message d\’alerte concernant le volume sonore.</string>
+	
+	<string name="calibration_upload_dialog_title">Hum...il y a un truc qui cloche.</string>
+    <string name="calibration_upload_dialog_text">Voulez-vous envoyer un rapport d\'erreur à Vaavud pour analyse?</string>
+    <string name="calibration_sending_dialog_title">Envoi du rapport...</string>
+    <string name="calibration_not_sleipnir_toast">Sleipnir n\'est pas connecté</string>
+    
+    <string name="conectivity_error_message">Assurez-vous que vous avez une connexion mobile ou Wi-Fi.</string>
+    <!--  App ID -->
+    <string name="app_name">Vaavud</string>
+    <string name="app_id">624217360948538</string>
+</resources>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    
+  	<string name="tab_measure">Måling</string>
+    <string name="tab_map">Kort</string>
+    <string name="tab_history">Historik</string>
+    <string name="tab_about">Om</string>
+    
+	<string name="back">Tilbage</string>
+	
+    <string name="unit_kmh">km/t</string>
+    <string name="unit_ms">m/s</string>
+    <string name="unit_mph">mph</string>
+    <string name="unit_kn">knob</string>
+    <string name="unit_bft">bft</string>
+    
+    <string name="rel_time_future">fremtid</string>
+    <string name="rel_time_now">lige nu</string>
+    <string name="rel_time_1_min_ago">1 min siden</string>
+    <string name="rel_time_x_mins_ago">%d min siden</string>
+    <string name="rel_time_1_hour_ago">1 time siden</string>
+    <string name="rel_time_x_hours_ago">%d timer siden</string>
+    <string name="rel_time_1_day_ago">1 dag siden</string>
+    <string name="rel_time_x_days_ago">%d dage siden</string>
+
+    <string name="heading_average">Middel</string>
+    <string name="heading_current">Nuværende</string>
+    <string name="heading_max">Maks</string>
+    <string name="heading_unit">Enhed</string>
+    <string name="direction_unit">Retning</string>
+    <string name="heading_nearby_measurements">Nærliggende Målinger</string>
+    <string name="no_compass_measurements">Intet digitalt\nkompas tilgængeligt\ni denne telefon.</string>
+
+    <string name="button_start">Start</string>
+    <string name="button_stop">Stop</string>
+    <string name="button_cancel">Annuller</string>
+	<string name="button_ok">OK</string>
+    <string name="button_done">Færdig</string>
+    
+    <string name="info_measuring">Måling i gang</string>
+    <string name="info_no_signal">Intet signal</string>
+    <string name="info_keep_steady">Hold lodret og roligt</string>
+    
+    <string name="x_hours">%d timer</string>
+    <string name="map_refresh_error_title">Kortopdateringsfejl</string>
+    <string name="map_refresh_error_message">Sørg for at du har mobildata eller Wi-Fi forbindelse.</string>
+    
+    <string name="history_title">Historik</string>
+    <string name="history_register_teaser">Registrer dig for at se hele din målehistorik</string>
+	<string name="history_no_measurements">Ingen målinger endnu</string>
+	<string name="history_go_to_measure">Gå til Mål og tryk Start for at komme i gang!</string>
+    
+    <string name="about_title">Om Vaavud</string>
+    <string name="about_vaavud_text">Vaavud er en dansk teknologi start-up.\n Vores mål er at lave de bedste vindmålere i verden ifht brugervenlighed, funktioner og integration med andre produkter.\n For at læse mere og købe en Vaavud vindmåler, så besøg Vaavud.com\n &#169; Vaavud ApS 2014, all rights reserved\n Version: %1$s</string>
+    <string name="link_terms_of_service">Betingelser</string>
+    <string name="link_privacy_policy">Privatlivspolitik</string>
+    
+    <string name="register_title_signup">Opret profil</string>
+    <string name="register_title_login">Log ind</string>
+    <string name="register_or">Eller</string>
+    <string name="register_terms_and">og</string>
+    <string name="register_button_login_with_facebook">Log ind med Facebook</string>
+    <string name="register_signup_with_facebook">Registrer med Facebook</string>
+    <string name="register_facebook_disclaimer">Vi vil aldrig skrive på Facebook uden din accept</string>
+	<string name="register_button_create">Opret</string>
+	<string name="register_button_login">Log ind</string>
+	<string name="register_button_logout">Log ud</string>
+	<string name="register_field_first_name">Fornavn</string>
+	<string name="register_field_last_name">Efternavn</string>
+	<string name="register_field_email">Email</string>
+	<string name="register_field_password">Kodeord</string>
+ 
+	<string name="register_create_feedback_first_name_empty_title">Indtast dit name</string>
+	<string name="register_create_feedback_first_name_empty_message">Blot dit fornavn er nok.</string> 
+	<string name="register_create_feedback_email_empty_title">Indtast din email</string>
+	<string name="register_create_feedback_email_empty_message">Vi giver ikke din email væk til andre!</string>
+	<string name="register_create_feedback_password_short_title">Kodeord for kort</string>
+	<string name="register_create_feedback_password_short_message">4 tegn eller mere.</string> 
+	<string name="register_feedback_invalid_credentials_title">Kunne ikke logge ind</string>
+	<string name="register_feedback_invalid_credentials_message">Email eller kodeord er forkert.</string> 
+	<string name="register_feedback_account_exists_title">  "Profilen findes allerede</string>
+	<string name="register_feedback_account_exists_message">Email eller kodeord er forkert.</string>
+	<string name="register_feedback_account_exists_login_with_facebook">Log ind med Facebook.</string>
+	<string name="register_feedback_account_exists_provide_password">Angiv kodeordet for Vaavud-profilen for at tillade log ind med Facebook:</string>
+	<string name="register_feedback_malformed_email_title">  "Forkert email</string>
+	<string name="register_feedback_malformed_email_message">Det ser ikke ud til at være en valid email.</string>
+	<string name="register_feedback_no_reachability_title">Forbindelsesproblem</string>
+	<string name="register_feedback_no_reachability_message">  "Sørg for at du har mobildata eller Wi-Fi forbindelse.</string>
+	<string name="register_feedback_error_title">Fejl</string>
+	<string name="register_feedback_error_message">Prøv venligst senere.</string>
+	
+	
+	<!-- Settings -->
+    <string name="button_settings">Indstillinger</string>
+    <string name="button_buy">Køb vindmåler</string>
+	<string name="button_enable_share">Facebook deling</string>
+	<string name="button_settings_measuring_tips">Vindmålingstips</string>
+ 
+    <string name="message_sure">Er du sikker?</string>
+	 
+	<!-- Only used in Android App -->
+	<string name="register_feedback_conecting_server">Indlæser...</string>
+	
+    <!--  Menu Items -->
+	<string name="option_login">Log ind/Opret</string>
+    <string name="option_about">Om</string>
+    <string name="option_logout">Log ud</string>
+    <string name="option_delete">Slet</string>
+	
+	<!-- Share Items -->
+	    <string name="share_to_facebook_title">Del på Facebook?</string>
+	    <string name="share_guide">Hvordan er det?</string>
+	    <string name="share_take_photo">Tag foto</string>
+	    <string name="share_choose_existing">Vælg eksisterende</string>
+    
+	    <!-- IntroFlow -->
+	    <string name="intro_flow_screen_1">En Vaavud vindmåler gør din telefon til et high-tech meteorologisk værktøj.</string>
+	    <string name="intro_flow_screen_2">Brug kortet med live vindmålinger til at checke forholdene på dit favoritsted før du tager derud.</string>
+	    <string name="intro_flow_skip_button">Videre</string>
+	    <string name="intro_flow_have_a_wind_meter">Har du allerede en Vaavud vindmåler?</string>
+	    <string name="intro_flow_want_buy">Vil du købe en nu?</string>
+	    <string name="instruction_flow_screen_1">Her er et par tips til at tage gode vindmålinger.</string>
+	    <string name="instruction_flow_screen_2">For maksimal præcision skal du holde telefonen roligt og lodret over dit hoved.</string>
+	    <string name="instruction_flow_screen_3">Undgå at stå bag beplantning, udstyr, klipper, o.l.</string>
+	    <string name="instruction_flow_screen_4">Bliv ved med at måle indtil indikatoren er helt blå for at få en pålidelig middelvind.</string>
+	    <string name="intro_flow_later_button">Senere</string>
+	    <string name="intro_flow_yes_button">Ja</string>
+	    <string name="intro_flow_no_button">Nej</string>
+	    <string name="intro_flow_got_it_button">OK!</string>
+	    
+	    <!-- Calibration -->
+		<string name="calibration">Kalibrering</string>
+		<string name="calibration_howto_text">Hvordan du kalibrerer din Sleipnir</string>
+		<string name="calibration_tip_text">Gå indenfor og pust kraftigt på din vindmåler. Når den stopper pust igen.</string>
+		<string name="calibration_accessmenu_text">Du kan altid kalibrerer din Sleipnir igen via indstillinger.</string>
+		<string name="calibration_cancel_text">Annuller</string>
+		<string name="calibration_later_text">Gør dette senere</string>
+		<string name="calibration_start_text">Start kalibrering</string>
+		<string name="calibration_message_text">Pust og vent til den stopper og pust igen. </string>
+		<string name="calibration_completed_text">Kalibrering færdig!</string>
+		<string name="calibration_finish_text">Færdig</string>
+    	
+		<string name="sound_disclaimer_title">Advarsel</string>
+		<string name="sound_disclaimer">Sleipnir virker med magi - og ved hjælp af et lydsignal fra din telefon. Tryk derfor venligst OK til volume advarslen.</string>
+		
+		<string name="calibration_upload_dialog_title">Hmmm... Der er noget galt!</string>
+	    <string name="calibration_upload_dialog_text">Vil du sende en fejlmeddelse til Vaavud for videre analyse?</string>
+	    <string name="calibration_sending_dialog_title">Sender rapport...</string>
+	    <string name="calibration_not_sleipnir_toast">Sleipnir ikke tilsluttet</string>
+	    
+	    <string name="conectivity_error_message">Sørg for at du har mobildata eller Wi-Fi forbindelse.</string>
+	    <!--  App ID -->
+	    <string name="app_name">Vaavud</string>
+	    <string name="app_id">624217360948538</string>
+</resources>

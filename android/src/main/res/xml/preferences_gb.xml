@@ -1,0 +1,33 @@
+<PreferenceScreen 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+	    <ListPreference
+	        android:key="heading_unit"
+	        android:title="@string/heading_unit"
+	        android:dialogTitle="@string/heading_unit"
+	        android:entries="@array/pref_unit_entries"
+	        android:entryValues="@array/pref_unit_values"
+	        android:defaultValue="MS"
+	        android:persistent="true"/>
+	    <CheckBoxPreference
+	        android:defaultValue="true"
+	        android:key="FacebookSharing"
+	        android:title="@string/button_enable_share"
+	        android:persistent="true"
+	        />
+	        
+	    <Preference
+	        android:key="buy" 
+	        android:title="@string/button_buy"
+	        android:persistent="false" >
+		</Preference>
+		<Preference
+	        android:key="useFlow" 
+	        android:title="@string/button_settings_measuring_tips"
+	        android:persistent="false" >
+		</Preference>
+		<PreferenceScreen
+	            android:key="about_fragment"
+	            android:title="@string/about_title"
+	            android:persistent="false">
+	    </PreferenceScreen>
+</PreferenceScreen>

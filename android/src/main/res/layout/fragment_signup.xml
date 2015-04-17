@@ -1,0 +1,114 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgray"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:scrollbars="none"
+    tools:context=".SignupFragment">
+    
+	<RelativeLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" >
+	    
+	  
+	   <Button
+	    android:id="@+id/fbAuthButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginTop="15dp"
+	    android:background="@drawable/com_facebook_button_blue"
+	    android:text="@string/register_signup_with_facebook"
+	    android:textColor="@color/white"
+	    android:textSize="16sp" />
+	
+		<LinearLayout
+		    android:id="@+id/userDataLayout"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:layout_below="@+id/orLabeltext"
+		    >
+	
+			<EditText
+	        android:id="@+id/userFirstNametext"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:ems="10"
+	        android:hint="@string/register_field_first_name"
+	        android:inputType="text"
+	        android:focusable="true"
+	        android:layout_weight="1"
+	        android:nextFocusDown="@+id/userSurnametext"
+	        android:textSize="16sp"/>
+	
+			<EditText
+		    android:id="@+id/userLastNametext"
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+		    android:ems="10"
+		    android:hint="@string/register_field_last_name"
+		    android:focusable="true"
+		    android:inputType="text"
+		    android:layout_weight="1"
+		    android:textSize="16sp"/>
+			
+	   	    
+		</LinearLayout>
+	
+		<EditText
+		    android:id="@+id/userEmailtext"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_alignLeft="@+id/fbAuthButton"
+		    android:layout_below="@+id/userDataLayout"
+		    android:ems="10"
+		    android:hint="@string/register_field_email"
+		    android:inputType="textEmailAddress"
+		    android:textSize="16sp" />
+	
+		<TextView
+		    android:id="@+id/orLabeltext"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_alignLeft="@+id/userEmailtext"
+		    android:layout_below="@+id/fbAuthButton"
+		    android:gravity="bottom|center"
+		    android:layout_marginTop="15dp"
+		    android:layout_marginBottom="15dp"
+		    android:text="@string/register_or"
+		    android:textSize="16sp" />
+	
+		<EditText
+		    android:id="@+id/userPasswordtext"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_alignLeft="@+id/userEmailtext"
+		    android:layout_below="@+id/userEmailtext"
+		    android:ems="10"
+		    android:hint="@string/register_field_password"
+		    android:inputType="textPassword"
+		    android:textSize="16sp" >
+		</EditText>
+
+		<Button
+		    android:id="@+id/signupButton"
+		    android:layout_width="150dp"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_alignParentRight="true"
+		    android:layout_below="@+id/userPasswordtext"
+		    android:layout_marginTop="15dp"
+		    android:background="@drawable/button_rounded_blue"
+		    android:text="@string/register_button_create"
+		    android:textColor="@color/white"
+		    android:textSize="16sp" />
+
+	</RelativeLayout>
+</ScrollView>
