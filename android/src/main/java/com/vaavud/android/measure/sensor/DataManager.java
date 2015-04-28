@@ -200,12 +200,7 @@ public class DataManager {
 	}
 	
 	public boolean newMeasurementsAvailable() {
-		if (windspeedMeasurements.size() > lastServedWindmeasurement) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return windspeedMeasurements.size() > lastServedWindmeasurement;
 	}
 	
 	public void setMeasureIsValid(boolean isValid) {

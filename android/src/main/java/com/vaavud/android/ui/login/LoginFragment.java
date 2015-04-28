@@ -131,15 +131,14 @@ public class LoginFragment extends Fragment implements UserResponseListener,Back
 		        user.eraseDataBase(context);
 			}
 		}
-	};
-	
-	
-	
-	 /* This validator uses the regular expression taken from the Perl implementation of RFC 822.
-	 * @see <a href="http://www.ex-parrot.com/~pdw/Mail-RFC822-Address.html">Perl Regex implementation *
-	 *      of RFC 822< /a>
-	 * @see <a href="http://www.ietf.org/rfc/rfc0822.txt?number=822">RFC 822< /a>
-	 */
+	}
+
+
+	/* This validator uses the regular expression taken from the Perl implementation of RFC 822.
+     * @see <a href="http://www.ex-parrot.com/~pdw/Mail-RFC822-Address.html">Perl Regex implementation *
+     *      of RFC 822< /a>
+     * @see <a href="http://www.ietf.org/rfc/rfc0822.txt?number=822">RFC 822< /a>
+     */
 	private static final String EMAIL_PATTERN = "(?:(?:\\r\\n)?[ \\t])*(?:(?:(?:[^()<>@,;:\\\".\\[\\] \\000-\\031]+(?:(?:(?:\\r\\n)?[ \\t]"
 			+ ")+|\\Z|(?=[\\[\"()<>@,;:\\\".\\[\\]]))|\"(?:[^\\\"\\r\\\\]|\\\\.|(?:(?:\\r\\n)?[ \\t]))*\"(?:(?:"
 			+ "\\r\\n)?[ \\t])*)(?:\\.(?:(?:\\r\\n)?[ \\t])*(?:[^()<>@,;:\\\".\\[\\] \\000-\\031]+(?:(?:("
@@ -254,7 +253,7 @@ public class LoginFragment extends Fragment implements UserResponseListener,Back
 		}catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString() + " must implement SelectorListener");
 		}
-		listener = (UserResponseListener)this;
+		listener = this;
 		
 		progress = ((MainActivity)activity).getProgressDialog();
 		userManager = UserManager.getInstance(activity,((MainActivity)activity).getRequestQueue(),user);
@@ -376,7 +375,7 @@ public class LoginFragment extends Fragment implements UserResponseListener,Back
 	    Handler handler = new Handler(); 
 	    handler.postDelayed(new Runnable() {           
 	        public void run() {
-	        	if (((MainActivity)context)!=null){
+	        	if (context !=null){
 		        	ProgressDialog progress = ((MainActivity)context).getProgressDialog();
 		        	if(progress!=null && progress.isShowing() && !userLogged){
 		        		progress.dismiss();

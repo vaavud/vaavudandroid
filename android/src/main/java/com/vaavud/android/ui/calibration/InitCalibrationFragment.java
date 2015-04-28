@@ -50,13 +50,13 @@ public class InitCalibrationFragment extends Fragment {
         access.setTypeface(robotoLight);
 
         Button start = (Button) rootView.findViewById(R.id.calibration_start);
-        start.setTypeface(robotoRegular);
+//        start.setTypeface(robotoRegular);
 
         start.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-            	if (((CalibrationActivity)mActivity).getIsSleipnirPlugged()){
+            	if (mActivity.getIsSleipnirPlugged()){
 	                mActivity.getSupportFragmentManager().beginTransaction()
 	                        .replace(R.id.container, new CalibrationFragment()).commit();
             	}else{
@@ -65,7 +65,7 @@ public class InitCalibrationFragment extends Fragment {
             }
         });
         Button cancel = (Button) rootView.findViewById(R.id.calibration_cancel);
-        cancel.setTypeface(robotoRegular);
+//        cancel.setTypeface(robotoRegular);
         cancel.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -77,7 +77,7 @@ public class InitCalibrationFragment extends Fragment {
             }
         });
 
-        if (((CalibrationActivity) mActivity).isFirstTime()) {
+        if (mActivity.isFirstTime()) {
             cancel.setText(R.string.calibration_later_text);
         } else {
             access.setVisibility(View.GONE);

@@ -26,19 +26,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.WindowCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.view.ActionMode;
 
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.ActionMode;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.crittercism.app.Crittercism;
@@ -159,13 +158,9 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		setContentView(R.layout.activity_main);
 
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-		if (sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null){
-			hasCompass=true;
-//			Log.d("MainActivity","Has Compass");
-		}else{
-			hasCompass=false;
+		//			Log.d("MainActivity","Has Compass");
 //			Log.d("MainActivity","No Compass");
-		}
+		hasCompass = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null;
 		IntentFilter receiverFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
 		receiver = new HeadsetIntentReceiver(this);
 		registerReceiver(receiver, receiverFilter);
@@ -244,7 +239,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 
 		// Specify that tabs should be displayed in the action bar.
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+		setActionMode(mActionMode);
 		// Create a tab listener that is called when the user changes tabs.
 		ActionBar.TabListener tabListener = new ActionBar.TabListener() {
 			public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
@@ -629,9 +624,9 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		mActionMode=mode;
 	}
 
-	private static enum Orientation {
+	private enum Orientation {
 		PORTRAIT,
-		REVERSE_PORTRAIT;
+		REVERSE_PORTRAIT
 	}
 
 	public void setProgressDialog(ProgressDialog progressDialog) {

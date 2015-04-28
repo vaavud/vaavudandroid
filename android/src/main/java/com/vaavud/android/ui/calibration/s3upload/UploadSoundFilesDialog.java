@@ -97,10 +97,10 @@ public class UploadSoundFilesDialog extends DialogFragment {
 		progressBar = (ProgressBar) view.findViewById(R.id.upload_progress_bar);
 		progressBar.setIndeterminate(false);
 		builder.setView(view);
-		builder.setTitle(((Activity)context).getResources().getString(R.string.share_to_facebook_title));
+		builder.setTitle(context.getResources().getString(R.string.share_to_facebook_title));
 
 		// Add the buttons
-		builder.setNeutralButton(((Activity)context).getResources().getString(R.string.button_cancel), new DialogInterface.OnClickListener() {
+		builder.setNeutralButton(context.getResources().getString(R.string.button_cancel), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				if (getActivity()!=null && Device.getInstance(getActivity()).isMixpanelEnabled()){
 					MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).track("Upload File Dialog Cancelled", null);

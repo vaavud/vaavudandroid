@@ -30,13 +30,12 @@ dependencies {
     compile project(':viewPagerIndicator')
     compile project(':facebookSDK')
     compile project(':volley')
-    compile project(':androidSleipnirSDK')
     compile project(':androidHoloCircularProgressBar')
-    compile 'com.mixpanel.android:mixpanel-android:4.5.0'
-    compile 'com.google.android.gms:play-services:7.0.0'
-    compile 'com.google.code.gson:gson:2.2.4'
+    compile project(':sleipnirSDK')
     compile files('libs/achartengine-1.1.0.jar')
-    compile files('libs/libGoogleAnalyticsServices.jar')
+    compile 'com.google.android.gms:play-services:7.0.0'
+    compile 'com.mixpanel.android:mixpanel-android:4.5.3-JDK7'
+    compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.amazonaws:aws-android-sdk-cognito:2.2.0'
     compile 'com.amazonaws:aws-android-sdk-core:2.2.0'
     compile 'com.amazonaws:aws-android-sdk-s3:2.2.0'

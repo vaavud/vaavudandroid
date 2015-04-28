@@ -5,8 +5,9 @@
     <color name="blue_pressed">#008ECF</color>
     <color name="red">#D2252D</color>
     <color name="white">#FFFFFF</color>
-    <color name="lightgray">#EEEEEE</color>
-    <color name="midgray">#DDDDDD</color>
+    <color name="lightgray">#FAFAFA</color>
+    <color name="midgray">#EEEEEE</color>
+    <color name="darkgray">#424242</color>
     <color name="green">#6CC049</color>
     
     

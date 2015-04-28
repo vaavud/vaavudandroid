@@ -50,7 +50,6 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
     private boolean mCalibrationMode;
     private Handler handler;
     private List<MeasurementReceiver> measurementReceivers = new ArrayList<MeasurementReceiver>();
-    ;
     private MeasureStatus status;
 
     private AudioManager myAudioManager;

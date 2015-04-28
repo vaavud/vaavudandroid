@@ -67,8 +67,8 @@ public class UserManager {
 				((MainActivity)context).restartUser();
 			}
 		}
-	};
-	
+	}
+
 	public static synchronized UserManager getInstance(Context context,RequestQueue requestQueue,User user) {
 		if (instance == null) {
 			instance = new UserManager(context,requestQueue,user);

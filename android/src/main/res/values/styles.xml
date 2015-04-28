@@ -4,7 +4,7 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="@android:style/Theme.Holo">
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -13,29 +13,36 @@
 
     </style>
 
-    <!-- Action Bar Style -->
-    <!--<style name="VaavudActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">-->
-        <!--&lt;!&ndash;<item name="android:displayOptions">showHome|useLogo</item>&ndash;&gt;-->
-        <!--&lt;!&ndash;<item name="android:logo">@drawable/logo</item>&ndash;&gt;-->
-        <!--<item name="android:background">@color/blue_20</item>-->
-    <!--</style>-->
-    <!-- Action Bar Tab Style -->
-    <!--<style name="VaavudActionBarTabStyle" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">-->
-        <!--<item name="android:background">@drawable/ab_tab_indicator</item>-->
-        <!--<item name="android:backgroundSplit">@drawable/ab_bottom_solid</item>-->
-    <!--</style>-->
+
+     <!--Action Bar Tab Style -->
+    <style name="VaavudActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
+        <item name="android:actionBarDivider">@color/darkgray</item>
+        <item name="actionBarDivider">@color/darkgray</item>
+        <item name="android:background">@drawable/ab_tab_indicator</item>
+        <item name="background">@drawable/ab_tab_indicator</item>
+    </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:windowNoTitle">true</item>
 
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="android:actionBarStyle">@style/VaavudActionBar</item>
-        <!--<item name="android:actionBarTabStyle">@style/VaavudActionBarTabStyle</item>-->
-        <!--<item name="android:actionModeBackground">@drawable/cab_background_top_apptheme</item>-->
-        <!--<item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_apptheme</item>-->
+        <!--<item name="windowActionBar">false</item>-->
+        <item name="android:windowBackground">@color/lightgray</item>
+        <item name="actionBarStyle">@style/VaavudActionBar</item>
+        <item name="actionBarTabStyle">@style/VaavudActionBarStyle</item>
         <item name="circularProgressBarStyle">@style/CircularProgressBar</item>
 
-
+        <!-- Set theme colors from http://www.google.com/design/spec/style/color.html#color-color-palette-->
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/midgray</item>
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/darkgray</item>
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/blue</item>
+        <item name="colorControlNormal">@color/blue</item>
+        <item name="colorControlActivated">@color/blue</item>
+        <item name="colorControlHighlight">@color/blue_pressed</item>
     </style>
 
     <style name="WindMarker.TextAppearance" parent="android:TextAppearance">
@@ -43,11 +50,20 @@
         <item name="android:textColor">#ffffffff</item>
     </style>
 
-    <style name="VaavudActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <!--<item name="android:displayOptions">showHome|useLogo</item>-->
-        <!--<item name="android:logo">@drawable/logo</item>-->
-        <item name="android:background">@color/blue_20</item>
+    <!-- Action Bar Style -->
+    <style name="VaavudActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="displayOptions">showHome|useLogo</item>
+        <item name="logo">@drawable/logo</item>
+        <item name="android:background">@color/midgray</item>
+        <item name="background">@color/midgray</item>
+        <!--<item name="android:backgroundSplit">@color/darkgray</item>-->
+        <!--<item name="backgroundSplit">@color/darkgray</item>-->
+
+        <!--<item name="android:backgroundStacked">@drawable/ab_stacked_solid</item>-->
+        <!--<item name="backgroundStacked">@drawable/ab_stacked_solid</item>-->
     </style>
 
 
 </resources>
+
+

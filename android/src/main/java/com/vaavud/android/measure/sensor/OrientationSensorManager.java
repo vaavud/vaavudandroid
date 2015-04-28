@@ -16,18 +16,14 @@ public class OrientationSensorManager implements SensorEventListener {
 	private float[] acc = new float[3];
 	private float[] mag = new float[3];
 	private float[] R = new float[9];
-	private float[] Ori = new float[3];;
-	
+	private float[] Ori = new float[3];
+
 	private float oriMinValue;
 
 	public OrientationSensorManager(Context mainContext) {
 		sensorManager = (SensorManager) mainContext.getSystemService(Context.SENSOR_SERVICE);
 		initializeOrientation();
-		if (initializeOrientation()) {
-			sensorAvailable = true;
-		} else {
-			sensorAvailable = false;
-		}
+		sensorAvailable = initializeOrientation();
 		
 		this.oriMinValue = (float) (Math.PI/2 - 0.6f);
 		
@@ -37,11 +33,7 @@ public class OrientationSensorManager implements SensorEventListener {
 	private boolean initializeOrientation() {
 		accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		magneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-		if (accelerometer != null && magneticSensor != null) {
-			return true;
-		} else {
-			return false;
-		}
+		return accelerometer != null && magneticSensor != null;
 		
 	}
 	
@@ -76,13 +68,8 @@ public class OrientationSensorManager implements SensorEventListener {
 		if (!sensorAvailable) {
 			return null;
 		}
-		
-		if (Math.abs(Ori[1]) > oriMinValue) {
-			return true;
-		}
-		else {
-			return false;
-		}
+
+		return Math.abs(Ori[1]) > oriMinValue;
 	}
 	
 	

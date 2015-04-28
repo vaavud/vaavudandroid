@@ -101,6 +101,7 @@
     <orderEntry type="library" exported="" name="achartengine-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-wearable-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-wallet-7.0.0" level="project" />
+    <orderEntry type="library" exported="" name="mixpanel-android-4.5.3-JDK7" level="project" />
     <orderEntry type="library" exported="" name="play-services-cast-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="aws-android-sdk-cognito-2.2.0" level="project" />
@@ -115,11 +116,10 @@
     <orderEntry type="library" exported="" name="play-services-analytics-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-games-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-nearby-7.0.0" level="project" />
-    <orderEntry type="library" exported="" name="libGoogleAnalyticsServices" level="project" />
+    <orderEntry type="module" module-name="sleipnirSDK" exported="" />
     <orderEntry type="module" module-name="volley" exported="" />
     <orderEntry type="module" module-name="facebookSDK" exported="" />
     <orderEntry type="module" module-name="slidinguppanel" exported="" />
-    <orderEntry type="module" module-name="androidSleipnirSDK" exported="" />
     <orderEntry type="module" module-name="viewPagerIndicator" exported="" />
     <orderEntry type="module" module-name="androidHoloCircularProgressBar" exported="" />
     <orderEntry type="module" module-name="androidmapsutils" exported="" />

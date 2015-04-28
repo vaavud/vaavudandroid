@@ -9,6 +9,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint.Align;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -177,7 +178,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 					stop();
 					if(currentMaxValueMS!=null && currentMeanValueMS!=null && ((MainActivity)getActivity()).isFacebookSharingEnabled()){
 						FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-						FacebookSharingDialog fbFragment = new FacebookSharingDialog(((MainActivity)getActivity()),currentMeanValueMS,currentMaxValueMS,currentPosition);
+						FacebookSharingDialog fbFragment = new FacebookSharingDialog(getActivity(),currentMeanValueMS,currentMaxValueMS,currentPosition);
 						fbFragment.show(fragmentManager, "PostToFB");
 					}
 				}
@@ -212,9 +213,9 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		renderer.setZoomEnabled(true, false);
 		renderer.setZoomButtonsVisible(false);
 		renderer.setBarSpacing(10);
-		renderer.setMarginsColor(Color.argb(0x00, 0x01, 0x01, 0x01)); // Transparent (beacuse of bug).
+//		renderer.setMarginsColor(Color.argb(0x00, 0x01, 0x01, 0x01)); // Transparent (beacuse of bug).
 
-		renderer.setMarginsColor(0xFFEEEEEE); // same grey as view background.
+		renderer.setMarginsColor(getResources().getColor(R.color.lightgray)); // same grey as view background.
 
 		renderer.setShowLegend(false);
 		renderer.setYLabelsAlign(Align.RIGHT);
@@ -297,16 +298,16 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.chart);
 		mChartView = ChartFactory.getCubeLineChartView(view.getContext(), dataset, renderer, 0.3f);
 		layout.addView(mChartView);
-
+		mChartView.setBackground(new ColorDrawable(getResources().getColor(R.color.lightgray)));
 		mChartView.repaint();
 
 		// set type face
 
-		Typeface futuraMediumTypeface = Typeface.createFromAsset(view.getContext().getAssets(), "futuraMedium.ttf");
-		meanText.setTypeface(futuraMediumTypeface);
-		actualText.setTypeface(futuraMediumTypeface);
-		maxText.setTypeface(futuraMediumTypeface);
-		unitButton.setTypeface(futuraMediumTypeface);
+//		Typeface futuraMediumTypeface = Typeface.createFromAsset(view.getContext().getAssets(), "futuraMedium.ttf");
+//		meanText.setTypeface(futuraMediumTypeface);
+//		actualText.setTypeface(futuraMediumTypeface);
+//		maxText.setTypeface(futuraMediumTypeface);
+//		unitButton.setTypeface(futuraMediumTypeface);
 
 		// restore state of wind speed text fields
 		if (savedInstanceState != null) {
@@ -470,7 +471,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		
 		getMeasurementController().removeMeasurementReceiver(this);
 		if (getMeasurementController() instanceof SleipnirCoreController){
-			((SleipnirCoreController)getMeasurementController()).stopController();
+			getMeasurementController().stopController();
 		}
 		clearProgressBar();
 		UIupdate = false;
@@ -560,7 +561,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				Bitmap arrow = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.wind_arrow);
 				if (arrow == null) return;
 				Matrix matrix = new Matrix();
-				matrix.postRotate((float) currentDirection);
+				matrix.postRotate(currentDirection);
 				directionText.setText(currentDirectionUnit.format(currentDirection));
 				Bitmap rotatedBitmap = Bitmap.createBitmap(arrow , 0, 0, 
 						arrow.getWidth(), 

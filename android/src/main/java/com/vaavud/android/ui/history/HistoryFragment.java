@@ -12,11 +12,11 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.view.ActionMode;
+import android.support.v7.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -143,11 +143,7 @@ public class HistoryFragment extends Fragment implements BackPressedListener,Sel
 		unit = Device.getInstance(getActivity()).getWindSpeedUnit();
 		directionUnit = Device.getInstance(getActivity()).getWindDirectionUnit();
 		futuraMediumTypeface = Typeface.createFromAsset(getActivity().getAssets(), "futuraMedium.ttf");
-		if(Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1){
-			mActionModeAvailable = true;
-		}else{
-			mActionModeAvailable = false;
-		}
+//		mActionModeAvailable = Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1;
 
 	}
 
@@ -160,102 +156,85 @@ public class HistoryFragment extends Fragment implements BackPressedListener,Sel
 			historyListView = (ListView) view.findViewById(R.id.history_ListView);
 			historyListView.setItemsCanFocus(true);
 			historyAdapter = new HistoryArrayAdapter(getActivity(), measurmentSessions);
-			historyListView.setAdapter(historyAdapter);
-			if (!mActionModeAvailable){
-				historyListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
-				historyListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-					@Override
-					public boolean onItemLongClick(AdapterView parent, View view,
-							int pos, long id) {
-						//						Log.d(TAG,"On Item Long Click");
-						if (!mActionModeAvailable){
-							//							Log.d(TAG,"!mActionModeAvailable");
-							registerForContextMenu(historyListView);
-							return false;
-						}
-						return true;
-					}
-				});
-			}else{
-				historyListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-				historyListView.setOnItemLongClickListener(new OnItemLongClickListener(){
+			historyListView.setAdapter(historyAdapter);historyListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+			historyListView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 					@Override
-					public boolean onItemLongClick(AdapterView<?> arg0,
-							View arg1, int position, long arg3) {
-						// TODO Auto-generated method stub
-						ActionMode.Callback modeCallBack = new ActionMode.Callback() {
-							private int nr=0;
-							public boolean onPrepareActionMode(ActionMode mode, Menu menu){
-								return false;
-							}
+					public boolean onItemLongClick(AdapterView<?> adapter,
+																				 View view, int position, long arg3) {
+							view.setSelected(true);
 
-							public void onDestroyActionMode(ActionMode mode) {
-								historyAdapter.clearSelection();
-							}
+							ActionMode.Callback modeCallBack = new ActionMode.Callback() {
+									private int nr = 0;
 
-							public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+									public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+											return false;
+									}
+
+									public void onDestroyActionMode(ActionMode mode) {
+											historyAdapter.clearSelection();
+
+									}
+
+									public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 								((MainActivity)getActivity()).setActionMode(mode);
-								MenuInflater inflater = getActivity().getMenuInflater();
-								inflater.inflate(R.menu.history, menu);
-								if (historyAdapter.mSelection.size()>0){
-									nr=historyAdapter.mSelection.size();
-									mode.setTitle(nr + " selected");
-								}else{
-									nr=0;
-								}
-								return true;
-							}
-
-							public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-								int position=-1;
-								switch (item.getItemId()) {
-								case R.id.action_delete:
-
-									Iterator<Integer> it = historyAdapter.getCurrentCheckedPosition().iterator();
-									List<MeasurementSession> removeList = new ArrayList<MeasurementSession>();
-									while(it.hasNext()){
-										position=it.next();
-										removeList.add(measurmentSessions.get(position));
-										historyAdapter.removeSelection(position);
+											MenuInflater inflater = getActivity().getMenuInflater();
+											inflater.inflate(R.menu.history, menu);
+											if (historyAdapter.mSelection.size() > 0) {
+													nr = historyAdapter.mSelection.size();
+													mode.setTitle(nr + " selected");
+											} else {
+													nr = 0;
+											}
+											return true;
 									}
-									for(int i=0;i<removeList.size();i++){
-										VaavudDatabase.getInstance(getActivity()).deleteMeasurementSession(removeList.get(i));
-										getUploadManager().deleteMeasurement(removeList.get(i));
-										//MixPanel
-										JSONObject props = new JSONObject();
-										try {
-											props.put("Measurement Speed", measurmentSessions.get(measurmentSessions.indexOf(removeList.get(i))).getWindSpeedAvg());
-										} catch (JSONException e) {
-											e.printStackTrace();
-										}
-										if (getActivity()!=null && Device.getInstance(getActivity()).isMixpanelEnabled()){
-											MixpanelAPI.getInstance(getActivity(),MIXPANEL_TOKEN).track("Delete Measurement", props);
-										}
-										measurmentSessions.remove(removeList.get(i));
+
+									public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+											int position = -1;
+											switch (item.getItemId()) {
+													case R.id.action_delete:
+
+															Iterator<Integer> it = historyAdapter.getCurrentCheckedPosition().iterator();
+															List<MeasurementSession> removeList = new ArrayList<MeasurementSession>();
+															while (it.hasNext()) {
+																	position = it.next();
+																	removeList.add(measurmentSessions.get(position));
+																	historyAdapter.removeSelection(position);
+															}
+															for (int i = 0; i < removeList.size(); i++) {
+																	VaavudDatabase.getInstance(getActivity()).deleteMeasurementSession(removeList.get(i));
+																	getUploadManager().deleteMeasurement(removeList.get(i));
+																	//MixPanel
+																	JSONObject props = new JSONObject();
+																	try {
+																			props.put("Measurement Speed", measurmentSessions.get(measurmentSessions.indexOf(removeList.get(i))).getWindSpeedAvg());
+																	} catch (JSONException e) {
+																			e.printStackTrace();
+																	}
+																	if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
+																			MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Delete Measurement", props);
+																	}
+																	measurmentSessions.remove(removeList.get(i));
+															}
+															historyAdapter.clearSelection();
+															mode.finish();
+															return true;
+											}
+											return false;
 									}
-									historyAdapter.clearSelection();
-									mode.finish();
-									return true;
-								}
-								return false;
-							}
-						};
-						getActivity().startActionMode(modeCallBack);
-						historyListView.setItemChecked(position, !historyAdapter.isPositionChecked(position));
-						historyAdapter.setNewSelection(position, true);
-						return false;
+							};
+
+							((MainActivity) getActivity()).startSupportActionMode(modeCallBack);
+							historyListView.setItemChecked(position, !historyAdapter.isPositionChecked(position));
+							historyAdapter.setNewSelection(position, true);
+							return false;
 					}
-				});	
-			}
-
+			});
 			imageCacheManager = ImageCacheManager.getInstance();
 			imageCacheManager.init(getActivity(), Environment.getExternalStorageDirectory().getAbsolutePath(), 
 					DISK_IMAGECACHE_SIZE, DISK_IMAGECACHE_COMPRESS_FORMAT, DISK_IMAGECACHE_QUALITY, CacheType.DISK, getRequestQueue());
 
 			imageLoader = imageCacheManager.getImageLoader();
-
 		}
 		else{
 			view = createArrowLayout(new LinearLayout(getActivity())); 					
@@ -267,7 +246,7 @@ public class HistoryFragment extends Fragment implements BackPressedListener,Sel
 	private View createArrowLayout(LinearLayout view){
 		LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 0);
 		params.weight=1;
-		((LinearLayout) view).setOrientation(LinearLayout.VERTICAL);
+		view.setOrientation(LinearLayout.VERTICAL);
 		view.setLayoutParams(params);
 		CustomDrawableView arrowView = new CustomDrawableView(getActivity());
 		LayoutParams arrowParams = new LayoutParams(LayoutParams.MATCH_PARENT, 0);
@@ -306,9 +285,9 @@ public class HistoryFragment extends Fragment implements BackPressedListener,Sel
 		text.setLayoutParams(textParams);
 		subtext.setLayoutParams(subtextParams);
 
-		((ViewGroup) view).addView(arrowView,0);
-		((ViewGroup) view).addView(text,1);
-		((ViewGroup) view).addView(subtext,2);
+		view.addView(arrowView, 0);
+		view.addView(text, 1);
+		view.addView(subtext, 2);
 
 		return view;
 	}
@@ -316,12 +295,13 @@ public class HistoryFragment extends Fragment implements BackPressedListener,Sel
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
-		menu.setHeaderTitle(getActivity().getResources().getString(R.string.history_title));
-		super.onCreateContextMenu(menu, v, menuInfo);
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-		MenuInflater inflater = getActivity().getMenuInflater();
-		((View)historyAdapter.getView(info.position, historyListView.getChildAt(info.position), historyListView)).setBackgroundColor(getActivity().getResources().getColor(R.color.lightgray));
-		inflater.inflate(R.menu.history, menu);
+			super.onCreateContextMenu(menu, v, menuInfo);
+			menu.setHeaderTitle(getActivity().getResources().getString(R.string.history_title));
+
+			AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+			MenuInflater inflater = getActivity().getMenuInflater();
+			historyAdapter.getView(info.position, historyListView.getChildAt(info.position), historyListView).setBackgroundColor(getActivity().getResources().getColor(R.color.lightgray));
+			inflater.inflate(R.menu.history, menu);
 	}
 
 	@Override
@@ -402,6 +382,7 @@ public class HistoryFragment extends Fragment implements BackPressedListener,Sel
 	public void onDestroyView() {
 		if (historyAdapter!=null){
 			historyAdapter.clearSelection();
+				unregisterForContextMenu(historyListView);
 		}
 		super.onDestroyView();
 		//				Log.i(TAG, "onDestroyView");

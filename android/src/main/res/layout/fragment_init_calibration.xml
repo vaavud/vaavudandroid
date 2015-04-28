@@ -18,7 +18,8 @@
         android:background="@drawable/button_rounded_blue"
         android:text="@string/calibration_start_text"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"/>
 
     <TextView
         android:id="@+id/calibration_howto"
@@ -44,7 +45,8 @@
         android:background="@color/white"
         android:text="@string/calibration_cancel_text"
         android:textColor="@color/blue"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"/>
 
     <TextView
         android:id="@+id/calibration_tip"

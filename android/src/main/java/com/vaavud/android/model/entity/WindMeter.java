@@ -4,5 +4,5 @@ public enum WindMeter {
 
 	UNKNOWN,
 	MJOLNIR,
-	SLEIPNIR;
+	SLEIPNIR
 }

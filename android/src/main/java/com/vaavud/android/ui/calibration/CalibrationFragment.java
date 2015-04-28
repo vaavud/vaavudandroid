@@ -243,7 +243,7 @@ public class CalibrationFragment extends Fragment {
             }
         });
         if (listener != null) {
-            ((Animator) mProgressBarAnimator).addListener(listener);
+            mProgressBarAnimator.addListener(listener);
         }
         mProgressBarAnimator.reverse();
         mProgressBarAnimator.addUpdateListener(new AnimatorUpdateListener() {
