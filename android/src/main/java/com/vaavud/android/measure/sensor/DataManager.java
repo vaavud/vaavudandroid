@@ -95,6 +95,7 @@ public class DataManager {
 		magneticfieldMeasurements = new ArrayList<Float[]>();
 		uploadCounter = 0;
 		lastServedWindmeasurement = 0;
+			resetData();
 	}
 	
 	public Float getTimeSinceStart() {

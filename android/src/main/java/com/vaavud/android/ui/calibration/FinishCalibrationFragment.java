@@ -51,7 +51,7 @@ public class FinishCalibrationFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                VaavudDatabase.getInstance(mActivity).setPropertyAsBoolean(KEY_FIRST_TIME_SLEIPNIR, true);
+                VaavudDatabase.getInstance(mActivity.getApplicationContext()).setPropertyAsBoolean(KEY_FIRST_TIME_SLEIPNIR, true);
                 if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
                     MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Calibration Finished", null);
                 }

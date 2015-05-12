@@ -68,7 +68,7 @@ public class S3TransferView extends LinearLayout {
         	status = compareStatus(status,newStatus);
         	newProgress = mModel[i].getProgress();
         	if (progress<newProgress) progress=newProgress;
-        	Log.d(TAG,"Progress:"+progress+" "+newProgress);
+//        	Log.d(TAG,"Progress:"+progress+" "+newProgress);
         }
         
         mText.setText(status.name());

@@ -8,13 +8,14 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.vaavud.android.R;
 import com.vaavud.android.model.VaavudDatabase;
+import com.vaavud.android.model.entity.Device;
 import com.vaavud.sleipnirSDK.HeadsetIntentReceiver;
 import com.vaavud.sleipnirSDK.listener.PlugListener;
 
 import java.io.File;
 
 public class CalibrationActivity extends ActionBarActivity implements PlugListener{
-	private static final String KEY_CALIBRATION_COEFFICENTS = "calibrationCoefficients";
+
 	private Boolean firstTime;
 	private Float[] coefficients = new Float[15];
 	private boolean isSleipnirPlugged = false;
@@ -54,14 +55,11 @@ public class CalibrationActivity extends ActionBarActivity implements PlugListen
 
 	public void calibrationCoefficients(Float[] coefficients) {
 		this.coefficients = coefficients;
-		String coefficientsString = "";
-		for (int i=0;i<coefficients.length-1;i++){
-			coefficientsString=coefficientsString.concat(String.valueOf(coefficients[i])+",");
-		}
-		coefficientsString=coefficientsString.concat(String.valueOf(coefficients[this.coefficients.length-1]));
+
 		
 //		Log.d("VaavudCalibration","Coefficients: "+ coefficientsString);
-		VaavudDatabase.getInstance(getApplicationContext()).setProperty(KEY_CALIBRATION_COEFFICENTS, coefficientsString);
+			Device.getInstance(this).setCalibrationCoefficients(this,coefficients);
+//		VaavudDatabase.getInstance(this).setProperty(KEY_CALIBRATION_COEFFICENTS, coefficientsString);
 	}
 
 	public boolean isFirstTime() {

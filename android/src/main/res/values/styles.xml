@@ -14,25 +14,28 @@
     </style>
 
 
-     <!--Action Bar Tab Style -->
-    <style name="VaavudActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
-        <item name="android:actionBarDivider">@color/darkgray</item>
-        <item name="actionBarDivider">@color/darkgray</item>
-        <item name="android:background">@drawable/ab_tab_indicator</item>
-        <item name="background">@drawable/ab_tab_indicator</item>
-    </style>
+
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowNoTitle">true</item>
-
-        <!--<item name="windowActionBar">false</item>-->
         <item name="android:windowBackground">@color/lightgray</item>
-        <item name="actionBarStyle">@style/VaavudActionBar</item>
-        <item name="actionBarTabStyle">@style/VaavudActionBarStyle</item>
+
+        <item name="actionBarStyle">@style/VaavudActionBarStyle</item>
+        <item name="actionBarTabStyle">@style/VaavudActionBarTabStyle</item>
+        <item name="actionBarItemBackground">@drawable/ab_selectable_background</item>
+
+        <item name="dropDownListViewStyle">@style/VaavudListViewDropDown</item>
+        <item name="popupMenuStyle">@style/VaavudPopupMenu</item>
+        <!--<item name="actionDropDownStyle">@style/Widget.Styled.Spinner.DropDown.ActionBar</item>-->
+        <!--<item name="dropDownListViewStyle">@style/Widget.Styled.ListView.DropDown</item>-->
+        <!--<item name="popupMenuStyle">@style/Widget.Styled.PopupMenu</item>-->
+
+
         <item name="circularProgressBarStyle">@style/CircularProgressBar</item>
 
-        <!-- Set theme colors from http://www.google.com/design/spec/style/color.html#color-color-palette-->
+
+        <!-- COLORS-->
         <!-- colorPrimary is used for the default action bar background -->
         <item name="colorPrimary">@color/midgray</item>
         <!-- colorPrimaryDark is used for the status bar -->
@@ -50,17 +53,32 @@
         <item name="android:textColor">#ffffffff</item>
     </style>
 
+    <!-- DropDown Menu Style -->
+
+    <style name="VaavudListViewDropDown"
+           parent="@style/Widget.AppCompat.Light.ListView.DropDown">
+        <item name="android:listSelector">@drawable/ab_selectable_background</item>
+    </style>
+    <!-- Popup Menu Style -->
+
+    <style name="VaavudPopupMenu" parent="@style/Widget.AppCompat.Light.PopupMenu">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel</item>
+    </style>
+
     <!-- Action Bar Style -->
-    <style name="VaavudActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+    <style name="VaavudActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="displayOptions">showHome|useLogo</item>
         <item name="logo">@drawable/logo</item>
         <item name="android:background">@color/midgray</item>
         <item name="background">@color/midgray</item>
-        <!--<item name="android:backgroundSplit">@color/darkgray</item>-->
-        <!--<item name="backgroundSplit">@color/darkgray</item>-->
+    </style>
 
-        <!--<item name="android:backgroundStacked">@drawable/ab_stacked_solid</item>-->
-        <!--<item name="backgroundStacked">@drawable/ab_stacked_solid</item>-->
+    <!--Action Bar Tab Style -->
+    <style name="VaavudActionBarTabStyle" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
+        <item name="android:actionBarDivider">@color/darkgray</item>
+        <item name="actionBarDivider">@color/darkgray</item>
+        <item name="android:background">@drawable/ab_tab_indicator</item>
+        <item name="background">@drawable/ab_tab_indicator</item>
     </style>
 
 
