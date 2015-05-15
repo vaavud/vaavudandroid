@@ -54,7 +54,8 @@ import com.vaavud.android.ui.login.SelectorFragment;
 import com.vaavud.android.ui.login.SignUpFragment;
 import com.vaavud.android.ui.map.MeasurementMapFragment;
 import com.vaavud.android.ui.measure.MeasureFragment;
-import com.vaavud.android.ui.settings.PreferencesFragment;
+import com.vaavud.android.ui.settings.SettingsActivity;
+import com.vaavud.android.ui.settings.SettingsFragment;
 import com.vaavud.sleipnirSDK.HeadsetIntentReceiver;
 import com.vaavud.sleipnirSDK.listener.PlugListener;
 import com.vaavud.util.MixpanelUtil;
@@ -233,7 +234,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 				viewPager.setOnPageChangeListener(pagerAdapter);
 
 				ActionBar actionBar = getSupportActionBar();
-
+				actionBar.setTitle("Vaavud");
 				// Specify that tabs should be displayed in the action bar.
 				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 				setActionMode(mActionMode);
@@ -359,7 +360,9 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 								onMenuOptionSelected(-1);
 								return true;
 						case R.id.option_settings:
-								onMenuOptionSelected(3);
+								Intent settings = new Intent(this, SettingsActivity.class);
+								startActivity(settings);
+//								onMenuOptionSelected(3);
 								return true;
 						default:
 								return super.onOptionsItemSelected(item);
@@ -679,7 +682,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 										if (about) {
 												return Fragment.instantiate(MainActivity.this, AboutFragment.class.getName());
 										} else if (settings) {
-												return Fragment.instantiate(MainActivity.this, PreferencesFragment.class.getName());
+												return Fragment.instantiate(MainActivity.this, SettingsFragment.class.getName());
 										} else {
 												return Fragment.instantiate(MainActivity.this, MeasureFragment.class.getName());
 										}

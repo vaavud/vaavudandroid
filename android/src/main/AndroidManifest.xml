@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vaavud.android"
-    android:versionCode="55"
-    android:versionName="0.4.0">
+    android:versionCode="60"
+    android:versionName="0.5.0" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -23,64 +23,75 @@
 
     <supports-screens
         android:anyDensity="true"
-        android:xlargeScreens="true"
         android:largeScreens="true"
         android:normalScreens="true"
-        android:smallScreens="true" />
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:name=".VaavudApplication"
         android:allowBackup="true"
         android:icon="@drawable/vaavud_launcher_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:largeHeap="true">
-        <!--android:hardwareAccelerated="true">-->
+        android:largeHeap="true"
+        android:theme="@style/AppTheme" >
+
+        <!-- android:hardwareAccelerated="true"> -->
 
         <activity
-            android:name="com.vaavud.android.ui.MainActivity"
+            android:name=".ui.MainActivity"
+            android:hardwareAccelerated="true"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            android:hardwareAccelerated="true"/>
-
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.vaavud.android.ui.tour.TourActivity"
+            android:name=".ui.tour.TourActivity"
+            android:hardwareAccelerated="true"
             android:label="@string/app_name"
+
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
-            android:hardwareAccelerated="true">
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.vaavud.android.ui.calibration.CalibrationActivity"
+            android:name=".ui.calibration.CalibrationActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
-        
-        <service android:name="com.vaavud.android.network.NetworkService"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <service
+            android:name=".network.NetworkService"
             android:exported="false" />
 
         <activity
             android:name="com.facebook.LoginActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBjUK56cnhgBowT4XjQCxilzKajY_geuPE" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".ui.MainActivity">
+        </activity>
     </application>
 
 </manifest>

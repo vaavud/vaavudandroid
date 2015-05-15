@@ -17,7 +17,7 @@ public class VaavudApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Device.getInstance(this);
+//        Device.getInstance(this);
         Crittercism.initialize(this, "520b8fa5558d6a2757000003");
         VaavudDatabase.getInstance(this).getWritableDatabase();
     }
