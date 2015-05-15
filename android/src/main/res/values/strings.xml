@@ -131,7 +131,7 @@
     <string name="intro_flow_got_it_button">Ok, got it!</string>
     
     <!-- Calibration -->
-    <string name="calibration">Calibration</string>
+    <string name="calibration">Calibrate Sleipnir</string>
     <string name="calibration_howto_text">How to calibrate your Sleipnir</string>
     <string name="calibration_tip_text">Go indoors and blow into the wind meter firmly when it slows down blow again.</string>
     <string name="calibration_accessmenu_text">You can calibrate your Sleipnir at any time through the settings menu.</string>
@@ -151,7 +151,9 @@
     <string name="calibration_not_sleipnir_toast">Sleipnir not connected</string>
     
     <string name="conectivity_error_message">Make sure you have cellular data or Wi-Fi connectivity.</string>
-    
+
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_calibration">Calibration</string>
     <!--  App ID -->
     <string name="app_name">Vaavud</string>
     <string name="app_id">624217360948538</string>

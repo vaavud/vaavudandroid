@@ -97,6 +97,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		private boolean login = false;
 		private boolean signUp = false;
 		private Boolean firstTimeCalibrationDone = false;
+		private SharedPreferences pref = null;
 
 		private static final String TAG = "MAIN_ACTIVITY";
 
@@ -212,8 +213,9 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						MixpanelUtil.registerUserAsMixpanelProfile(this, user);
 						MixpanelUtil.updateMeasurementProperties(this);
 				}
-				SharedPreferences pref = getPreferences(Context.MODE_PRIVATE);
-				shareToFacebook = pref.getBoolean("FacebookSharing", false);
+
+				pref = getSharedPreferences("Vaavud",Context.MODE_PRIVATE);
+
 
 				Device.getInstance(this).setWindSpeedUnit(this, SpeedUnit.valueOf(pref.getString("heading_unit", "MS")));
 
@@ -459,6 +461,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 								MixpanelAPI.getInstance(this, MIXPANEL_TOKEN).track("Open App", null);
 						}
 				}
+				shareToFacebook = pref.getBoolean("FacebookSharing", false);
 
 		}
 

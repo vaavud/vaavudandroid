@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+
+import android.support.v7.app.AppCompatActivity;
 
 import com.vaavud.android.R;
 import com.vaavud.android.model.VaavudDatabase;
@@ -14,7 +15,7 @@ import com.vaavud.sleipnirSDK.listener.PlugListener;
 
 import java.io.File;
 
-public class CalibrationActivity extends ActionBarActivity implements PlugListener{
+public class CalibrationActivity extends AppCompatActivity implements PlugListener{
 
 	private Boolean firstTime;
 	private Float[] coefficients = new Float[15];

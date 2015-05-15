@@ -14,6 +14,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.SwitchPreference;
 import android.support.v4.preference.PreferenceFragment;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.vaavud.android.R;
@@ -35,8 +36,7 @@ public class SettingsFragment extends PreferenceFragment {
 		private Preference useFlow;
 		private Preference calibrationFlow;
 		private SwitchPreference facebook;
-		private CheckBoxPreference facebookGB;
-		SharedPreferences pref;
+		private SharedPreferences pref;
 
 		private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0";
 
@@ -57,7 +57,7 @@ public class SettingsFragment extends PreferenceFragment {
 				addPreferencesFromResource(R.xml.preferences);
 
 
-				pref = getActivity().getPreferences(Context.MODE_PRIVATE);
+				pref = getActivity().getApplicationContext().getSharedPreferences("Vaavud",Context.MODE_PRIVATE);
 
 				about = (Preference) findPreference("about_fragment");
 				about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -104,33 +104,20 @@ public class SettingsFragment extends PreferenceFragment {
 				});
 
 
-				if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
-						facebook = (SwitchPreference) findPreference("FacebookSharing");
-						facebook.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-								@Override
-								public boolean onPreferenceChange(Preference preference, Object newValue) {
-										((MainActivity) getActivity()).setFacebookSharing((Boolean) newValue);
-										Editor edit = pref.edit();
-										edit.putBoolean(facebook.getKey(), (Boolean) newValue);
-										edit.commit();
-										edit = null;
-										return true;
-								}
-						});
-				} else {
-						facebookGB = (CheckBoxPreference) findPreference("FacebookSharing");
-						facebookGB.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-								@Override
-								public boolean onPreferenceChange(Preference preference, Object newValue) {
-										((MainActivity) getActivity()).setFacebookSharing((Boolean) newValue);
-										Editor edit = pref.edit();
-										edit.putBoolean(facebookGB.getKey(), (Boolean) newValue);
-										edit.commit();
-										edit = null;
-										return true;
-								}
-						});
-				}
+
+				facebook = (SwitchPreference) findPreference("FacebookSharing");
+				facebook.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+						@Override
+						public boolean onPreferenceChange(Preference preference, Object newValue) {
+//								((MainActivity) getActivity()).setFacebookSharing((Boolean) newValue);
+								Editor edit = pref.edit();
+								edit.putBoolean(facebook.getKey(), (Boolean) newValue);
+								edit.commit();
+								edit = null;
+								return true;
+						}
+				});
+
 				buy = (Preference) findPreference("buy");
 
 				TelephonyManager tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
@@ -178,16 +165,17 @@ public class SettingsFragment extends PreferenceFragment {
 
 						@Override
 						public boolean onPreferenceClick(Preference preference) {
-								if (((MainActivity) getActivity()).getMeasurementController() instanceof SleipnirCoreController) {
-										SleipnirCoreController controller = (SleipnirCoreController) ((MainActivity) getActivity()).getMeasurementController();
-										if (controller.isMeasuring()) {
-												controller.stopSession();
-										}
-										controller.stopController();
-								}
-								if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-										MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Settings Clicked Calibration", null);
-								}
+//								Log.d(TAG, "Parent Activity: " + getActivity().getParent().getLocalClassName());
+//								if (((MainActivity) getActivity()).getMeasurementController() instanceof SleipnirCoreController) {
+//										SleipnirCoreController controller = (SleipnirCoreController) ((MainActivity) getActivity()).getMeasurementController();
+//										if (controller.isMeasuring()) {
+//												controller.stopSession();
+//										}
+//										controller.stopController();
+//								}
+//								if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
+//										MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Settings Clicked Calibration", null);
+//								}
 								return false;
 						}
 				});
