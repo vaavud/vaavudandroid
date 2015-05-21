@@ -29,6 +29,7 @@ import com.vaavud.android.R;
 import com.vaavud.android.VaavudApplication;
 import com.vaavud.android.model.entity.Device;
 import com.vaavud.android.ui.MainActivity;
+import com.vaavud.android.ui.login.LoginActivity;
 import com.viewpagerindicator.CirclePageIndicator;
 
 public class TourActivity extends FragmentActivity {
@@ -249,20 +250,20 @@ public class TourActivity extends FragmentActivity {
 					blue.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							Intent i = new Intent(getActivity(),MainActivity.class);
-							i.putExtra("signUp", true);
+							Intent i = new Intent(getActivity(),LoginActivity.class);
+							i.putExtra("position", 1);
 							startActivity(i);
-							getActivity().finish();
+//							getActivity().finish();
 						}
 					});
 					white.setText(R.string.register_title_login);
 					white.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							Intent i = new Intent(getActivity(),MainActivity.class);
-							i.putExtra("login", true);
+							Intent i = new Intent(getActivity(),LoginActivity.class);
+							i.putExtra("position", 2);
 							startActivity(i);
-							getActivity().finish();
+//							getActivity().finish();
 						}
 					});
 					skip.setText(R.string.intro_flow_skip_button);

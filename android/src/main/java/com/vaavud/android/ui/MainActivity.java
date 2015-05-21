@@ -49,6 +49,7 @@ import com.vaavud.android.network.UserManager;
 import com.vaavud.android.ui.about.AboutFragment;
 import com.vaavud.android.ui.calibration.CalibrationActivity;
 import com.vaavud.android.ui.history.HistoryFragment;
+import com.vaavud.android.ui.login.LoginActivity;
 import com.vaavud.android.ui.login.LoginFragment;
 import com.vaavud.android.ui.login.SelectorFragment;
 import com.vaavud.android.ui.login.SignUpFragment;
@@ -69,7 +70,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.UUID;
 
-public class MainActivity extends ActionBarActivity implements SelectedListener, SelectorListener, PlugListener {
+public class MainActivity extends ActionBarActivity implements SelectedListener, PlugListener {
 
 		private static final int ROTATION_THRESHOLD = 45;
 		private static final long GRACE_TIME_BETWEEN_REGISTER_DEVICE_MS = 3600L * 1000L; // 1 hour
@@ -119,13 +120,14 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		 * Single request queue to use for all HTTP requests.
 		 */
 		private RequestQueue requestQueue;
-		private RequestQueue userQueue;
+//		private RequestQueue userQueue;
 
 		private UploadManager uploadManager;
 
 		private Date lastRegisterDevice;
 		private Date lastOpenApp;
 
+		private RequestQueue userQueue;
 		private UserManager userManager;
 
 		private User user;
@@ -278,11 +280,11 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						login = i.getBooleanExtra("login", false);
 						signUp = i.getBooleanExtra("signUp", false);
 				}
-				if (login) {
-						onMenuOptionSelected(1);
-				} else if (signUp) {
-						onMenuOptionSelected(0);
-				}
+//				if (login) {
+//						onMenuOptionSelected(1);
+//				} else if (signUp) {
+//						onMenuOptionSelected(0);
+//				}
 		}
 
 		@Override
@@ -308,7 +310,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 
 		@Override
 		public boolean onPrepareOptionsMenu(Menu menu) {
-				if ((user.getEmail() != null && user.getEmail().length() > 0) || userStatus[2]) {
+				if (((VaavudApplication) getApplication()).isUserLogged()) {
 						menu.getItem(0).setTitle(R.string.option_logout);
 				} else {
 						menu.getItem(0).setTitle(R.string.option_login);
@@ -322,8 +324,9 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 //		JSONObject props = new JSONObject();
 				switch (item.getItemId()) {
 						case R.id.option_login:
-								if (!userStatus[2]) {
-										//LOGIN/SIGNUP
+								if (!((VaavudApplication) getApplication()).isUserLogged()) {
+										Intent login = new Intent(this, LoginActivity.class);
+										startActivity(login);
 								} else {
 										//LOGOUT
 //	        		Log.d(TAG,"Do Logout");
@@ -347,7 +350,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 										SharedPreferences.Editor editor = pref.edit();
 										editor.clear();
 										editor.commit();
-										((VaavudApplication) getApplication()).setIsFirstFlow(true);
+//										((VaavudApplication) getApplication()).setIsFirstFlow(true);
 										//MixPanel
 										if (Device.getInstance(this).isMixpanelEnabled()) {
 												MixpanelAPI.getInstance(this, MIXPANEL_TOKEN).clearSuperProperties();
@@ -359,12 +362,11 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 										MixpanelAPI.getInstance(this, MIXPANEL_TOKEN).getPeople().identify(tmpUUID);
 
 								}
-								onMenuOptionSelected(-1);
+								getSupportActionBar().setSelectedNavigationItem(MEASURE_TAB);
 								return true;
 						case R.id.option_settings:
 								Intent settings = new Intent(this, SettingsActivity.class);
 								startActivity(settings);
-//								onMenuOptionSelected(3);
 								return true;
 						default:
 								return super.onOptionsItemSelected(item);
@@ -571,68 +573,68 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 //		Log.d(TAG,"On Selected");
 		}
 
-		@Override
-		public void onMenuOptionSelected(int position) {
-//		Log.d(TAG,"On Menu Option Selected: "+position);
-				int actionBarPosition = MEASURE_TAB;
-				switch (position) {
-						case 0:
-								//SignUp
-//			Log.d(TAG,"On Menu Option Selected: SignUp");
-								userStatus[0] = true;
-								userStatus[1] = false;
-								userStatus[2] = false;
-								actionBarPosition = HISTORY_TAB;
-								break;
-						case 1:
-								//LogIn
-//			Log.d(TAG,"On Menu Option Selected: LogIn");
-								userStatus[0] = false;
-								userStatus[1] = true;
-								userStatus[2] = false;
-								actionBarPosition = HISTORY_TAB;
-								break;
-						case 2:
-								//History
-//			Log.d(TAG,"On Menu Option Selected: History");
-								userStatus[0] = false;
-								userStatus[1] = false;
-								userStatus[2] = true;
-								actionBarPosition = HISTORY_TAB;
-								break;
-						case 3:
-								//Settings
-//			Log.d(TAG,"On Menu Option Selected: Settings");
-								settings = true;
-								about = false;
-								actionBarPosition = MEASURE_TAB;
-								break;
-						case 4:
-								//About
-//			Log.d(TAG,"On Menu Option Selected: About");
-								about = true;
-								settings = false;
-								actionBarPosition = MEASURE_TAB;
-								break;
-						default:
-								//Selector
-//			Log.d(TAG,"On Menu Option Selected: Selector");
-								userStatus[0] = false;
-								userStatus[1] = false;
-								userStatus[2] = false;
-								actionBarPosition = HISTORY_TAB;
-								break;
-				}
-
-				if (getSupportActionBar().getSelectedNavigationIndex() == actionBarPosition) {
-//			Log.d(TAG,"Same TAB");
-						viewPager.getAdapter().notifyDataSetChanged();
-				} else {
-//			Log.d(TAG,"Different TAB");
-						getSupportActionBar().setSelectedNavigationItem(actionBarPosition);
-						return;
-				}
-		}
+//		@Override
+//		public void onMenuOptionSelected(int position) {
+////		Log.d(TAG,"On Menu Option Selected: "+position);
+//				int actionBarPosition = MEASURE_TAB;
+//				switch (position) {
+//						case 0:
+//								//SignUp
+////			Log.d(TAG,"On Menu Option Selected: SignUp");
+//								userStatus[0] = true;
+//								userStatus[1] = false;
+//								userStatus[2] = false;
+//								actionBarPosition = HISTORY_TAB;
+//								break;
+//						case 1:
+//								//LogIn
+////			Log.d(TAG,"On Menu Option Selected: LogIn");
+//								userStatus[0] = false;
+//								userStatus[1] = true;
+//								userStatus[2] = false;
+//								actionBarPosition = HISTORY_TAB;
+//								break;
+//						case 2:
+//								//History
+////			Log.d(TAG,"On Menu Option Selected: History");
+//								userStatus[0] = false;
+//								userStatus[1] = false;
+//								userStatus[2] = true;
+//								actionBarPosition = HISTORY_TAB;
+//								break;
+//						case 3:
+//								//Settings
+////			Log.d(TAG,"On Menu Option Selected: Settings");
+//								settings = true;
+//								about = false;
+//								actionBarPosition = MEASURE_TAB;
+//								break;
+//						case 4:
+//								//About
+////			Log.d(TAG,"On Menu Option Selected: About");
+//								about = true;
+//								settings = false;
+//								actionBarPosition = MEASURE_TAB;
+//								break;
+//						default:
+//								//Selector
+////			Log.d(TAG,"On Menu Option Selected: Selector");
+//								userStatus[0] = false;
+//								userStatus[1] = false;
+//								userStatus[2] = false;
+//								actionBarPosition = HISTORY_TAB;
+//								break;
+//				}
+//
+//				if (getSupportActionBar().getSelectedNavigationIndex() == actionBarPosition) {
+////			Log.d(TAG,"Same TAB");
+//						viewPager.getAdapter().notifyDataSetChanged();
+//				} else {
+////			Log.d(TAG,"Different TAB");
+//						getSupportActionBar().setSelectedNavigationItem(actionBarPosition);
+//						return;
+//				}
+//		}
 
 		public void setActionMode(ActionMode mode) {
 				mActionMode = mode;
@@ -673,22 +675,16 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						super(fm);
 				}
 
-				@Override
-				public int getItemPosition(Object object) {
-						return POSITION_NONE;
-				}
+//				@Override
+//				public int getItemPosition(Object object) {
+//						return POSITION_UNCHANGED;
+//				}
 
 				@Override
 				public Fragment getItem(int item) {
 						switch (item) {
 								case MEASURE_TAB:
-										if (about) {
-												return Fragment.instantiate(MainActivity.this, AboutFragment.class.getName());
-										} else if (settings) {
-												return Fragment.instantiate(MainActivity.this, SettingsFragment.class.getName());
-										} else {
-												return Fragment.instantiate(MainActivity.this, MeasureFragment.class.getName());
-										}
+										return Fragment.instantiate(MainActivity.this, MeasureFragment.class.getName());
 								case MAP_TAB:
 										return Fragment.instantiate(MainActivity.this, MeasurementMapFragment.class.getName());
 								case HISTORY_TAB:
@@ -699,14 +695,8 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 										 * userStatus = {true,false,false} -> User choose sign Up -> SignUp Fragment
 										 * userStatus = {false,true,false} -> User choose log in -> LogIn Fragment
 										 */
-										if (userStatus[2])
-												return Fragment.instantiate(MainActivity.this, HistoryFragment.class.getName());
-										else if (!userStatus[1] && userStatus[0])
-												return Fragment.instantiate(MainActivity.this, SignUpFragment.class.getName());
-										else if (userStatus[1] && !userStatus[0])
-												return Fragment.instantiate(MainActivity.this, LoginFragment.class.getName());
-										else
-												return Fragment.instantiate(MainActivity.this, SelectorFragment.class.getName());
+										return Fragment.instantiate(MainActivity.this, HistoryFragment.class.getName());
+
 								default:
 										throw new IllegalArgumentException("Fragment instantiation not defined for tab position " + item);
 						}
@@ -747,9 +737,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 				@Override
 				public void onPageSelected(int position) {
 						Fragment fragment = getRegisteredFragment(position);
-						if (fragment instanceof SelectedListener) {
-								((SelectedListener) fragment).onSelected();
-						}
+
 						getSupportActionBar().setSelectedNavigationItem(position);
 						final String screenName;
 						switch (position) {

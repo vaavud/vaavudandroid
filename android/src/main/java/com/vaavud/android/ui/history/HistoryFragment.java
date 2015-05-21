@@ -74,7 +74,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-public class HistoryFragment extends Fragment implements BackPressedListener,SelectedListener,HistoryMeasurementsResponseListener,SelectorListener{
+public class HistoryFragment extends Fragment implements BackPressedListener,SelectedListener,HistoryMeasurementsResponseListener{
 
 	private static final String TAG = "HISTORY_FRAGMENT";
 
@@ -321,17 +321,17 @@ public class HistoryFragment extends Fragment implements BackPressedListener,Sel
 		return false;
 	}
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		try {
-			mCallback = (SelectorListener) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString() + " must implement SelectorListener");
-		}
-		progress = ((MainActivity)activity).getProgressDialog();
-		//		Log.i(TAG, "onAttach");
-	}
+//	@Override
+//	public void onAttach(Activity activity) {
+//		super.onAttach(activity);
+////		try {
+////			mCallback = (SelectorListener) activity;
+////		} catch (ClassCastException e) {
+////			throw new ClassCastException(activity.toString() + " must implement SelectorListener");
+////		}
+//		progress = ((MainActivity)activity).getProgressDialog();
+//		//		Log.i(TAG, "onAttach");
+//	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -519,7 +519,6 @@ public class HistoryFragment extends Fragment implements BackPressedListener,Sel
 				for (int i = 0; i < histObjList.size(); i++) {
 					VaavudDatabase.getInstance(getActivity()).insertMeasurementSession(histObjList.get(i));
 				}
-				histObjList = null;
 			}
 		}else{
 			if (getActivity()!=null && Device.getInstance(getActivity()).isMixpanelEnabled()){
@@ -531,7 +530,6 @@ public class HistoryFragment extends Fragment implements BackPressedListener,Sel
 		try {
 			props.put("Measurements", measurmentSessions.size());
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (getActivity()!=null){
@@ -547,15 +545,15 @@ public class HistoryFragment extends Fragment implements BackPressedListener,Sel
 				getActivity().finish();
 			}
 		}
-		if (isCurrentTab()) onMenuOptionSelected(2);
+//		if (isCurrentTab()) onMenuOptionSelected(2);
 
 	}
 
 
-	@Override
-	public void onMenuOptionSelected(int position) {
-		mCallback.onMenuOptionSelected(position);
-	}	
+//	@Override
+//	public void onMenuOptionSelected(int position) {
+//		mCallback.onMenuOptionSelected(position);
+//	}
 
 	private class CustomDrawableView extends View {
 

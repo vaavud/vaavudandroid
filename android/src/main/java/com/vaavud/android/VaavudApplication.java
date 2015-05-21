@@ -27,14 +27,20 @@ public class VaavudApplication extends Application {
         if (user.getAuthToken() != null && user.getAuthToken().length() > 0
                 && user.getEmail() != null && user.getEmail().length() > 0) {
             userLogged = true;
+        }else{
+            userLogged = false;
         }
         return userLogged;
     }
 
     public boolean hasWindMeter() {
         user = User.getInstance(this);
-        if (user.getHasWindMeter() != null && user.getHasWindMeter().booleanValue())
-            hasWindMeter = true;
+        if (user.getHasWindMeter() != null && user.getHasWindMeter().booleanValue()){
+						hasWindMeter = true;
+				}else{
+						hasWindMeter = false;
+				}
+
         return hasWindMeter;
     }
 

@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -14,15 +13,13 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.SwitchPreference;
 import android.support.v4.preference.PreferenceFragment;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.vaavud.android.R;
-import com.vaavud.android.measure.SleipnirCoreController;
 import com.vaavud.android.model.entity.Device;
 import com.vaavud.android.model.entity.DirectionUnit;
 import com.vaavud.android.model.entity.SpeedUnit;
-import com.vaavud.android.ui.MainActivity;
+import com.vaavud.android.ui.about.AboutActivity;
 import com.vaavud.android.ui.calibration.CalibrationActivity;
 import com.vaavud.android.ui.tour.TourActivity;
 
@@ -31,7 +28,7 @@ public class SettingsFragment extends PreferenceFragment {
 		private static final String TAG = "PreferencesFragment";
 		private Preference headingUnit;
 		private Preference directionUnit;
-		private Preference about;
+		private Preference aboutFlow;
 		private Preference buy;
 		private Preference useFlow;
 		private Preference calibrationFlow;
@@ -57,17 +54,19 @@ public class SettingsFragment extends PreferenceFragment {
 				addPreferencesFromResource(R.xml.preferences);
 
 
-				pref = getActivity().getApplicationContext().getSharedPreferences("Vaavud",Context.MODE_PRIVATE);
+				pref = getActivity().getApplicationContext().getSharedPreferences("Vaavud", Context.MODE_PRIVATE);
 
-				about = (Preference) findPreference("about_fragment");
-				about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
+				aboutFlow =  findPreference("about_fragment");
+				Intent about = new Intent(getActivity(), AboutActivity.class);
+				aboutFlow.setIntent(about);
+				aboutFlow.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 						@Override
 						public boolean onPreferenceClick(Preference preference) {
-//					onMenuOptionSelected(4);
+//								DONOTHING;
 								return false;
 						}
 				});
+
 				headingUnit = findPreference("heading_unit");
 
 				((ListPreference) headingUnit).setValue(pref.getString(headingUnit.getKey(), "MS"));
@@ -104,7 +103,6 @@ public class SettingsFragment extends PreferenceFragment {
 				});
 
 
-
 				facebook = (SwitchPreference) findPreference("FacebookSharing");
 				facebook.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 						@Override
@@ -118,7 +116,7 @@ public class SettingsFragment extends PreferenceFragment {
 						}
 				});
 
-				buy = (Preference) findPreference("buy");
+				buy = findPreference("buy");
 
 				TelephonyManager tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
 				tm.getNetworkCountryIso();
@@ -173,9 +171,9 @@ public class SettingsFragment extends PreferenceFragment {
 //										}
 //										controller.stopController();
 //								}
-//								if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-//										MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Settings Clicked Calibration", null);
-//								}
+								if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
+										MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Settings Clicked Calibration", null);
+								}
 								return false;
 						}
 				});

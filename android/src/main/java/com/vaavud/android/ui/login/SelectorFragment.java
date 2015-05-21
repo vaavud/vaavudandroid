@@ -1,6 +1,7 @@
 package com.vaavud.android.ui.login;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentTransaction;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,7 +20,7 @@ import com.vaavud.android.ui.SelectedListener;
 import com.vaavud.android.ui.SelectorListener;
 
 
-public class SelectorFragment extends Fragment implements BackPressedListener,SelectedListener,SelectorListener{
+public class SelectorFragment extends Fragment implements BackPressedListener,SelectedListener{
 		
 	private SelectorListener mCallback;
 	private View view;
@@ -31,18 +32,7 @@ public class SelectorFragment extends Fragment implements BackPressedListener,Se
 	
 	private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0"; 
 
-	@Override
-	public void onAttach(Activity activity) {
-	  super.onAttach(activity);
-	      try {
-	    	  mCallback = (SelectorListener) activity;
-	      } catch (ClassCastException e) {
-	          throw new ClassCastException(activity.toString() + " must implement SelectorListener");
-	      }
-	      
-	}
-
-	final String LOG_TAG = "myLogs";
+	private final String LOG_TAG = "SELECTOR_FRAGMENT";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,14 +54,27 @@ public class SelectorFragment extends Fragment implements BackPressedListener,Se
 			
 			@Override
 			public void onClick(View v) {
-				onMenuOptionSelected(0);				
+				Fragment signUpFragment = new SignUpFragment();
+					FragmentTransaction transaction = getActivity().getSupportFragmentManager()
+									.beginTransaction();
+					transaction.replace(android.R.id.content,signUpFragment);
+					transaction.addToBackStack(null);
+
+					transaction.commit();
+
 			}
 		});
 		logInButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				onMenuOptionSelected(1);				
+					Fragment loginFragment = new LoginFragment();
+					FragmentTransaction transaction = getActivity().getSupportFragmentManager()
+									.beginTransaction();
+					transaction.replace(android.R.id.content,loginFragment);
+					transaction.addToBackStack(null);
+
+					transaction.commit();
 			}
 		});
 		return view;
@@ -161,8 +164,4 @@ public class SelectorFragment extends Fragment implements BackPressedListener,Se
 //		Log.i("SelectorFragment", "onSelected");
 	}
 
-	@Override
-	public void onMenuOptionSelected(int position) {
-		mCallback.onMenuOptionSelected(position);
-	}
 }
