@@ -266,7 +266,6 @@ public class SignUpFragment extends Fragment implements UserResponseListener, Ba
 				try {
 						props.put("Screen", "Signup");
 				} catch (JSONException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 				}
 				if (context != null && Device.getInstance(context).isMixpanelEnabled()) {
@@ -659,18 +658,24 @@ public class SignUpFragment extends Fragment implements UserResponseListener, Ba
 
 		@Override
 		public void measurementsReceived(ArrayList<MeasurementSession> histObjList) {
+				Log.d(TAG,"Measurements Received");
 				if (histObjList.size()>0){
 						for (int i = 0; i < histObjList.size(); i++) {
 								VaavudDatabase.getInstance(getActivity()).insertMeasurementSession(histObjList.get(i));
 						}
 				}
 				if (progress != null) progress.dismiss();
+				if (((LoginActivity)getActivity()).getFromTour()){
+						Intent returnIntent = new Intent();
+						getActivity().setResult(Activity.RESULT_OK,returnIntent);
+				}
 				getActivity().finish();
 
 		}
 
 		@Override
 		public void ErrorResponseReceived(String errorText) {
+				Log.d(TAG,"ErrorResponseReceived: "+errorText);
 				if (context != null) Toast.makeText(context, getString(R.string.register_feedback_no_reachability_title), Toast.LENGTH_SHORT).show();
 				if (progress != null && progress.isShowing()) progress.dismiss();
 				if (Session.getActiveSession() != null) Session.getActiveSession().closeAndClearTokenInformation();

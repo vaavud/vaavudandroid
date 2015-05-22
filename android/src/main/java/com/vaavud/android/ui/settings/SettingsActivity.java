@@ -2,6 +2,7 @@ package com.vaavud.android.ui.settings;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 
 /**
@@ -15,11 +16,12 @@ import android.support.v7.app.AppCompatActivity;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends ActionBarActivity {
 
 		@Override
 		public void onCreate(Bundle savedInstanceState){
 				super.onCreate(savedInstanceState);
+				getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 				getSupportFragmentManager().beginTransaction()
 								.replace(android.R.id.content, new SettingsFragment())
 								.commit();

@@ -30,10 +30,11 @@ import java.util.ArrayList;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class LoginActivity extends AppCompatActivity implements SelectorListener {
+public class LoginActivity extends AppCompatActivity {
 
 		private RequestQueue userQueue;
 		private RequestQueue dataQueue;
+		private boolean fromTour = false;
 
 		@Override
 		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -51,6 +52,8 @@ public class LoginActivity extends AppCompatActivity implements SelectorListener
 				super.onCreate(savedInstanceState);
 				int position = getIntent().getExtras().getInt("position",0);
 
+
+
 				if (userQueue != null) {
 						userQueue.stop();
 				}
@@ -60,18 +63,23 @@ public class LoginActivity extends AppCompatActivity implements SelectorListener
 						dataQueue.stop();
 				}
 				dataQueue = Volley.newRequestQueue(this);
+
 				switch (position){
 						case 1:
+								fromTour = true;
+
 								getSupportFragmentManager().beginTransaction()
 												.replace(android.R.id.content, new SignUpFragment())
 												.commit();
 								break;
 						case 2:
+								fromTour = true;
 								getSupportFragmentManager().beginTransaction()
 												.replace(android.R.id.content, new LoginFragment())
 												.commit();
 								break;
 						default:
+								fromTour = false;
 								getSupportFragmentManager().beginTransaction()
 												.replace(android.R.id.content, new SelectorFragment())
 												.commit();
@@ -80,24 +88,24 @@ public class LoginActivity extends AppCompatActivity implements SelectorListener
 
 		}
 
-		@Override
-		public void onMenuOptionSelected(int position) {
-				switch (position){
-						case 0:
-								getSupportFragmentManager().beginTransaction()
-												.replace(android.R.id.content, new SignUpFragment())
-												.commit();
-								break;
-						case 1:
-								getSupportFragmentManager().beginTransaction()
-												.replace(android.R.id.content, new LoginFragment())
-												.commit();
-								break;
-						default:
-								break;
-				}
-
-		}
+//		@Override
+//		public void onMenuOptionSelected(int position) {
+//				switch (position){
+//						case 0:
+//								getSupportFragmentManager().beginTransaction()
+//												.replace(android.R.id.content, new SignUpFragment())
+//												.commit();
+//								break;
+//						case 1:
+//								getSupportFragmentManager().beginTransaction()
+//												.replace(android.R.id.content, new LoginFragment())
+//												.commit();
+//								break;
+//						default:
+//								break;
+//				}
+//
+//		}
 
 
 		@Override
@@ -108,6 +116,11 @@ public class LoginActivity extends AppCompatActivity implements SelectorListener
 		protected RequestQueue getUserQueue(){
 			return userQueue;
 		}
+
+		protected boolean getFromTour() {
+				return fromTour;
+		}
+
 
 		protected RequestQueue getDataQueue(){
 				return dataQueue;

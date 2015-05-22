@@ -253,13 +253,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						}
 
 						public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-								if (tab.getPosition() == MEASURE_TAB) {
-										settings = false;
-										about = false;
-								}
-								if (tab.getPosition() == MAP_TAB) {
-										updateView = true;
-								}
+
 						}
 
 						public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
@@ -275,11 +269,11 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
 				}
 
-				Intent i = getIntent();
-				if (i != null) {
-						login = i.getBooleanExtra("login", false);
-						signUp = i.getBooleanExtra("signUp", false);
-				}
+//				Intent i = getIntent();
+//				if (i != null) {
+//						login = i.getBooleanExtra("login", false);
+//						signUp = i.getBooleanExtra("signUp", false);
+//				}
 //				if (login) {
 //						onMenuOptionSelected(1);
 //				} else if (signUp) {
@@ -326,6 +320,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						case R.id.option_login:
 								if (!((VaavudApplication) getApplication()).isUserLogged()) {
 										Intent login = new Intent(this, LoginActivity.class);
+										login.putExtra("position", 0);
 										startActivity(login);
 								} else {
 										//LOGOUT
