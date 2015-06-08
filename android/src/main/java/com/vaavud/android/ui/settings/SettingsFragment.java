@@ -1,5 +1,6 @@
 package com.vaavud.android.ui.settings;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,18 +35,15 @@ public class SettingsFragment extends PreferenceFragment {
 		private Preference calibrationFlow;
 		private SwitchPreference facebook;
 		private SharedPreferences pref;
+		private Context context;
 
 		private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0";
 
-//		@Override
-//		public void onAttach(Activity activity) {
-//		  super.onAttach(activity);
-//		  try {
-//	    	  mCallback = (SelectorListener) activity;
-//	      } catch (ClassCastException e) {
-//	          throw new ClassCastException(activity.toString() + " must implement SelectorListener");
-//	      }
-//		}
+		@Override
+		public void onAttach(Activity activity) {
+		  super.onAttach(activity);
+				context = activity;
+		}
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +73,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 						@Override
 						public boolean onPreferenceChange(Preference preference, Object newValue) {
-								Device.getInstance(getActivity()).setWindSpeedUnit(getActivity(), SpeedUnit.valueOf((String) newValue));
+								Device.getInstance(context.getApplicationContext()).setWindSpeedUnit(context.getApplicationContext(),SpeedUnit.valueOf((String) newValue));
 								preference.setSummary(SpeedUnit.valueOf((String) newValue).getDisplayName(getActivity()));
 								Editor edit = pref.edit();
 								edit.putString(headingUnit.getKey(), (String) newValue);
@@ -92,7 +90,7 @@ public class SettingsFragment extends PreferenceFragment {
 				directionUnit.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 						@Override
 						public boolean onPreferenceChange(Preference preference, Object newValue) {
-								Device.getInstance(getActivity()).setWindDirectionUnit(getActivity(), DirectionUnit.valueOf((String) newValue));
+								Device.getInstance(context.getApplicationContext()).setWindDirectionUnit(context.getApplicationContext(),DirectionUnit.valueOf((String) newValue));
 								preference.setSummary(DirectionUnit.valueOf((String) newValue).getDisplayName(getActivity()));
 								Editor edit = pref.edit();
 								edit.putString(directionUnit.getKey(), (String) newValue);
@@ -103,25 +101,25 @@ public class SettingsFragment extends PreferenceFragment {
 				});
 
 
-				facebook = (SwitchPreference) findPreference("FacebookSharing");
-				facebook.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-						@Override
-						public boolean onPreferenceChange(Preference preference, Object newValue) {
-//								((MainActivity) getActivity()).setFacebookSharing((Boolean) newValue);
-								Editor edit = pref.edit();
-								edit.putBoolean(facebook.getKey(), (Boolean) newValue);
-								edit.commit();
-								edit = null;
-								return true;
-						}
-				});
+//				facebook = (SwitchPreference) findPreference("FacebookSharing");
+//				facebook.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+//						@Override
+//						public boolean onPreferenceChange(Preference preference, Object newValue) {
+////								((MainActivity) getActivity()).setFacebookSharing((Boolean) newValue);
+//								Editor edit = pref.edit();
+//								edit.putBoolean(facebook.getKey(), (Boolean) newValue);
+//								edit.commit();
+//								edit = null;
+//								return true;
+//						}
+//				});
 
 				buy = findPreference("buy");
 
 				TelephonyManager tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
 				tm.getNetworkCountryIso();
 				Intent iBuy = null;
-				if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
+				if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
 						iBuy = new Intent(Intent.ACTION_VIEW, Uri.parse("http://vaavud.com/mobile-shop-redirect/?country=" + tm.getNetworkCountryIso() + "&language=en&ref=" +
 										MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).getDistinctId() + "&source=settings"));
 				} else {
@@ -133,23 +131,23 @@ public class SettingsFragment extends PreferenceFragment {
 
 						@Override
 						public boolean onPreferenceClick(Preference preference) {
-								if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-										MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Settings Clicked Buy", null);
+								if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Settings Clicked Buy", null);
 								}
 								return false;
 						}
 				});
 
 				useFlow = (Preference) findPreference("useFlow");
-				Intent iTour = new Intent(getActivity(), TourActivity.class);
+				Intent iTour = new Intent(context, TourActivity.class);
 				iTour.putExtra("tips", true);
 				useFlow.setIntent(iTour);
 				useFlow.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
 						@Override
 						public boolean onPreferenceClick(Preference preference) {
-								if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-										MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Settings Clicked Measuring Tips", null);
+								if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Settings Clicked Measuring Tips", null);
 								}
 								return false;
 						}
@@ -171,8 +169,8 @@ public class SettingsFragment extends PreferenceFragment {
 //										}
 //										controller.stopController();
 //								}
-								if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-										MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Settings Clicked Calibration", null);
+								if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Settings Clicked Calibration", null);
 								}
 								return false;
 						}

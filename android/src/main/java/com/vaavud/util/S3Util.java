@@ -26,6 +26,7 @@ import com.amazonaws.services.s3.model.DeleteObjectsRequest.KeyVersion;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.vaavud.android.VaavudApplication;
 import com.vaavud.android.model.entity.Device;
+import com.vaavud.android.model.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +54,9 @@ public class S3Util {
     }
 
     public static String getPrefix(Context context) {
-    	if (((VaavudApplication)context.getApplicationContext()).getUser().getEmail()!=null)
-    		return "SleipnirSound/"+((VaavudApplication)context.getApplicationContext()).getUser().getEmail()+"/"+Device.getInstance(context).getModel()+"/";
-        return  "SleipnirSound/noUser/"+Device.getInstance(context).getModel()+"/";
+    	if (User.getInstance(context.getApplicationContext()).getEmail()!=null)
+    		return "SleipnirSound/"+User.getInstance(context.getApplicationContext()).getEmail()+"/"+Device.getInstance(context.getApplicationContext()).getModel()+"/";
+        return  "SleipnirSound/noUser/"+Device.getInstance(context.getApplicationContext()).getModel()+"/";
     }
 
     public static AmazonS3Client getS3Client(Context context) {

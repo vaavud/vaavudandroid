@@ -258,9 +258,9 @@ public class SignUpFragment extends Fragment implements UserResponseListener, Ba
 		public void onCreate(Bundle savedInstanceState) {
 				super.onCreate(savedInstanceState);
 
-				user = User.getInstance(context);
-				userManager = UserManager.getInstance(context,((LoginActivity)context).getUserQueue(),user);
-				uploadManager = new UploadManager(context,((LoginActivity) context).getDataQueue());
+				user = User.getInstance(context.getApplicationContext());
+				userManager = UserManager.getInstance(context.getApplicationContext());
+				uploadManager = UploadManager.getInstance(context.getApplicationContext());
 
 				JSONObject props = new JSONObject();
 				try {
@@ -268,8 +268,8 @@ public class SignUpFragment extends Fragment implements UserResponseListener, Ba
 				} catch (JSONException e) {
 						e.printStackTrace();
 				}
-				if (context != null && Device.getInstance(context).isMixpanelEnabled()) {
-						MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).track("Signup/Login Screen", props);
+				if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+						MixpanelAPI.getInstance(context.getApplicationContext()	, MIXPANEL_TOKEN).track("Signup/Login Screen", props);
 				}
 		}
 
@@ -308,11 +308,11 @@ public class SignUpFragment extends Fragment implements UserResponseListener, Ba
 										emailSignUp();
 										timerDelayRemoveProgressDialog(LOGIN_DELAY);
 										//MixPanel
-										if (context != null && Device.getInstance(context).isMixpanelEnabled()) {
-												MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).track("Email Sign Up", null);
+										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Email Sign Up", null);
 										}
 								} else {
-										Toast.makeText(context, context.getResources().getString(R.string.register_feedback_malformed_email_message),
+										Toast.makeText(context.getApplicationContext(), context.getResources().getString(R.string.register_feedback_malformed_email_message),
 														Toast.LENGTH_SHORT).show();
 								}
 						}
@@ -345,8 +345,8 @@ public class SignUpFragment extends Fragment implements UserResponseListener, Ba
 								}
 								progress.show();
 								//MixPanel
-								if (context != null && Device.getInstance(context).isMixpanelEnabled()) {
-										MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).track("Facebook Sign Up", null);
+								if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Facebook Sign Up", null);
 								}
 								mScatusCallback = new SignUpStatusCallback();
 								Session session = openActiveSession((Activity) context, true, permissions, mScatusCallback);
@@ -549,8 +549,8 @@ public class SignUpFragment extends Fragment implements UserResponseListener, Ba
 								user.setLastName(object.getLastName());
 								user.setHasWindMeter(object.getHasWindMeter());
 								user.setCreationTime(object.getCreationTime());
-								if (context != null && Device.getInstance(context).isMixpanelEnabled()) {
-										MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).alias(user.getUserId().toString(), MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).getDistinctId());
+								if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).alias(user.getUserId().toString(), MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).getDistinctId());
 								}
 								validated = true;
 								break;
@@ -638,44 +638,44 @@ public class SignUpFragment extends Fragment implements UserResponseListener, Ba
 				}
 				if (validated) {
 						userLogged = true;
-						if (context != null && Device.getInstance(context).isMixpanelEnabled()) {
-								MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).identify(user.getUserId().toString());
+						if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+								MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).identify(user.getUserId().toString());
 						}
-						MixpanelUtil.registerUserAsMixpanelProfile(context, user);
-						user.setDataBase(context);
+						MixpanelUtil.registerUserAsMixpanelProfile(context.getApplicationContext(), user);
+						user.setDataBase(context.getApplicationContext());
 						uploadManager.triggerReadHistoryMeasurements(new Date(0), null, this);
 				} else {
 						if (progress != null && progress.isShowing()) progress.dismiss();
-						MixpanelUtil.registerUserErrorToMixpanel(context, user, status.ordinal(), "Signup");
-						user.eraseDataBase(context);
+						MixpanelUtil.registerUserErrorToMixpanel(context.getApplicationContext(), user, status.ordinal(), "Signup");
+						user.eraseDataBase(context.getApplicationContext());
 				}
 		}
 
 		@Override
 		public void measurementsLoadingFailed() {
-				Log.d(TAG, "Loading Failed");
+//				Log.d(TAG, "Loading Failed");
 		}
 
 		@Override
 		public void measurementsReceived(ArrayList<MeasurementSession> histObjList) {
-				Log.d(TAG,"Measurements Received");
+//				Log.d(TAG,"Measurements Received");
 				if (histObjList.size()>0){
 						for (int i = 0; i < histObjList.size(); i++) {
-								VaavudDatabase.getInstance(getActivity()).insertMeasurementSession(histObjList.get(i));
+								VaavudDatabase.getInstance(context.getApplicationContext()).insertMeasurementSession(histObjList.get(i));
 						}
 				}
 				if (progress != null) progress.dismiss();
-				if (((LoginActivity)getActivity()).getFromTour()){
+				if (((LoginActivity)context).getFromTour()){
 						Intent returnIntent = new Intent();
-						getActivity().setResult(Activity.RESULT_OK,returnIntent);
+						((Activity)context).setResult(Activity.RESULT_OK, returnIntent);
 				}
-				getActivity().finish();
+				((Activity)context).finish();
 
 		}
 
 		@Override
 		public void ErrorResponseReceived(String errorText) {
-				Log.d(TAG,"ErrorResponseReceived: "+errorText);
+//				Log.d(TAG,"ErrorResponseReceived: "+errorText);
 				if (context != null) Toast.makeText(context, getString(R.string.register_feedback_no_reachability_title), Toast.LENGTH_SHORT).show();
 				if (progress != null && progress.isShowing()) progress.dismiss();
 				if (Session.getActiveSession() != null) Session.getActiveSession().closeAndClearTokenInformation();

@@ -59,7 +59,7 @@ public class CalibrationActivity extends AppCompatActivity implements PlugListen
 
 		
 //		Log.d("VaavudCalibration","Coefficients: "+ coefficientsString);
-			Device.getInstance(this).setCalibrationCoefficients(this,coefficients);
+			Device.getInstance(getApplicationContext()).setCalibrationCoefficients(getApplicationContext(),coefficients);
 //		VaavudDatabase.getInstance(this).setProperty(KEY_CALIBRATION_COEFFICENTS, coefficientsString);
 	}
 

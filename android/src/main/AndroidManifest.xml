@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vaavud.android"
     android:versionCode="60"
-    android:versionName="0.5.0" >
+    android:versionName="0.5.0.1" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -16,6 +16,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="18"/>
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -27,11 +29,6 @@
         android:normalScreens="true"
         android:smallScreens="true"
         android:xlargeScreens="true" />
-
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
 
     <application
         android:name=".VaavudApplication"
@@ -59,7 +56,6 @@
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -80,6 +76,7 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:icon="@drawable/logo_simple"
+            android:screenOrientation="portrait"
             android:parentActivityName=".ui.MainActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -91,6 +88,7 @@
             android:name=".ui.about.AboutActivity"
             android:label="@string/title_activity_about"
             android:icon="@drawable/logo_simple"
+            android:screenOrientation="portrait"
             android:parentActivityName=".ui.settings.SettingsActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -101,6 +99,7 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
             android:icon="@drawable/logo_simple"/>
 
         <activity

@@ -16,12 +16,12 @@
 	        android:entryValues="@array/pref_direction_values"
 	        android:defaultValue="CARDINAL"
 	        android:persistent="true"/>
-	    <SwitchPreference
-	        android:defaultValue="false"
-	        android:key="FacebookSharing"
-	        android:title="@string/button_enable_share"
-	        android:persistent="true"
-	        />
+	    <!--<SwitchPreference-->
+	        <!--android:defaultValue="false"-->
+	        <!--android:key="FacebookSharing"-->
+	        <!--android:title="@string/button_enable_share"-->
+	        <!--android:persistent="true"-->
+	        <!--/>-->
 	    <Preference
 	        android:key="buy" 
 	        android:title="@string/button_buy"

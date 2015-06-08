@@ -8,6 +8,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
@@ -29,16 +30,16 @@ public class UserManager {
 //	public static final String BASE_URL = "http://54.75.224.219";
 
 		private Context context;
+
 		private RequestQueue requestQueue;
 
-
-		int timeAgo;
 		private boolean registerUserFired = false;
 
 		private UserResponseListener userResponseListener;
 		private static UserManager instance;
 
 		private User user;
+		private Device device;
 
 		private class UserStatusCallback implements StatusCallback {
 
@@ -50,11 +51,11 @@ public class UserManager {
 								return;
 						}
 						if (state.isOpened()) {
-//				Log.d(TAG, "Session State: " + session.getState());
-								if (session.isPermissionGranted("email") || !session.isPermissionGranted("user_friends") || !session.isPermissionGranted("public_profile")) {
+								Log.d(TAG, "Session State: " + session.getState()+ "Permisions: "+ session.getPermissions()+ "Declined: "+session.getDeclinedPermissions());
+								if (!session.isPermissionGranted("email")){ //|| !session.isPermissionGranted("user_friends") || !session.isPermissionGranted("public_profile")) {
 										if (user != null) {
-												((MainActivity) context).restartUser();
-//						Log.d(TAG, "Session Closed");
+												user.eraseDataBase(context.getApplicationContext());
+												Log.d(TAG, "Session Closed");
 										}
 								} else {
 										if (user != null) {
@@ -62,23 +63,30 @@ public class UserManager {
 										}
 								}
 						} else {
-//				Log.d(TAG, "Session State: " + session.getState());
-								((MainActivity) context).restartUser();
+				Log.d(TAG, "Session State: " + session.getState());
+								if (user != null) {
+										user.eraseDataBase(context.getApplicationContext());
+						Log.d(TAG, "Session Closed");
+								}
 						}
 				}
 		}
 
-		public static synchronized UserManager getInstance(Context context, RequestQueue requestQueue, User user) {
+		public static synchronized UserManager getInstance(Context context) {
 				if (instance == null) {
-						instance = new UserManager(context, requestQueue, user);
+						instance = new UserManager(context);
 				}
 				return instance;
 		}
 
-		private UserManager(Context context, RequestQueue requestQueue, User user) {
+		private UserManager(Context context) {
 				this.context = context;
-				this.requestQueue = requestQueue;
-				this.user = user;
+				if (requestQueue!=null) {
+						requestQueue.stop();
+				}
+				requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+				user = User.getInstance(context.getApplicationContext());
+				device = Device.getInstance(context.getApplicationContext());
 		}
 
 		public boolean registerUser(User user, UserResponseListener listener) {
@@ -88,7 +96,7 @@ public class UserManager {
 
 				userResponseListener = listener;
 
-				String authToken = Device.getInstance(context).getAuthToken();
+				String authToken = device.getAuthToken();
 //		Log.d("UserManager","Device Token: "+dev.getAuthToken());
 				if (authToken == null || authToken.length() == 0) {
 						//Log.i("UploadManager", "No authToken so skipping upload");
@@ -106,8 +114,8 @@ public class UserManager {
 						@Override
 						public void onErrorResponse(VolleyError error) {
 								userResponseListener.ErrorResponseReceived("Got error from server registering user");
-								if (((MainActivity) context).getProgressDialog() != null)
-										((MainActivity) context).getProgressDialog().dismiss();
+//								if (((MainActivity) context).getProgressDialog() != null)
+//										((MainActivity) context).getProgressDialog().dismiss();
 								Log.e("UserManager", "Got error from server registering user: " + error.getMessage());
 						}
 				});
@@ -124,10 +132,10 @@ public class UserManager {
 				if (listener != null) userResponseListener = listener;
 				else return false;
 
-				String authToken = Device.getInstance(context).getAuthToken();
+				String authToken = device.getAuthToken();
 //		Log.d(TAG,"Device Token: "+authToken);
 				if (authToken == null || authToken.length() == 0) {
-//			Log.i(TAG, "No authToken so skipping upload");
+						Log.i(TAG, "No authToken so skipping upload");
 						return false;
 				}
 //		Log.d(TAG,user.toString());

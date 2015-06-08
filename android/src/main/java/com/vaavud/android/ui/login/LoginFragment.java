@@ -53,7 +53,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class LoginFragment extends Fragment implements UserResponseListener, BackPressedListener,HistoryMeasurementsResponseListener {
+public class LoginFragment extends Fragment implements UserResponseListener,HistoryMeasurementsResponseListener {
 
 		private View view;
 		private Context context;
@@ -100,6 +100,7 @@ public class LoginFragment extends Fragment implements UserResponseListener, Bac
 						} else if (state.isOpened()) {
 								fbAccessToken = session.getAccessToken();
 								fbAccessTokenExp = session.getExpirationDate();
+								Log.d(TAG, "Session State: " + session.getState()+ "Permisions: "+ session.getPermissions());
 								if (session.getDeclinedPermissions().size() > 0 && !session.getDeclinedPermissions().contains("publish_actions")) {
 										if (again) {
 												again = false;
@@ -108,7 +109,7 @@ public class LoginFragment extends Fragment implements UserResponseListener, Bac
 												if (progress != null && progress.isShowing()) progress.dismiss();
 												Toast.makeText(context, context.getResources().getString(R.string.register_feedback_invalid_credentials_title), Toast.LENGTH_LONG).show();
 												fbAccessToken = null;
-												user.eraseDataBase(context);
+												user.eraseDataBase(context.getApplicationContext());
 												again = true;
 										}
 								} else {
@@ -128,7 +129,7 @@ public class LoginFragment extends Fragment implements UserResponseListener, Bac
 						} else {
 //				Log.d(TAG, "Login Session State: " + session.getState());
 								fbAccessToken = null;
-								user.eraseDataBase(context);
+								user.eraseDataBase(context.getApplicationContext());
 						}
 				}
 		}
@@ -225,6 +226,7 @@ public class LoginFragment extends Fragment implements UserResponseListener, Bac
 		private static final Pattern PATTERN = Pattern.compile(EMAIL_PATTERN);
 
 		private User user;
+		private Device device;
 		private Boolean userLogged = false;
 		private UserManager userManager;
 		private UploadManager uploadManager;
@@ -258,10 +260,14 @@ public class LoginFragment extends Fragment implements UserResponseListener, Bac
 		public void onCreate(Bundle savedInstanceState) {
 				super.onCreate(savedInstanceState);
 
-				user = User.getInstance(context);
-				userManager = UserManager.getInstance(context, ((LoginActivity) context).getUserQueue(), user);
-				uploadManager = new UploadManager(context,((LoginActivity) context).getDataQueue());
+				user = User.getInstance(context.getApplicationContext());
+				userManager = UserManager.getInstance(context.getApplicationContext());
+				uploadManager = UploadManager.getInstance(context.getApplicationContext());
+				device = Device.getInstance(context.getApplicationContext());
 
+				if (device.getAuthToken()==null){
+						uploadManager.registerDevice(false);
+				}
 				JSONObject props = new JSONObject();
 				try {
 						props.put("Screen", "Login");
@@ -269,14 +275,14 @@ public class LoginFragment extends Fragment implements UserResponseListener, Bac
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 				}
-				if (context != null && Device.getInstance(context).isMixpanelEnabled()) {
-						MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).track("Signup/Login Screen", props);
+				if (context != null && device.isMixpanelEnabled()) {
+						MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Signup/Login Screen", props);
 				}
 //		Log.i(TAG, "onCreate, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 		}
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
 
 				view = inflater.inflate(R.layout.fragment_login, container, false);
@@ -308,8 +314,8 @@ public class LoginFragment extends Fragment implements UserResponseListener, Bac
 										emailLogIn();
 										timerDelayRemoveProgressDialog(LOGIN_DELAY);
 										//MixPanel
-										if (context != null && Device.getInstance(context).isMixpanelEnabled()) {
-												MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).track("Email Login", null);
+										if (context != null && device.isMixpanelEnabled()) {
+												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Email Login", null);
 										}
 								} else {
 										Toast.makeText(context, context.getResources().getString(R.string.register_feedback_malformed_email_message),
@@ -344,11 +350,12 @@ public class LoginFragment extends Fragment implements UserResponseListener, Bac
 								}
 								progress.show();
 								//MixPanel
-								if (context != null && Device.getInstance(context).isMixpanelEnabled()) {
-										MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).track("Facebook Login", null);
+								if (context != null && device.isMixpanelEnabled()) {
+										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Facebook Login", null);
 								}
 								mStatusCallback = new LoginStatusCallback();
-								Session session = openActiveSession((Activity) context, true, permissions, mStatusCallback);
+//								Session session = Session.openActiveSession(context.getApplicationContext(),getParentFragment(),true,permissions,mStatusCallback);
+								Session session = openActiveSession((Activity)context, true, permissions, mStatusCallback);
 								if (session == null) progress.dismiss();
 								else Session.setActiveSession(session);
 						}
@@ -377,10 +384,12 @@ public class LoginFragment extends Fragment implements UserResponseListener, Bac
 				handler.postDelayed(new Runnable() {
 						public void run() {
 								if (context != null) {
+
 										if (progress != null && progress.isShowing() && !userLogged) {
 												progress.dismiss();
 												fbAccessToken = null;
-												user.eraseDataBase(context);
+												Log.d("LoginFragment","Login Fragment Handler");
+												user.eraseDataBase(context.getApplicationContext());
 												userManager.cancelRequestQueue("userRequest");
 												Toast.makeText(context, context.getResources().getString(R.string.register_feedback_invalid_credentials_title), Toast.LENGTH_LONG).show();
 										}
@@ -389,10 +398,10 @@ public class LoginFragment extends Fragment implements UserResponseListener, Bac
 				}, time);
 		}
 
-		@Override
-		public boolean onBackPressed() {
-				return true;
-		}
+//		@Override
+//		public boolean onBackPressed() {
+//				return true;
+//		}
 
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
@@ -528,8 +537,8 @@ public class LoginFragment extends Fragment implements UserResponseListener, Bac
 								user.setLastName(object.getLastName());
 								user.setHasWindMeter(object.getHasWindMeter());
 								user.setCreationTime(object.getCreationTime());
-								if (context != null && Device.getInstance(context).isMixpanelEnabled()) {
-										MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).alias(user.getUserId().toString(), MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).getDistinctId());
+								if (context != null && device.isMixpanelEnabled()) {
+										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).alias(user.getUserId().toString(), MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).getDistinctId());
 								}
 								validated = true;
 								break;
@@ -626,31 +635,31 @@ public class LoginFragment extends Fragment implements UserResponseListener, Bac
 				}
 				if (validated) {
 						userLogged = true;
-						if (context != null && Device.getInstance(context).isMixpanelEnabled()) {
-								MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).identify(user.getUserId().toString());
+						if (context != null && device.isMixpanelEnabled()) {
+								MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).identify(user.getUserId().toString());
 						}
-						MixpanelUtil.registerUserAsMixpanelProfile(context, user);
-						user.setDataBase(context);
+						MixpanelUtil.registerUserAsMixpanelProfile(context.getApplicationContext(), user);
+						user.setDataBase(context.getApplicationContext());
 						uploadManager.triggerReadHistoryMeasurements(new Date(0),null,this);
 
 				} else {
 						if (progress != null) progress.dismiss();
 						MixpanelUtil.registerUserErrorToMixpanel(context, user, status.ordinal(), "Login");
-						user.eraseDataBase(context);
+						user.eraseDataBase(context.getApplicationContext());
 				}
 		}
 
 		@Override
 		public void measurementsLoadingFailed() {
-			Log.d(TAG, "Loading Failed");
+//			Log.d(TAG, "Loading Failed");
 		}
 
 		@Override
 		public void measurementsReceived(ArrayList<MeasurementSession> histObjList) {
-				Log.d(TAG,"Measurements Received");
+//				Log.d(TAG,"Measurements Received");
 				if (histObjList.size()>0){
 						for (int i = 0; i < histObjList.size(); i++) {
-								VaavudDatabase.getInstance(getActivity()).insertMeasurementSession(histObjList.get(i));
+								VaavudDatabase.getInstance(context.getApplicationContext()).insertMeasurementSession(histObjList.get(i));
 						}
 				}
 				if (progress != null) progress.dismiss();
@@ -663,7 +672,7 @@ public class LoginFragment extends Fragment implements UserResponseListener, Bac
 		}
 		@Override
 		public void ErrorResponseReceived(String errorText) {
-			Log.d(TAG,"ErrorResponseReceived: "+errorText);
+//			Log.d(TAG,"ErrorResponseReceived: "+errorText);
 				if (context != null) Toast.makeText(context, getString(R.string.register_feedback_no_reachability_title), Toast.LENGTH_SHORT).show();
 				if (progress != null && progress.isShowing()) progress.dismiss();
 				if (Session.getActiveSession() != null) Session.getActiveSession().closeAndClearTokenInformation();

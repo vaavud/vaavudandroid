@@ -1,5 +1,6 @@
 package com.vaavud.android.ui.tour;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -28,7 +29,9 @@ import com.crittercism.app.Crittercism;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.vaavud.android.R;
 import com.vaavud.android.VaavudApplication;
+import com.vaavud.android.model.VaavudDatabase;
 import com.vaavud.android.model.entity.Device;
+import com.vaavud.android.model.entity.User;
 import com.vaavud.android.ui.MainActivity;
 import com.vaavud.android.ui.login.LoginActivity;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -51,9 +54,14 @@ public class TourActivity extends FragmentActivity {
 		private static ViewPager mViewPager;
 
 		//USER CHARACTERISTICS
+		private User user;
+		private Boolean isFirstFlow = false;
 		private boolean isLoggedIn = false;
 		private boolean hasWindMeter = false;
 		private boolean tips = false;
+		private Context context;
+
+		private static final String KEY_IS_FIRST_FLOW = "isFirstFlow";
 
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +70,10 @@ public class TourActivity extends FragmentActivity {
 
 				super.onCreate(savedInstanceState);
 				Crittercism.initialize(getApplicationContext(), "520b8fa5558d6a2757000003");
+				context = this;
 
+				user = User.getInstance(context.getApplicationContext());
+				isFirstFlow = VaavudDatabase.getInstance(context.getApplicationContext()).getPropertyAsBoolean(KEY_IS_FIRST_FLOW);
 				Intent i = getIntent();
 				if (i != null) {
 						startPosition = i.getIntExtra("startPosition", 0);
@@ -70,7 +81,7 @@ public class TourActivity extends FragmentActivity {
 						tips = i.getBooleanExtra("tips", false);
 				}
 
-				if (!((VaavudApplication) getApplication()).isFirstFlow() && !tips) {
+				if (isFirstFlow!=null && !isFirstFlow && !tips) {
 						Intent noTourIntent = new Intent(this, MainActivity.class);
 						startActivity(noTourIntent);
 						finish();
@@ -78,8 +89,9 @@ public class TourActivity extends FragmentActivity {
 
 				setContentView(R.layout.activity_tour);
 
-				isLoggedIn = ((VaavudApplication) getApplication()).isUserLogged();
-				hasWindMeter = ((VaavudApplication) getApplication()).hasWindMeter();
+				isLoggedIn = user.isUserLogged();
+				hasWindMeter = user.getHasWindMeter();
+				context = this;
 
 
 				// Create the adapter that will return a fragment for each of the three
@@ -130,9 +142,7 @@ public class TourActivity extends FragmentActivity {
 
 				@Override
 				public Fragment getItem(int position) {
-						// getItem is called to instantiate the fragment for the given page.
-						// Return a PlaceholderFragment (defined as a static inner class
-						// below).
+
 						if (position < startPosition) {
 								position = position + startPosition;
 						}
@@ -147,19 +157,6 @@ public class TourActivity extends FragmentActivity {
 
 				@Override
 				public CharSequence getPageTitle(int position) {
-//			switch (position) {
-//			case 0:
-//			case 3:
-//			case 6:
-//			case 1:
-//			case 4:
-//			case 7:
-//			case 2:
-//			case 5:
-//			case 8:
-//				return "Tour";
-//			}
-//			return null;
 						return "First Flow";
 				}
 
@@ -175,6 +172,7 @@ public class TourActivity extends FragmentActivity {
 				 */
 				private static final String ARG_SECTION_NUMBER = "section_number";
 				private static final String ARG_IS_TIPS = "is_tips";
+				private Context context;
 
 				/**
 				 * Returns a new instance of this fragment for the given section number.
@@ -192,6 +190,11 @@ public class TourActivity extends FragmentActivity {
 				public PlaceholderFragment() {
 				}
 
+				@Override
+				public void onAttach(Activity activity){
+						super.onAttach(activity);
+						context = activity;
+				}
 				@Override
 				public View onCreateView(LayoutInflater inflater, ViewGroup container,
 																 Bundle savedInstanceState) {
@@ -219,8 +222,8 @@ public class TourActivity extends FragmentActivity {
 						switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
 								case 0:
 										title.setText(getActivity().getResources().getString(R.string.intro_flow_screen_1));
-										if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-												MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Intro Flow Screen 1", null);
+										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Intro Flow Screen 1", null);
 										}
 										blue.setVisibility(View.GONE);
 										white.setVisibility(View.GONE);
@@ -233,22 +236,22 @@ public class TourActivity extends FragmentActivity {
 										break;
 								case 1:
 										title.setText(getActivity().getResources().getString(R.string.intro_flow_screen_2));
-										if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-												MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Intro Flow Screen 2", null);
+										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Intro Flow Screen 2", null);
 										}
 										blue.setVisibility(View.GONE);
 										white.setVisibility(View.GONE);
 										skip.setVisibility(View.GONE);
 										question.setVisibility(View.GONE);
 										gotIt.setVisibility(View.GONE);
-										bgBitmap = decodeSampledBitmapFromResource(getActivity().getResources(), R.drawable.map, displayWidth, displayHeight);
+										bgBitmap = decodeSampledBitmapFromResource(context.getResources(), R.drawable.map, displayWidth, displayHeight);
 										background.setImageBitmap(bgBitmap);
 										bgBitmap = null;
 										break;
 								case 2:
 										title.setVisibility(View.GONE);
-										if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-												MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Intro Flow Register Screen", null);
+										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Intro Flow Register Screen", null);
 										}
 										blue.setText(R.string.register_title_signup);
 										blue.setOnClickListener(new OnClickListener() {
@@ -266,7 +269,7 @@ public class TourActivity extends FragmentActivity {
 												public void onClick(View v) {
 														Intent i = new Intent(getActivity(), LoginActivity.class);
 														i.putExtra("position", 2);
-														startActivityForResult(i, LOGIN_REQUEST);
+														getActivity().startActivityForResult(i, LOGIN_REQUEST);
 //							getActivity().finish();
 												}
 										});
@@ -276,23 +279,23 @@ public class TourActivity extends FragmentActivity {
 										skip.setOnClickListener(new OnClickListener() {
 												@Override
 												public void onClick(View v) {
-														if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-																MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Intro Flow Clicked Skip", null);
+														if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+																MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Intro Flow Clicked Skip", null);
 														}
 														Intent i = new Intent(getActivity(), TourActivity.class);
 														i.putExtra("startPosition", 3);
 														i.putExtra("numberPages", 1);
-														startActivity(i);
+														getActivity().startActivity(i);
 														getActivity().finish();
 												}
 										});
-										bgBitmap = decodeSampledBitmapFromResource(getActivity().getResources(), R.drawable.sign_up, displayWidth, displayHeight);
+										bgBitmap = decodeSampledBitmapFromResource(context.getResources(), R.drawable.sign_up, displayWidth, displayHeight);
 										background.setImageBitmap(bgBitmap);
 										bgBitmap = null;
 										break;
 								case 3:
-										if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-												MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Intro Flow Have Wind Meter Screen", null);
+										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Intro Flow Have Wind Meter Screen", null);
 										}
 										title.setVisibility(View.GONE);
 										blue.setText(R.string.intro_flow_yes_button);
@@ -327,22 +330,22 @@ public class TourActivity extends FragmentActivity {
 										bgBitmap = null;
 										break;
 								case 4:
-										if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-												MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Intro Flow Buy Screen", null);
+										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Intro Flow Buy Screen", null);
 										}
 										title.setVisibility(View.GONE);
 										blue.setText(R.string.intro_flow_yes_button);
 										blue.setOnClickListener(new OnClickListener() {
 												@Override
 												public void onClick(View v) {
-														if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-																MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Intro Flow Clicked Buy", null);
+														if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+																MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Intro Flow Clicked Buy", null);
 														}
 														TelephonyManager tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
 														Intent i = null;
-														if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
+														if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
 																i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://vaavud.com/mobile-shop-redirect/?country=" + tm.getNetworkCountryIso() + "&language=en&ref=" +
-																				MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).getDistinctId() + "&source=intro"));
+																				MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).getDistinctId() + "&source=intro"));
 														} else {
 																i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://vaavud.com/mobile-shop-redirect/?country=" + tm.getNetworkCountryIso() + "&language=en&source=intro"));
 														}
@@ -365,56 +368,56 @@ public class TourActivity extends FragmentActivity {
 										question.setText(R.string.intro_flow_want_buy);
 										gotIt.setVisibility(View.GONE);
 										mIndicator.setVisibility(View.GONE);
-										bgBitmap = decodeSampledBitmapFromResource(getActivity().getResources(), R.drawable.wind_meter, displayWidth, displayHeight);
+										bgBitmap = decodeSampledBitmapFromResource(context.getResources(), R.drawable.wind_meter, displayWidth, displayHeight);
 										background.setImageBitmap(bgBitmap);
 										bgBitmap = null;
 										break;
 								case 5:
 										title.setText(getActivity().getResources().getString(R.string.instruction_flow_screen_1));
-										if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-												MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Instruction Flow Screen 1", null);
+										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Instruction Flow Screen 1", null);
 										}
 										blue.setVisibility(View.GONE);
 										white.setVisibility(View.GONE);
 										skip.setVisibility(View.GONE);
 										question.setVisibility(View.GONE);
 										gotIt.setVisibility(View.GONE);
-										bgBitmap = decodeSampledBitmapFromResource(getActivity().getResources(), R.drawable.paraglider, displayWidth, displayHeight);
+										bgBitmap = decodeSampledBitmapFromResource(context.getResources(), R.drawable.paraglider, displayWidth, displayHeight);
 										background.setImageBitmap(bgBitmap);
 										bgBitmap = null;
 										break;
 								case 6:
 										title.setText(getActivity().getResources().getString(R.string.instruction_flow_screen_2));
-										if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-												MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Instruction Flow Screen 2", null);
+										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Instruction Flow Screen 2", null);
 										}
 										blue.setVisibility(View.GONE);
 										white.setVisibility(View.GONE);
 										skip.setVisibility(View.GONE);
 										question.setVisibility(View.GONE);
 										gotIt.setVisibility(View.GONE);
-										bgBitmap = decodeSampledBitmapFromResource(getActivity().getResources(), R.drawable.hold_top, displayWidth, displayHeight);
+										bgBitmap = decodeSampledBitmapFromResource(context.getResources(), R.drawable.hold_top, displayWidth, displayHeight);
 										background.setImageBitmap(bgBitmap);
 										bgBitmap = null;
 										break;
 								case 7:
 										title.setText(getActivity().getResources().getString(R.string.instruction_flow_screen_3));
-										if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-												MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Instruction Flow Screen 3", null);
+										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Instruction Flow Screen 3", null);
 										}
 										blue.setVisibility(View.GONE);
 										white.setVisibility(View.GONE);
 										skip.setVisibility(View.GONE);
 										question.setVisibility(View.GONE);
 										gotIt.setVisibility(View.GONE);
-										bgBitmap = decodeSampledBitmapFromResource(getActivity().getResources(), R.drawable.open_space, displayWidth, displayHeight);
+										bgBitmap = decodeSampledBitmapFromResource(context.getResources(), R.drawable.open_space, displayWidth, displayHeight);
 										background.setImageBitmap(bgBitmap);
 										bgBitmap = null;
 										break;
 								case 8:
 										title.setText(getActivity().getResources().getString(R.string.instruction_flow_screen_4));
-										if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-												MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Instruction Flow Screen 4", null);
+										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Instruction Flow Screen 4", null);
 										}
 										blue.setVisibility(View.GONE);
 										white.setVisibility(View.GONE);
@@ -424,7 +427,6 @@ public class TourActivity extends FragmentActivity {
 										gotIt.setOnClickListener(new OnClickListener() {
 												@Override
 												public void onClick(View v) {
-														((VaavudApplication) getActivity().getApplication()).setIsFirstFlow(false);
 														if (!getArguments().getBoolean(ARG_IS_TIPS)) {
 																Intent i = new Intent(getActivity(), MainActivity.class);
 																startActivity(i);
@@ -432,7 +434,7 @@ public class TourActivity extends FragmentActivity {
 														getActivity().finish();
 												}
 										});
-										bgBitmap = decodeSampledBitmapFromResource(getActivity().getResources(), R.drawable.reading, displayWidth, displayHeight);
+										bgBitmap = decodeSampledBitmapFromResource(context.getResources(), R.drawable.reading, displayWidth, displayHeight);
 										background.setImageBitmap(bgBitmap);
 										bgBitmap = null;
 										break;
@@ -469,7 +471,7 @@ public class TourActivity extends FragmentActivity {
 		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 				// Check which request we're responding to
 				super.onActivityResult(requestCode, resultCode, data);
-				Log.d(TAG, "Request Code: " + requestCode + " Result Code: " + resultCode);
+//				Log.d(TAG, "Request Code: " + requestCode + " Result Code: " + resultCode);
 				if (requestCode == LOGIN_REQUEST || requestCode == SIGNUP_REQUEST) {
 						// Make sure the request was successful
 						if (resultCode == RESULT_OK) {
@@ -502,5 +504,9 @@ public class TourActivity extends FragmentActivity {
 
 				return inSampleSize;
 		}
+
+
+
+
 
 }

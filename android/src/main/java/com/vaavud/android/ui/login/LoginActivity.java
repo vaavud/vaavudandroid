@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
 		private RequestQueue userQueue;
 		private RequestQueue dataQueue;
+
 		private boolean fromTour = false;
 
 		@Override
@@ -43,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
 				if (Session.getActiveSession() != null) {
 //			Log.d(TAG, "Session is not null");
 						Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-						((VaavudApplication) getApplication()).hasWindMeter();
 				}
 		}
 
@@ -67,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
 				switch (position){
 						case 1:
 								fromTour = true;
-
 								getSupportFragmentManager().beginTransaction()
 												.replace(android.R.id.content, new SignUpFragment())
 												.commit();
