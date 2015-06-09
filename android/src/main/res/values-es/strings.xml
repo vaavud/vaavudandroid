@@ -53,7 +53,7 @@
 	<string name="history_go_to_measure">Ve a Medir y presiona Empezar para iniciar!</string>
     
     <string name="about_title">Acerca</string>
-    <string name="about_vaavud_text">Vaavud es una start-up tecnológica danesa.\n Nuestra misión es crear los mejores medidores de viento del planeta en términos de usabilidad, características, e integración con terceros.\n Para saber más y comprar un medidor de viento Vaavud, visita Vaavud.com\n &#169; Vaavud ApS 2014, Todos los derechos reservados\n Versión: %1$s</string>
+    <string name="about_vaavud_text">Vaavud es una start-up tecnológica danesa.\n Nuestra misión es proveer información meteorológica personalizada y de alta resolución.\n Para saber más y comprar un medidor de viento Vaavud, visita Vaavud.com\n &#169; Vaavud ApS 2014, Todos los derechos reservados\n Versión: %1$s</string>
     <string name="link_terms_of_service">Terminos de Servicio</string>
     <string name="link_privacy_policy">Política de privacidad</string>
     
@@ -153,4 +153,10 @@
     <!--  App ID -->
     <string name="app_name">Vaavud</string>
     <string name="app_id">624217360948538</string>
+    <string name="title_activity_about">Acerca</string>
+    <string name="title_activity_login">Iniciar sesión</string>
+    <string name="title_activity_settings">Configuración</string>
+    <string name="title_activity_calibration">Calibrar</string>
+    <string name="unit_cardinal">Cardinal</string>
+    <string name="unit_degrees">Grados</string>
 </resources>

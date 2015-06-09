@@ -1,13 +1,17 @@
 package com.vaavud.android.ui.login;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.view.OrientationEventListener;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.facebook.Session;
+import com.vaavud.android.R;
 import com.vaavud.android.VaavudApplication;
 import com.vaavud.android.model.VaavudDatabase;
 import com.vaavud.android.model.entity.MeasurementSession;
@@ -37,6 +41,15 @@ public class LoginActivity extends AppCompatActivity {
 
 		private boolean fromTour = false;
 
+		private static final int ROTATION_THRESHOLD = 45;
+		private OrientationEventListener orientationListener;
+		private Orientation orientation = Orientation.PORTRAIT;
+
+		private enum Orientation {
+				PORTRAIT,
+				REVERSE_PORTRAIT
+		}
+
 		@Override
 		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //		Log.d(TAG,"OnActivityResult:"+requestCode+" "+resultCode);
@@ -50,9 +63,29 @@ public class LoginActivity extends AppCompatActivity {
 		@Override
 		public void onCreate(Bundle savedInstanceState){
 				super.onCreate(savedInstanceState);
+//				getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+				getSupportActionBar().setDisplayUseLogoEnabled(false);
+				getSupportActionBar().setDisplayShowTitleEnabled(true);
+				getSupportActionBar().setTitle(R.string.title_activity_login);
+
+
+				orientationListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_UI) {
+						@Override
+						public void onOrientationChanged(int orientationDegrees) {
+								if (isPortrait(orientationDegrees) && orientation != Orientation.PORTRAIT) {
+										//Log.i("MainActivity", "Portrait");
+										orientation = Orientation.PORTRAIT;
+										setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+								} else if (isReversePortrait(orientationDegrees) && orientation != Orientation.REVERSE_PORTRAIT) {
+										//Log.i("MainActivity", "Reverse Portrait");
+										orientation = Orientation.REVERSE_PORTRAIT;
+										setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
+								}
+						}
+				};
+
 				int position = getIntent().getExtras().getInt("position",0);
-
-
 
 				if (userQueue != null) {
 						userQueue.stop();
@@ -87,30 +120,6 @@ public class LoginActivity extends AppCompatActivity {
 
 		}
 
-//		@Override
-//		public void onMenuOptionSelected(int position) {
-//				switch (position){
-//						case 0:
-//								getSupportFragmentManager().beginTransaction()
-//												.replace(android.R.id.content, new SignUpFragment())
-//												.commit();
-//								break;
-//						case 1:
-//								getSupportFragmentManager().beginTransaction()
-//												.replace(android.R.id.content, new LoginFragment())
-//												.commit();
-//								break;
-//						default:
-//								break;
-//				}
-//
-//		}
-
-
-		@Override
-		protected void onPostCreate(Bundle savedInstanceState) {
-				super.onPostCreate(savedInstanceState);
-		}
 
 		protected RequestQueue getUserQueue(){
 			return userQueue;
@@ -120,9 +129,28 @@ public class LoginActivity extends AppCompatActivity {
 				return fromTour;
 		}
 
-
 		protected RequestQueue getDataQueue(){
 				return dataQueue;
+		}
+
+		@Override
+		public void onResume(){
+				super.onResume();
+				orientationListener.enable();
+		}
+
+		@Override
+		protected void onPause() {
+				super.onPause();
+				orientationListener.disable();
+		}
+
+		private boolean isPortrait(int orientation) {
+				return (orientation >= (360 - ROTATION_THRESHOLD) && orientation <= 360) || (orientation >= 0 && orientation <= ROTATION_THRESHOLD);
+		}
+
+		private boolean isReversePortrait(int orientation) {
+				return orientation >= (180 - ROTATION_THRESHOLD) && orientation <= (180 + ROTATION_THRESHOLD);
 		}
 
 }

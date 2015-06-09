@@ -55,7 +55,7 @@
 	<string name="history_go_to_measure">轉到測量頁面，按開始進行測量！</string>
     
     <string name="about_title">關於</string>
-    <string name="about_vaavud_text">Vaavud 是一家丹麥新創企業. \n我們的目標是打造在易用性、功能和第三方整合方面皆全球最佳的風速計。\n垂詢詳細資料或購買 Vaavud 風速計，請瀏覽 Vaavud.com\n &#169; Vaavud ApS 2014著作權所有，并保留一切權利\n版本：%1$s</string>
+    <string name="about_vaavud_text">Vaavud 是一家丹麥新創企業. \n 我们的任务是提供高分辨、个性化的天气信息。\n垂詢詳細資料或購買 Vaavud 風速計，請瀏覽 Vaavud.com\n &#169; Vaavud ApS 2014著作權所有，并保留一切權利\n版本：%1$s</string>
     <string name="link_terms_of_service">服務條款</string>
     <string name="link_privacy_policy">隱私權原則</string>
     
@@ -155,4 +155,8 @@
     <!--  App ID -->
     <string name="app_name">Vaavud</string>
     <string name="app_id">624217360948538</string>
+    <string name="title_activity_about">關於</string>
+    <string name="title_activity_login">登入</string>
+    <string name="title_activity_settings">設定</string>
+    <string name="title_activity_calibration">校準</string>
 </resources>

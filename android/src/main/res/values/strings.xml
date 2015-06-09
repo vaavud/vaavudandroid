@@ -54,7 +54,7 @@
     
     <string name="about_title">About</string>
     <string name="about_back">Back</string>
-    <string name="about_vaavud_text" formatted="false">Vaavud is a Danish technology start-up.\n Our mission is to make the best wind meters on the planet in terms of usability, features, and third party integration.\n To learn more and to purchase a Vaavud wind meter visit Vaavud.com\n &#169; Vaavud ApS 2014, all rights reserved\n Version: %1$s </string>
+    <string name="about_vaavud_text" formatted="false">Vaavud is a Danish technology start-up.\n Our mission is to provide high-resolution, personalized weather information.\n To learn more and to purchase a Vaavud wind meter visit Vaavud.com\n &#169; Vaavud ApS 2014, all rights reserved\n Version: %1$s</string>
     <string name="link_terms_of_service">Terms of Service</string>
     <string name="link_privacy_policy">Privacy Policy</string>
     
@@ -159,4 +159,5 @@
     <!--  App ID -->
     <string name="app_name">Vaavud</string>
     <string name="app_id">624217360948538</string>
+    <string name="back"></string>
 </resources>

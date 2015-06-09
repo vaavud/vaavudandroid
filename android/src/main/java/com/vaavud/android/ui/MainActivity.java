@@ -1,6 +1,5 @@
 package com.vaavud.android.ui;
 
-import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -71,7 +70,6 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		private static final long GRACE_TIME_BETWEEN_RESUME_APP_MS = 1800L * 1000L; // 1 hour
 		private static final String KEY_FIRST_TIME_SLEIPNIR = "firstTimeSleipnir";
 		private static final String KEY_IS_FIRST_FLOW = "isFirstFlow";
-		private static final int LOGIN_REQUEST = 702;
 		private static final String TAG = "MAIN_ACTIVITY";
 
 		private static final int MEASURE_TAB = 0;
@@ -93,7 +91,6 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		private Orientation orientation = Orientation.PORTRAIT;
 		private SensorManager sensorManager;
 		private boolean hasCompass = false;
-		private boolean userLogged = false;
 		private TabPagerAdapter pagerAdapter;
 		private ViewPager viewPager;
 		private ActionMode mActionMode;
@@ -122,15 +119,15 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 
 
 				super.onCreate(savedInstanceState);
+				setContentView(R.layout.activity_main);
 
 				Crittercism.initialize(getApplicationContext(), "520b8fa5558d6a2757000003");
-//		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-				setContentView(R.layout.activity_main);
+
 				VaavudDatabase.getInstance(getApplicationContext()).setPropertyAsBoolean(KEY_IS_FIRST_FLOW,false);
+
 				sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-				//			Log.d("MainActivity","Has Compass");
-//			Log.d("MainActivity","No Compass");
 				hasCompass = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null;
+
 				IntentFilter receiverFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
 				receiver = new HeadsetIntentReceiver(this);
 				registerReceiver(receiver, receiverFilter);
@@ -161,7 +158,6 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 				userManager = UserManager.getInstance(getApplicationContext());
 
 				if (user.isUserLogged()) {
-						userLogged = true;
 						ArrayList<String> permissions = new ArrayList<String>();
 						permissions.add("email");
 						if (Session.getActiveSession() == null && user.getFacebookAccessToken() != null) { //Facebook token renewal
@@ -172,7 +168,6 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						MixpanelUtil.registerUserAsMixpanelProfile(getApplicationContext(), user);
 						MixpanelUtil.updateMeasurementProperties(getApplicationContext());
 				}
-
 
 
 				if (myVaavudCoreController == null) {
@@ -212,7 +207,6 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						}
 
 						public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-//            	updateView = true;
 						}
 				};
 
@@ -296,7 +290,6 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 												MixpanelAPI.getInstance(getApplicationContext(), MIXPANEL_TOKEN).identify(tmpUUID);
 										}
 										MixpanelAPI.getInstance(getApplicationContext(), MIXPANEL_TOKEN).getPeople().identify(tmpUUID);
-										userLogged = false;
 								}
 								getSupportActionBar().setSelectedNavigationItem(MEASURE_TAB);
 								return true;
@@ -337,7 +330,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 				user = User.getInstance(getApplicationContext());
 				device = Device.getInstance(getApplicationContext());
 
-				if (getSupportActionBar() != null && getSupportActionBar().getSelectedNavigationIndex()==2 && !user.isUserLogged()) {
+				if (getSupportActionBar() != null && getSupportActionBar().getSelectedNavigationIndex()==2) {
 						getSupportActionBar().setSelectedNavigationItem(MEASURE_TAB);
 				}
 

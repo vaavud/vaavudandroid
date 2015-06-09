@@ -53,7 +53,7 @@
 	<string name="history_go_to_measure">前往测量，然后按开始，开始测量！</string>
     
     <string name="about_title">关于</string>
-    <string name="about_vaavud_text">Vaavud是一家丹麦的创业科技企业。\n我们的使命是制作可用性、功能和第三方集成方面全球最棒的风量仪。\n要了解更多信息，并购买Vaavud风量仪，请访问 Vaavud.com\n &#169; Vaavud ApS 2014, 保留所有权利\n 版本: %1$s</string>
+    <string name="about_vaavud_text">Vaavud是一家丹麦的创业科技企业。\n 我們的任務是提供高分辨、個性化的天氣信息 \n要了解更多信息，并购买Vaavud风量仪，请访问 Vaavud.com\n &#169; Vaavud ApS 2014, 保留所有权利\n 版本: %1$s</string>
     <string name="link_terms_of_service">服务条款</string>
     <string name="link_privacy_policy">隐私政策</string>
     
@@ -152,4 +152,8 @@
     <!--  App ID -->
     <string name="app_name">Vaavud</string>
     <string name="app_id">624217360948538</string>
+    <string name="title_activity_about">关于</string>
+    <string name="title_activity_login">登录</string>
+    <string name="title_activity_settings">设置</string>
+    <string name="title_activity_calibration">校准</string>
 </resources>

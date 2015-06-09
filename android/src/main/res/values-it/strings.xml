@@ -53,7 +53,7 @@
 	<string name="history_go_to_measure">Vai su Rileva e premi Inizia per cominciare!</string>
     
     <string name="about_title">Informazioni</string>
-    <string name="about_vaavud_text">Vaavud è una start-up tecnologica danese.\n La nostra mission è realizzare i migliori anemometri del mondo in termini di usabilità, funzioni, e integrazione con applicazioni di parti terze.\n Per scoprire di più e acquistare un anemometro Vaavud, visita Vaavud.com\n &#169; Vaavud ApS 2014, tutti i diritti riservati\n Versione: %1$s</string>
+    <string name="about_vaavud_text">Vaavud è una start-up tecnologica danese.\n La nostra missione è fornire informazioni meteorologiche personalizzate ad alta risoluzione.\n Per scoprire di più e acquistare un anemometro Vaavud, visita Vaavud.com\n &#169; Vaavud ApS 2014, tutti i diritti riservati\n Versione: %1$s</string>
     <string name="link_terms_of_service">Termini del Servizio</string>
     <string name="link_privacy_policy">Condizioni sulla Privacy</string>
     
@@ -153,4 +153,10 @@
     <!--  App ID -->
     <string name="app_name">Vaavud</string>
     <string name="app_id">624217360948538</string>
+	<string name="title_activity_about">Informazioni</string>
+	<string name="title_activity_login">Accedi</string>
+	<string name="title_activity_settings">Impostazioni</string>
+	<string name="title_activity_calibration">Calibrazione</string>
+	<string name="unit_cardinal">Cardinale</string>
+	<string name="unit_degrees">Gradi</string>
 </resources>
