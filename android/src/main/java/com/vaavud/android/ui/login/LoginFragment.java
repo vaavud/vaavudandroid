@@ -657,7 +657,7 @@ public class LoginFragment extends Fragment implements UserResponseListener,Hist
 		@Override
 		public void measurementsReceived(ArrayList<MeasurementSession> histObjList) {
 //				Log.d(TAG,"Measurements Received");
-				if (histObjList.size()>0){
+				if (histObjList!=null && histObjList.size()>0){
 						for (int i = 0; i < histObjList.size(); i++) {
 								VaavudDatabase.getInstance(context.getApplicationContext()).insertMeasurementSession(histObjList.get(i));
 						}
