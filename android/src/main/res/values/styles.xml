@@ -25,6 +25,9 @@
         <item name="actionBarTabStyle">@style/VaavudActionBarTabStyle</item>
         <item name="actionBarItemBackground">@drawable/ab_selectable_background</item>
 
+        <item name="android:actionModeBackground">@color/blue</item>
+        <item name="actionModeBackground">@color/blue</item>
+
         <item name="dropDownListViewStyle">@style/VaavudListViewDropDown</item>
         <item name="popupMenuStyle">@style/VaavudPopupMenu</item>
         <!--<item name="actionDropDownStyle">@style/Widget.Styled.Spinner.DropDown.ActionBar</item>-->
@@ -39,13 +42,13 @@
         <!-- colorPrimary is used for the default action bar background -->
         <item name="colorPrimary">@color/blue</item>
         <!-- colorPrimaryDark is used for the status bar -->
-        <item name="colorPrimaryDark">@color/blue_pressed</item>
+        <item name="colorPrimaryDark">@color/com_facebook_blue</item>
         <!-- colorAccent is used as the default value for colorControlActivated
              which is used to tint widgets -->
         <!--<item name="colorAccent">@color/blue</item>-->
         <item name="colorControlNormal">@color/blue</item>
         <item name="colorControlActivated">@color/blue</item>
-        <item name="colorControlHighlight">@color/blue_pressed</item>
+        <item name="colorControlHighlight">@color/blue</item>
     </style>
 
     <style name="WindMarker.TextAppearance" parent="android:TextAppearance">
@@ -54,7 +57,6 @@
     </style>
 
     <!-- DropDown Menu Style -->
-
     <style name="VaavudListViewDropDown"
            parent="@style/Widget.AppCompat.ListView.DropDown">
         <item name="android:listSelector">@drawable/ab_selectable_background</item>
@@ -67,8 +69,8 @@
 
     <!-- Action Bar Style -->
     <style name="VaavudActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="displayOptions">useLogo|showTitle</item>
-        <item name="logo">@drawable/logo_simple</item>
+        <item name="displayOptions">useLogo|showHome|showCustom</item>
+        <item name="logo">@drawable/logo</item>
         <item name="android:background">@color/blue</item>
         <item name="background">@color/blue</item>
         <item name="android:titleTextStyle">@style/VaavudActionBarTitleTextStyle</item>
@@ -80,8 +82,8 @@
         <!--<item name="android:textColor">#ffffffff</item>-->
     </style>
     <style name="VaavudActionBarTabStyle" parent="@style/Widget.AppCompat.ActionBar.TabView">
-        <item name="android:actionBarDivider">@color/darkgray</item>
-        <item name="actionBarDivider">@color/darkgray</item>
+        <item name="android:actionBarDivider">@color/blue</item>
+        <item name="actionBarDivider">@color/blue</item>
         <item name="android:background">@drawable/ab_tab_indicator</item>
         <item name="background">@drawable/ab_tab_indicator</item>
     </style>

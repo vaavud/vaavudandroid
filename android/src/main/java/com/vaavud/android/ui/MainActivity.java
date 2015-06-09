@@ -1,5 +1,6 @@
 package com.vaavud.android.ui;
 
+import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -70,7 +71,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		private static final long GRACE_TIME_BETWEEN_RESUME_APP_MS = 1800L * 1000L; // 1 hour
 		private static final String KEY_FIRST_TIME_SLEIPNIR = "firstTimeSleipnir";
 		private static final String KEY_IS_FIRST_FLOW = "isFirstFlow";
-
+		private static final int LOGIN_REQUEST = 702;
 		private static final String TAG = "MAIN_ACTIVITY";
 
 		private static final int MEASURE_TAB = 0;
@@ -333,7 +334,10 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		protected void onResume() {
 //		Log.i(TAG, "onResume");
 				super.onResume();
-				if (getSupportActionBar() != null && getSupportActionBar().getSelectedNavigationIndex()==2) {
+				user = User.getInstance(getApplicationContext());
+				device = Device.getInstance(getApplicationContext());
+
+				if (getSupportActionBar() != null && getSupportActionBar().getSelectedNavigationIndex()==2 && !user.isUserLogged()) {
 						getSupportActionBar().setSelectedNavigationItem(MEASURE_TAB);
 				}
 
@@ -468,6 +472,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 				mActionMode = mode;
 		}
 
+
 		private enum Orientation {
 				PORTRAIT,
 				REVERSE_PORTRAIT
@@ -495,7 +500,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 
 				@Override
 				public int getItemPosition(Object object) {
-						return POSITION_UNCHANGED;
+						return POSITION_NONE;
 				}
 
 				@Override

@@ -3,14 +3,8 @@ package com.vaavud.android.ui.history;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap.CompressFormat;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.RectF;
+
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,7 +13,6 @@ import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,7 +25,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -54,7 +46,6 @@ import com.vaavud.android.ui.SelectedListener;
 import com.vaavud.android.ui.SelectorListener;
 import com.vaavud.android.ui.history.cache.ImageCacheManager;
 import com.vaavud.android.ui.history.cache.ImageCacheManager.CacheType;
-import com.vaavud.android.ui.tour.TourActivity;
 import com.vaavud.util.FormatUtil;
 import com.vaavud.util.MixpanelUtil;
 import com.vaavud.util.UUIDUtil;
@@ -83,8 +74,8 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 		private static final long GRACE_TIME_BETWEEN_READ_MEASUREMENTS = 11 * 1000L;
 
 		private static int DISK_IMAGECACHE_SIZE = 1024 * 1024 * 10;
-		private static CompressFormat DISK_IMAGECACHE_COMPRESS_FORMAT = CompressFormat.PNG;
-		private static int DISK_IMAGECACHE_QUALITY = 100;
+		private static CompressFormat DISK_IMAGECACHE_COMPRESS_FORMAT = CompressFormat.JPEG;
+		private static int DISK_IMAGECACHE_QUALITY = 50;
 
 
 		private List<MeasurementSession> measurmentSessions;
@@ -250,58 +241,9 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 
 						imageLoader = imageCacheManager.getImageLoader();
 				} else {
-						view = createArrowLayout(new LinearLayout(getActivity()));
+						view = new ArrowLayoutView(context);
 				}
 				MixpanelUtil.updateMeasurementProperties(getActivity());
-				return view;
-		}
-
-		private View createArrowLayout(LinearLayout view) {
-				LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 0);
-				params.weight = 1;
-				view.setOrientation(LinearLayout.VERTICAL);
-				view.setLayoutParams(params);
-				CustomDrawableView arrowView = new CustomDrawableView(getActivity());
-				LayoutParams arrowParams = new LayoutParams(LayoutParams.MATCH_PARENT, 0);
-				arrowParams.weight = (float) 0.7;
-				arrowParams.width = LayoutParams.MATCH_PARENT;
-				arrowView.setLayoutParams(arrowParams);
-				TextView text = new TextView(getActivity());
-				text.setText(getActivity().getResources().getString(R.string.history_no_measurements));
-				text.setTextColor(getActivity().getResources().getColor(R.color.blue));
-				text.setTextSize(24);
-				text.setLines(2);
-
-				TextView subtext = new TextView(getActivity());
-				subtext.setText(getActivity().getResources().getString(R.string.history_go_to_measure));
-				subtext.setTextColor(Color.BLACK);
-				subtext.setTextSize(16);
-
-				LayoutParams textParams = new LayoutParams(LayoutParams.MATCH_PARENT, 0);
-				textParams.weight = (float) 0.15;
-				textParams.width = LayoutParams.WRAP_CONTENT;
-				textParams.topMargin = 40;
-				textParams.leftMargin = 20;
-				textParams.rightMargin = 20;
-				textParams.gravity = Gravity.CENTER_HORIZONTAL;
-				text.setLayoutParams(textParams);
-
-
-				LayoutParams subtextParams = new LayoutParams(LayoutParams.MATCH_PARENT, 0);
-				subtextParams.weight = (float) 0.15;
-				subtextParams.width = LayoutParams.WRAP_CONTENT;
-				subtextParams.topMargin = -40;
-				subtextParams.leftMargin = 20;
-				subtextParams.rightMargin = 20;
-				subtextParams.gravity = Gravity.CENTER_HORIZONTAL;
-
-				text.setLayoutParams(textParams);
-				subtext.setLayoutParams(subtextParams);
-
-				view.addView(arrowView, 0);
-				view.addView(text, 1);
-				view.addView(subtext, 2);
-
 				return view;
 		}
 
@@ -508,47 +450,6 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 				MixpanelUtil.updateMeasurementProperties(context.getApplicationContext());
 
 
-		}
-
-		private class CustomDrawableView extends View {
-
-				public CustomDrawableView(Context context) {
-						super(context);
-				}
-
-				protected void onDraw(Canvas canvas) {
-
-						Paint circlePaint = new Paint();
-
-						int left = canvas.getWidth() / 6;
-						int top = canvas.getHeight() / 15 - canvas.getHeight();
-						int right = canvas.getWidth() - canvas.getWidth() / 6;
-						int bottom = canvas.getHeight();
-						//to draw an arrow, just lines needed, so style is only STROKE
-						circlePaint.setStyle(Paint.Style.STROKE);
-						circlePaint.setPathEffect(new DashPathEffect(new float[]{20, 15}, 10));
-
-						circlePaint.setStrokeWidth(5.0F);
-						circlePaint.setColor(getActivity().getResources().getColor(R.color.blue));
-						//create a path to draw on
-						Path arrowPath = new Path();
-
-						//create an invisible oval. the oval is for "behind the scenes" ,to set the path´
-						//area. Imagine this is an egg behind your circles. the circles are in the middle of this egg
-						final RectF arrowOval = new RectF();
-						arrowOval.set(left, top, right, bottom);
-
-						//add the oval to path
-						arrowPath.addArc(arrowOval, -180, -90);
-
-						canvas.drawPath(arrowPath, circlePaint);
-						arrowPath.moveTo(canvas.getWidth() / 6, canvas.getHeight() / 30); //move to the center of first circle
-						arrowPath.lineTo(canvas.getWidth() / 6 + canvas.getHeight() / 20, canvas.getHeight() / 10 + canvas.getHeight() / 20);
-						arrowPath.moveTo(canvas.getWidth() / 6, canvas.getHeight() / 30); //move to the center of first circle
-						arrowPath.lineTo(canvas.getWidth() / 6 - canvas.getHeight() / 20, canvas.getHeight() / 10 + canvas.getHeight() / 20);
-						canvas.drawPath(arrowPath, circlePaint);
-
-				}
 		}
 
 		private class HistoryArrayAdapter extends ArrayAdapter<MeasurementSession> {

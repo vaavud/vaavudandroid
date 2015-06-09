@@ -68,7 +68,7 @@ public class VaavudDatabase extends SQLiteOpenHelper {
 		private static VaavudDatabase instance;
 
 		public static synchronized VaavudDatabase getInstance(Context context) {
-				Log.d("VaavudDatabase", "Vaavud Database get Instance Context: " + context);
+//				Log.d("VaavudDatabase", "Vaavud Database get Instance Context: " + context);
 				if (instance == null) {
 						instance = new VaavudDatabase(context.getApplicationContext());
 				}
@@ -79,7 +79,7 @@ public class VaavudDatabase extends SQLiteOpenHelper {
 
 		private VaavudDatabase(Context context) {
 				super(context, DATABASE_NAME, null, DATABASE_VERSION);
-				Log.d("VaavudDatabase", "Vaavud Database Constructor Context: " + context);
+//				Log.d("VaavudDatabase", "Vaavud Database Constructor Context: " + context);
 				mContext = context.getApplicationContext();
 
 		}

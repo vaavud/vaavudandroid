@@ -90,7 +90,7 @@ public class UploadManager {
 		};
 
 		public static synchronized UploadManager getInstance(Context context) {
-				Log.d("UploadManager", "UploadManager Context: " + context);
+//				Log.d("UploadManager", "UploadManager Context: " + context);
 				if (instance == null) {
 						instance = new UploadManager(context);
 				}
@@ -141,7 +141,7 @@ public class UploadManager {
 						registerDevice(true);
 						return;
 				}
-		Log.d("UploadManager", "checkForUnUploadedData Context: "+context);
+//		Log.d("UploadManager", "checkForUnUploadedData Context: "+context);
 
 				List<MeasurementSession> measurementSessions = VaavudDatabase.getInstance(context).getUnUploadedMeasurementSessions();
 //		Log.i("UploadManager","Numer of UnUploadedMeasurentSessions: "+measurementSessions.size());

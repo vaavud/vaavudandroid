@@ -89,7 +89,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 
 
 		public SleipnirCoreController(Context context, DataManager dataManager, UploadManager uploadManager, LocationUpdateManager locationManager, boolean calibrationMode) {
-				Log.d("SleipnirCoreController", "Sleipnir Core Controller Context: " + context);
+//				Log.d("SleipnirCoreController", "Sleipnir Core Controller Context: " + context);
 				mContext = context;
 				appContext = context.getApplicationContext();
 				this.uploadManager = uploadManager;

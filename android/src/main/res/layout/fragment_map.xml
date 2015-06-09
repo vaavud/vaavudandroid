@@ -177,4 +177,13 @@
         </RelativeLayout>
     </com.vaavud.android.ui.map.TouchPassThroughSlidingUpPanelLayout>
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mapProgressBar"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"/>
+
 </RelativeLayout>

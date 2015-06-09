@@ -50,7 +50,7 @@ public class VaavudCoreController implements MeasurementController {
 		};
 
 		public VaavudCoreController(Context context, DataManager dataManager, UploadManager uploadManager, LocationUpdateManager locationManager) {
-				Log.d("VaavudCoreController", "Vaavud Core Controller Context: " + context);
+//				Log.d("VaavudCoreController", "Vaavud Core Controller Context: " + context);
 				this.context = context;
 				this.dataManager = dataManager;
 				this.uploadManager = uploadManager;

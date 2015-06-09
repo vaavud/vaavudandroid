@@ -23,6 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -146,6 +147,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 		private UploadManager uploadManager;
 		private Device device;
 		private Context context;
+		private ProgressBar mapProgressBar;
 
 
 		@Override
@@ -184,6 +186,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 				}
 
 				View view = inflater.inflate(R.layout.fragment_map, container, false);
+				mapProgressBar = (ProgressBar) view.findViewById(R.id.mapProgressBar);
 				mapView = (MapView) view.findViewById(R.id.map_view);
 				mapView.onCreate(savedInstanceState);
 
@@ -494,7 +497,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 				}
 
 				if (showActivityIndicator && context != null) {
-						((Activity)context).setProgressBarIndeterminateVisibility(true);
+						mapProgressBar.setVisibility(View.VISIBLE);
 				}
 
 				this.giveNetworkErrorFeedback = giveNetworkErrorFeedback;
@@ -510,6 +513,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 						// this is an indication that we've probably been detached from the activity
 						return;
 				}
+				mapProgressBar.setVisibility(View.GONE);
 
 				GoogleMap map = getMap();
 				if (map == null) {
@@ -571,7 +575,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 		@Override
 		public void measurementsLoadingFailed() {
 				if (context != null) {
-						((Activity)context).setProgressBarIndeterminateVisibility(false);
+						mapProgressBar.setVisibility(View.GONE);
 						if (giveNetworkErrorFeedback) {
 								if (lastNetworkErrorFeedback == null || ((System.currentTimeMillis() - lastNetworkErrorFeedback.getTime()) > GRACE_TIME_BETWEEN_NETWORK_ERROR_FEEDBACK)) {
 										if (isCurrentTab()) {
