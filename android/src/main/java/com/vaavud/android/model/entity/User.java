@@ -260,7 +260,7 @@ public class User implements Serializable {
 
 
 		public boolean isUserLogged() {
-				Log.d("User","User email=+ "+getEmail());
+//				Log.d("User","User email=+ "+getEmail());
 				return (authToken != null && authToken.length() > 0
 								&& email != null && email.length() > 0);
 		}

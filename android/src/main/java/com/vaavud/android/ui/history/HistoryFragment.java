@@ -192,7 +192,7 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 												}
 
 												public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-														Log.d(TAG, "onActionItemClicked");
+//														Log.d(TAG, "onActionItemClicked");
 														int position = -1;
 														switch (item.getItemId()) {
 																case R.id.action_delete:

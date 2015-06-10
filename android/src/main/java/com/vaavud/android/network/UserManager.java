@@ -51,11 +51,11 @@ public class UserManager {
 								return;
 						}
 						if (state.isOpened()) {
-								Log.d(TAG, "Session State: " + session.getState()+ "Permisions: "+ session.getPermissions()+ "Declined: "+session.getDeclinedPermissions());
+//								Log.d(TAG, "Session State: " + session.getState()+ "Permisions: "+ session.getPermissions()+ "Declined: "+session.getDeclinedPermissions());
 								if (!session.isPermissionGranted("email")){ //|| !session.isPermissionGranted("user_friends") || !session.isPermissionGranted("public_profile")) {
 										if (user != null) {
 												user.eraseDataBase(context.getApplicationContext());
-												Log.d(TAG, "Session Closed");
+//												Log.d(TAG, "Session Closed");
 										}
 								} else {
 										if (user != null) {
@@ -63,10 +63,10 @@ public class UserManager {
 										}
 								}
 						} else {
-				Log.d(TAG, "Session State: " + session.getState());
+//				Log.d(TAG, "Session State: " + session.getState());
 								if (user != null) {
 										user.eraseDataBase(context.getApplicationContext());
-						Log.d(TAG, "Session Closed");
+//						Log.d(TAG, "Session Closed");
 								}
 						}
 				}

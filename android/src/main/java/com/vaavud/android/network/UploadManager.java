@@ -239,7 +239,7 @@ public class UploadManager {
 
 		public void registerDevice(final boolean trigger) {
 //		Log.d("UploadManager", "Register Device");
-    	Log.d("UploadManager", "UUID: " + device.getUuid() + " AuthToken:" + device.getAuthToken());
+//    	Log.d("UploadManager", "UUID: " + device.getUuid() + " AuthToken:" + device.getAuthToken());
 				GsonRequest<RegisterDeviceResponse> request = new GsonRequest<RegisterDeviceResponse>(UploadManager.BASE_URL + "/api/device/register",
 								device, RegisterDeviceResponse.class,
 								new Listener<RegisterDeviceResponse>() {

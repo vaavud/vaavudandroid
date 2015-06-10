@@ -360,7 +360,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 
 		@Override
 		public void onDestroy() {
-		Log.d(TAG, "onDestroy");
+//		Log.d(TAG, "onDestroy");
 				if (mapView != null) {
 						mapView.onDestroy();
 				}

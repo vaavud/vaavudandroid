@@ -100,7 +100,7 @@ public class LoginFragment extends Fragment implements UserResponseListener,Hist
 						} else if (state.isOpened()) {
 								fbAccessToken = session.getAccessToken();
 								fbAccessTokenExp = session.getExpirationDate();
-								Log.d(TAG, "Session State: " + session.getState()+ "Permisions: "+ session.getPermissions());
+//								Log.d(TAG, "Session State: " + session.getState()+ "Permisions: "+ session.getPermissions());
 								if (session.getDeclinedPermissions().size() > 0 && !session.getDeclinedPermissions().contains("publish_actions")) {
 										if (again) {
 												again = false;
@@ -388,7 +388,7 @@ public class LoginFragment extends Fragment implements UserResponseListener,Hist
 										if (progress != null && progress.isShowing() && !userLogged) {
 												progress.dismiss();
 												fbAccessToken = null;
-												Log.d("LoginFragment","Login Fragment Handler");
+//												Log.d("LoginFragment","Login Fragment Handler");
 												user.eraseDataBase(context.getApplicationContext());
 												userManager.cancelRequestQueue("userRequest");
 												Toast.makeText(context, context.getResources().getString(R.string.register_feedback_invalid_credentials_title), Toast.LENGTH_LONG).show();
