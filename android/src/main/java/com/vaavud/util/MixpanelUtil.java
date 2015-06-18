@@ -36,10 +36,10 @@ public final class MixpanelUtil {
 	public static void registerUserAsMixpanelProfile(Context context, User user){
 		
 		//MixPanel
-		if(context!=null && Device.getInstance(context).isMixpanelPeopleEnabled()){
-			String id = MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).getDistinctId();
+		if(context!=null && Device.getInstance(context.getApplicationContext()).isMixpanelPeopleEnabled()){
+			String id = MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).getDistinctId();
 	//		Log.d("MIXPANEL_API","Distinct ID:"+id);
-	    	MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).getPeople().identify(id);
+	    	MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).getPeople().identify(id);
 			
 			JSONObject props = new JSONObject();
 			try {
@@ -51,7 +51,7 @@ public final class MixpanelUtil {
 			}catch (JSONException e) {
 				e.printStackTrace();
 			}
-			MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).getPeople().set(props);
+			MixpanelAPI.getInstance(context.getApplicationContext(),MIXPANEL_TOKEN).getPeople().set(props);
 			
 			props = new JSONObject();
 			try {
@@ -60,7 +60,7 @@ public final class MixpanelUtil {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).registerSuperProperties(props);
+			MixpanelAPI.getInstance(context.getApplicationContext(),MIXPANEL_TOKEN).registerSuperProperties(props);
 			
 			if(user.getFacebookAccessToken()!=null){
 				props = new JSONObject();
@@ -69,7 +69,7 @@ public final class MixpanelUtil {
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).registerSuperProperties(props);
+				MixpanelAPI.getInstance(context.getApplicationContext(),MIXPANEL_TOKEN).registerSuperProperties(props);
 			}
 			
 			props = new JSONObject();
@@ -81,13 +81,13 @@ public final class MixpanelUtil {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).track("Login",props);
+			MixpanelAPI.getInstance(context.getApplicationContext(),MIXPANEL_TOKEN).track("Login",props);
 		}
 	}
 	
 	public static void registerUserErrorToMixpanel(Context context,User user,int statusOrdinal,String screen){
 		//MixPanel
-		if(context!=null && Device.getInstance(context).isMixpanelEnabled()){
+		if(context!=null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()){
 			JSONObject props = new JSONObject();
 			try {
 				props.put("Response", statusOrdinal);
@@ -99,12 +99,12 @@ public final class MixpanelUtil {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).track("Register Error", props);
+			MixpanelAPI.getInstance(context.getApplicationContext(),MIXPANEL_TOKEN).track("Register Error", props);
 		}
 	}
 	
 	public static void updateMeasurementProperties(Context context){
-		if(context!=null && Device.getInstance(context).isMixpanelPeopleEnabled()){
+		if(context!=null && Device.getInstance(context.getApplicationContext()).isMixpanelPeopleEnabled()){
 			int measurementCount = 0;
 			int realMeasurementCount = 0;
 			Date firstMeasurement = null;
@@ -133,18 +133,18 @@ public final class MixpanelUtil {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).getPeople().set(props);
+			MixpanelAPI.getInstance(context.getApplicationContext(),MIXPANEL_TOKEN).getPeople().set(props);
 		}
 	}
 	
 	public static void addMapInteractionToProfile(Context context){
-		MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).getPeople().increment("Map Interactions",1);
-		MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).getPeople().set("Last Map Interaction",GetUTCdatetimeAsString(new Date()));
+		MixpanelAPI.getInstance(context.getApplicationContext(),MIXPANEL_TOKEN).getPeople().increment("Map Interactions",1);
+		MixpanelAPI.getInstance(context.getApplicationContext(),MIXPANEL_TOKEN).getPeople().set("Last Map Interaction",GetUTCdatetimeAsString(new Date()));
 	}
 	
 	private static List<MeasurementSession> getMeasurementsFromDB(Context context){
 		//Log.i(TAG, "getMeasurementsFromDB");
-		List<MeasurementSession> measurementsList = VaavudDatabase.getInstance(context).getMeasurementSessions();
+		List<MeasurementSession> measurementsList = VaavudDatabase.getInstance(context.getApplicationContext()).getMeasurementSessions();
 		Collections.sort(measurementsList, startTimeComparatorDescending);
 		return measurementsList;
 	}

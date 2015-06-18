@@ -8,6 +8,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
@@ -20,154 +21,163 @@ import com.vaavud.android.ui.MainActivity;
 
 
 public class UserManager {
-	
-	private static final int REQUEST_TIMEOUT_MS = 8000; // 8 seconds
-	private static final int MAGNETIC_RETRIES = 3;
-	private static final String TAG = "USER_MANAGER";
 
-	public static final String BASE_URL = "https://mobile-api.vaavud.com";
+		private static final int REQUEST_TIMEOUT_MS = 8000; // 8 seconds
+		private static final int MAGNETIC_RETRIES = 3;
+		private static final String TAG = "USER_MANAGER";
+
+		public static final String BASE_URL = "https://mobile-api.vaavud.com";
 //	public static final String BASE_URL = "http://54.75.224.219";
-	
-	private Context context;
-	private RequestQueue requestQueue;
-	
-	
-	int timeAgo;
-	private boolean registerUserFired = false;
-	
-	private UserResponseListener userResponseListener;
-	private static UserManager instance;
-	
-	private User user;
 
-	private class UserStatusCallback implements StatusCallback {
-		
-		@Override
-		public void call(Session session, SessionState state, Exception exception) {
+		private Context context;
+
+		private RequestQueue requestQueue;
+
+		private boolean registerUserFired = false;
+
+		private UserResponseListener userResponseListener;
+		private static UserManager instance;
+
+		private User user;
+		private Device device;
+
+		private class UserStatusCallback implements StatusCallback {
+
+				@Override
+				public void call(Session session, SessionState state, Exception exception) {
 //			Log.d(TAG,"User Manager CallBack");
-			if (exception != null) {
+						if (exception != null) {
 //				Log.d(TAG,"Exception" + exception.toString());
-				return;
-			}
-			if (state.isOpened()) {
+								return;
+						}
+						if (state.isOpened()) {
+//								Log.d(TAG, "Session State: " + session.getState()+ "Permisions: "+ session.getPermissions()+ "Declined: "+session.getDeclinedPermissions());
+								if (!session.isPermissionGranted("email")){ //|| !session.isPermissionGranted("user_friends") || !session.isPermissionGranted("public_profile")) {
+										if (user != null) {
+												user.eraseDataBase(context.getApplicationContext());
+//												Log.d(TAG, "Session Closed");
+										}
+								} else {
+										if (user != null) {
+												user.setFacebookAccessToken(session.getAccessToken());
+										}
+								}
+						} else {
 //				Log.d(TAG, "Session State: " + session.getState());
-				if (session.isPermissionGranted("email") || !session.isPermissionGranted("user_friends") || !session.isPermissionGranted("public_profile")){
-					if (user!=null){
-						((MainActivity)context).restartUser();
+								if (user != null) {
+										user.eraseDataBase(context.getApplicationContext());
 //						Log.d(TAG, "Session Closed");
-					}
+								}
+						}
 				}
-				else{
-					if(user!=null){
-						user.setFacebookAccessToken(session.getAccessToken());
-					}
+		}
+
+		public static synchronized UserManager getInstance(Context context) {
+				if (instance == null) {
+						instance = new UserManager(context);
 				}
-			}else{
-//				Log.d(TAG, "Session State: " + session.getState());
-				((MainActivity)context).restartUser();
-			}
+				return instance;
 		}
-	}
 
-	public static synchronized UserManager getInstance(Context context,RequestQueue requestQueue,User user) {
-		if (instance == null) {
-			instance = new UserManager(context,requestQueue,user);
+		private UserManager(Context context) {
+				this.context = context;
+				if (requestQueue!=null) {
+						requestQueue.stop();
+				}
+				requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+				user = User.getInstance(context.getApplicationContext());
+				device = Device.getInstance(context.getApplicationContext());
 		}
-		return instance;
-	}
-	
-	private UserManager(Context context, RequestQueue requestQueue,User user) {
-		this.context = context;
-		this.requestQueue = requestQueue;
-		this.user = user;
-	}
 
-	public void registerUser(User user, UserResponseListener listener) {
+		public boolean registerUser(User user, UserResponseListener listener) {
 //		Log.d("UserManager","Registering User");
-		if (listener==null)
-			return;
-		
-		userResponseListener = listener;
-		
-		String authToken = Device.getInstance(context).getAuthToken();
+				if (listener == null)
+						return false;
+
+				userResponseListener = listener;
+
+				String authToken = device.getAuthToken();
 //		Log.d("UserManager","Device Token: "+dev.getAuthToken());
-		if (authToken == null || authToken.length() == 0) {
-			//Log.i("UploadManager", "No authToken so skipping upload");
-			return;
-		}
-		AuthGsonRequest<RegisterUserResponse> request = new AuthGsonRequest<RegisterUserResponse>(BASE_URL + "/api/user/register", authToken, user, RegisterUserResponse.class,
-				new Listener<RegisterUserResponse>() {
-					@Override
-					public void onResponse(RegisterUserResponse object) {
+				if (authToken == null || authToken.length() == 0) {
+						//Log.i("UploadManager", "No authToken so skipping upload");
+						return false;
+				}
+				AuthGsonRequest<RegisterUserResponse> request = new AuthGsonRequest<RegisterUserResponse>(BASE_URL + "/api/user/register", authToken, user, RegisterUserResponse.class,
+								new Listener<RegisterUserResponse>() {
+										@Override
+										public void onResponse(RegisterUserResponse object) {
 //						Log.i("UserManager", "Got successful response registering user");
-						// USER RESPONSE ACTION
-						userResponseListener.userResponseReceived(object);						
-					}
-				}, new ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error) {
-						userResponseListener.ErrorResponseReceived("Got error from server registering user");
-						if (((MainActivity)context).getProgressDialog()!=null) ((MainActivity)context).getProgressDialog().dismiss();
-						Log.e("UserManager", "Got error from server registering user: " + error.getMessage());
-					}
+												// USER RESPONSE ACTION
+												userResponseListener.userResponseReceived(object);
+										}
+								}, new ErrorListener() {
+						@Override
+						public void onErrorResponse(VolleyError error) {
+								userResponseListener.ErrorResponseReceived("Got error from server registering user");
+//								if (((MainActivity) context).getProgressDialog() != null)
+//										((MainActivity) context).getProgressDialog().dismiss();
+								Log.e("UserManager", "Got error from server registering user: " + error.getMessage());
+						}
 				});
-    	request.setRetryPolicy(new DefaultRetryPolicy(REQUEST_TIMEOUT_MS, MAGNETIC_RETRIES, 1.5F));
+				request.setRetryPolicy(new DefaultRetryPolicy(REQUEST_TIMEOUT_MS, MAGNETIC_RETRIES, 1.5F));
 //    	Log.d(TAG,"Creating request: "+"userRequest");
-    	request.setTag("userRequest");
-		requestQueue.add(request);
-	}
-	
-	public void loginUser(User user,UserResponseListener listener) {
+				request.setTag("userRequest");
+				requestQueue.add(request);
+				return true;
+		}
+
+		public boolean loginUser(User user, UserResponseListener listener) {
 
 //		Log.d(TAG,"Login In User");
-		if (listener!=null) userResponseListener = listener;
-		else return;
-		
-		String authToken = Device.getInstance(context).getAuthToken();
+				if (listener != null) userResponseListener = listener;
+				else return false;
+
+				String authToken = device.getAuthToken();
 //		Log.d(TAG,"Device Token: "+authToken);
-		if (authToken == null || authToken.length() == 0) {
-//			Log.i(TAG, "No authToken so skipping upload");
-			return;
-		}
+				if (authToken == null || authToken.length() == 0) {
+						Log.i(TAG, "No authToken so skipping upload");
+						return false;
+				}
 //		Log.d(TAG,user.toString());
-		AuthGsonRequest<RegisterUserResponse> request = new AuthGsonRequest<RegisterUserResponse>(BASE_URL + "/api/user/register", authToken, user, RegisterUserResponse.class,
-				new Listener<RegisterUserResponse>() {
-					@Override
-					public void onResponse(RegisterUserResponse object) {
+				AuthGsonRequest<RegisterUserResponse> request = new AuthGsonRequest<RegisterUserResponse>(BASE_URL + "/api/user/register", authToken, user, RegisterUserResponse.class,
+								new Listener<RegisterUserResponse>() {
+										@Override
+										public void onResponse(RegisterUserResponse object) {
 //						Log.i(TAG, "Got successful response registering user");
-						// USER RESPONSE ACTION
-						userResponseListener.userResponseReceived(object);
-					}
-				}, new ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error) {
-						userResponseListener.ErrorResponseReceived("Got error from server logging user");
+												// USER RESPONSE ACTION
+												userResponseListener.userResponseReceived(object);
+										}
+								}, new ErrorListener() {
+						@Override
+						public void onErrorResponse(VolleyError error) {
+								userResponseListener.ErrorResponseReceived("Got error from server logging user");
 //						if (((MainActivity)context).getProgressDialog()!=null) ((MainActivity)context).getProgressDialog().dismiss();
-						Log.e(TAG, "Got error from server registering user: " + error.getMessage());
-					}
+								Log.e(TAG, "Got error from server registering user: " + error.getMessage());
+						}
 				});
-		
-    	request.setRetryPolicy(new DefaultRetryPolicy(REQUEST_TIMEOUT_MS, MAGNETIC_RETRIES, 1.5F));
-    	request.setTag("userRequest");
+
+				request.setRetryPolicy(new DefaultRetryPolicy(REQUEST_TIMEOUT_MS, MAGNETIC_RETRIES, 1.5F));
+				request.setTag("userRequest");
 //    	Log.d(TAG,"Creating request: "+request.toString());
-		requestQueue.add(request);
-		
-	}
-	
-	public void cancelRequestQueue(String tag){
+				requestQueue.add(request);
+				return true;
+
+		}
+
+		public void cancelRequestQueue(String tag) {
 //		Log.d(TAG,"Cancelling request: "+tag);
 //		Log.d(TAG,"Request Queue: "+requestQueue.getCache().toString());
-		requestQueue.cancelAll(tag);
-	}
-	
-	public boolean getRegisterUserFired(){
-//		Log.d("UserManager","GetRegisterUserFired: "+Boolean.toString(registerUserFired));
-		return registerUserFired;
-	}
+				requestQueue.cancelAll(tag);
+		}
 
-	public StatusCallback getUserCallback() {
-		// TODO Auto-generated method stub
-		return new UserStatusCallback();
-	}
+		public boolean getRegisterUserFired() {
+//		Log.d("UserManager","GetRegisterUserFired: "+Boolean.toString(registerUserFired));
+				return registerUserFired;
+		}
+
+		public StatusCallback getUserCallback() {
+				// TODO Auto-generated method stub
+				return new UserStatusCallback();
+		}
 
 }

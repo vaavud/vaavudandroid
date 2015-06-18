@@ -9,6 +9,7 @@ import android.media.AudioRecord;
 import android.media.AudioTrack;
 import android.media.MediaRecorder;
 import android.os.Handler;
+import android.util.Log;
 
 import com.vaavud.android.R;
 import com.vaavud.android.measure.sensor.DataManager;
@@ -40,7 +41,9 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 		private static final String KEY_CALIBRATION_COEFFICENTS = "calibrationCoefficients";
 		private static final String KEY_PLAYER_VOLUME = "playerVolume";
 
-		private Context context;
+		private Context mContext;
+		private Context appContext;
+		private Device device;
 		private OrientationSensorManagerSleipnir orientationSensorManager;
 		private UploadManager uploadManager;
 		private LocationUpdateManager locationManager;
@@ -86,23 +89,25 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 
 
 		public SleipnirCoreController(Context context, DataManager dataManager, UploadManager uploadManager, LocationUpdateManager locationManager, boolean calibrationMode) {
-//		Log.d("SleipnirCoreController","Sleipnir Core Controller");
-				this.context = context;
+//				Log.d("SleipnirCoreController", "Sleipnir Core Controller Context: " + context);
+				mContext = context;
+				appContext = context.getApplicationContext();
 				this.uploadManager = uploadManager;
 				this.locationManager = locationManager;
 				this.dataManager = dataManager;
 				mCalibrationMode = calibrationMode;
+				device = Device.getInstance(context.getApplicationContext());
 
 		}
 
 		public void startController() {
 				String coefficientsString;
-				orientationSensorManager = new OrientationSensorManagerSleipnir(context);
+				orientationSensorManager = new OrientationSensorManagerSleipnir(appContext);
 				wind = new WindMeasurement();
 				handler = new Handler();
 				if (!mCalibrationMode) {
-						coefficients = Device.getInstance(context).getCalibrationCoefficients();
-						playerVolume = Device.getInstance(context).getPlayerVolume();
+						coefficients = device.getCalibrationCoefficients();
+						playerVolume = device.getPlayerVolume();
 //						Log.d("SleipnirCoreController", "Loaded volume: "+ playerVolume);
 				}
 
@@ -122,15 +127,15 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 		public void startMeasuring() {
 				clearData();
 //		Log.d("SleipnirCoreController","Start Measuring");
-				mSettingsContentObserver = new SettingsContentObserver(context, new Handler());
-				context.getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, mSettingsContentObserver);
+				mSettingsContentObserver = new SettingsContentObserver(appContext, new Handler());
+				appContext.getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, mSettingsContentObserver);
 
 				if (player == null)
 						player = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT, numSamples * 2, AudioTrack.MODE_STREAM);
 				if (recorder == null)
 						recorder = new AudioRecord(MediaRecorder.AudioSource.MIC, sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, sampleRate * N);
 
-				myAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+				myAudioManager = (AudioManager) appContext.getSystemService(Context.AUDIO_SERVICE);
 				myAudioManager.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
 
 				myAudioManager.setMicrophoneMute(false);
@@ -139,8 +144,8 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 						status = MeasureStatus.MEASURING;
 						sendStatus(status);
 				} else {
-						String name = Device.getInstance(context).getModel() + "_" + Device.getInstance(context).getUuid() + "_" + new SimpleDateFormat("ddMMyy-HHmmss").format(new Date()) + ".raw";
-						mFileName = context.getExternalCacheDir().getAbsolutePath() + "/" + name;
+						String name = device.getModel() + "_" + device.getUuid() + "_" + new SimpleDateFormat("ddMMyy-HHmmss").format(new Date()) + ".raw";
+						mFileName = appContext.getExternalCacheDir().getAbsolutePath() + "/" + name;
 				}
 
 				initialTime = new Date().getTime();
@@ -152,7 +157,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 //		Log.d("SleipnirCoreController","Stop Measuring");
 				pauseMeasuring();
 				isMeasuring = false;
-				context.getContentResolver().unregisterContentObserver(mSettingsContentObserver);
+				appContext.getContentResolver().unregisterContentObserver(mSettingsContentObserver);
 		}
 
 		@Override
@@ -182,11 +187,11 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 
 						myAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
 
-						AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-						builder1.setTitle(context.getResources().getString(R.string.sound_disclaimer_title));
-						builder1.setMessage(context.getResources().getString(R.string.sound_disclaimer));
+						AlertDialog.Builder builder1 = new AlertDialog.Builder(mContext);
+						builder1.setTitle(appContext.getResources().getString(R.string.sound_disclaimer_title));
+						builder1.setMessage(appContext.getResources().getString(R.string.sound_disclaimer));
 						builder1.setCancelable(false);
-						builder1.setNeutralButton(context.getResources().getString(R.string.button_ok),
+						builder1.setNeutralButton(appContext.getResources().getString(R.string.button_ok),
 										new DialogInterface.OnClickListener() {
 												public void onClick(DialogInterface dialog, int id) {
 														dialog.dismiss();
@@ -294,7 +299,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 //	        	Log.d("SleipnirCoreController","Current Direction: "+currentDirection + " Current Orientation: "+orientationAngle + " estimated Direction: "+direction);
 						}
 //	        Log.d("SleipnirCoreController","Read Data WindMeter: "+currentSession.getWindMeter());
-						VaavudDatabase.getInstance(context).updateDynamicMeasurementSession(currentSession);
+						VaavudDatabase.getInstance(appContext).updateDynamicMeasurementSession(currentSession);
 
 						// add MeasurementPoint and save to database
 						MeasurementPoint measurementPoint = new MeasurementPoint();
@@ -303,7 +308,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 						measurementPoint.setWindSpeed(currentActualValueMS);
 						measurementPoint.setWindDirection(currentDirection);
 
-						VaavudDatabase.getInstance(context).insertMeasurementPoint(measurementPoint);
+						VaavudDatabase.getInstance(appContext).insertMeasurementPoint(measurementPoint);
 
 						for (MeasurementReceiver measurementReceiver : measurementReceivers) {
 								measurementReceiver.measurementAdded(currentSession, dataManager.getLastTime(), currentActualValueMS, currentMeanValueMS == null ? null : currentMeanValueMS.floatValue(), currentMaxValueMS, currentDirection);
@@ -344,7 +349,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 //    	Log.d("SleipnirCoreController", "Start Session");
 				currentSession = new MeasurementSession();
 				currentSession.setUuid(UUIDUtil.generateUUID());
-				currentSession.setDevice(Device.getInstance(context).getUuid());
+				currentSession.setDevice(device.getUuid());
 				currentSession.setSource("vaavud");
 				currentSession.setStartTime(new Date());
 				currentSession.setTimezoneOffset((long) TimeZone.getDefault().getOffset(currentSession.getStartTime().getTime()));
@@ -356,7 +361,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 				currentSession.setPosition(locationManager.getLocation());
 				currentSession.setWindMeter(WindMeter.SLEIPNIR);
 
-				VaavudDatabase.getInstance(context).insertMeasurementSession(currentSession);
+				VaavudDatabase.getInstance(appContext).insertMeasurementSession(currentSession);
 
 				startMeasuring();
 
@@ -371,7 +376,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 				handler.removeCallbacks(readDataRunnable);
 				stopMeasuring();
 				currentSession.setMeasuring(false);
-				VaavudDatabase.getInstance(context).updateDynamicMeasurementSession(currentSession);
+				VaavudDatabase.getInstance(appContext).updateDynamicMeasurementSession(currentSession);
 
 				uploadManager.triggerUpload();
 
@@ -460,8 +465,8 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 
 		@Override
 		public void calibrationCoefficients(Float[] coefficients) {
-				if (context instanceof CalibrationActivity) {
-						CalibrationActivity activity = (CalibrationActivity) context;
+				if (mContext instanceof CalibrationActivity) {
+						CalibrationActivity activity = (CalibrationActivity) mContext;
 						activity.calibrationCoefficients(coefficients);
 				}
 		}
@@ -469,7 +474,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 		@Override
 		public void volumeLevel(float v) {
 				playerVolume = v;
-				Device.getInstance(context).setPlayerVolume(context, playerVolume);
+				device.setPlayerVolume(appContext,playerVolume);
 //				VaavudDatabase.getInstance(context).setProperty(KEY_PLAYER_VOLUME, playerVolume.toString());
 		}
 }

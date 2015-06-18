@@ -43,8 +43,8 @@ public class FFTManager {
 	}
 	
 	public void configure(Context context) {
-		frequencyStart = Device.getInstance(context).getFrequencyStart();
-		frequencyFactor = Device.getInstance(context).getFrequencyFactor();
+		frequencyStart = Device.getInstance(context.getApplicationContext()).getFrequencyStart();
+		frequencyFactor = Device.getInstance(context.getApplicationContext()).getFrequencyFactor();
 		largestFFTDataLength = 100; // quick implementation
 		//Log.i("FFTManager", "Using frequencyStart=" + frequencyStart + " and frequencyFactor=" + frequencyFactor);
 	}

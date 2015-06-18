@@ -88,8 +88,8 @@ public class UploadSoundFilesDialog extends DialogFragment {
 	/** The system calls this only when creating the layout in a dialog. */
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		if (getActivity()!=null && Device.getInstance(getActivity()).isMixpanelEnabled()){
-			MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).track("Upload Sound Dialog", null);
+		if (context!=null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()){
+			MixpanelAPI.getInstance(context.getApplicationContext(),MIXPANEL_TOKEN).track("Upload Sound Dialog", null);
 		}
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -102,8 +102,8 @@ public class UploadSoundFilesDialog extends DialogFragment {
 		// Add the buttons
 		builder.setNeutralButton(context.getResources().getString(R.string.button_cancel), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
-				if (getActivity()!=null && Device.getInstance(getActivity()).isMixpanelEnabled()){
-					MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).track("Upload File Dialog Cancelled", null);
+				if (context!=null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()){
+					MixpanelAPI.getInstance(context.getApplicationContext(),MIXPANEL_TOKEN).track("Upload File Dialog Cancelled", null);
 				}
 				for (int i=0;i<mModels.length;i++){
 					TransferController.abort(context, mModels[i]);
@@ -128,7 +128,7 @@ public class UploadSoundFilesDialog extends DialogFragment {
 		
 		
 		AlertDialog dialog = builder.create();
-		dialog.setOwnerActivity(getActivity());
+		dialog.setOwnerActivity((Activity)context);
 		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		dialog.setCancelable(false);
 		dialog.setCanceledOnTouchOutside(false);

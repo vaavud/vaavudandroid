@@ -53,7 +53,7 @@
 	<string name="history_go_to_measure">Gå til Mål og tryk Start for at komme i gang!</string>
     
     <string name="about_title">Om Vaavud</string>
-    <string name="about_vaavud_text">Vaavud er en dansk teknologi start-up.\n Vores mål er at lave de bedste vindmålere i verden ifht brugervenlighed, funktioner og integration med andre produkter.\n For at læse mere og købe en Vaavud vindmåler, så besøg Vaavud.com\n &#169; Vaavud ApS 2014, all rights reserved\n Version: %1$s</string>
+    <string name="about_vaavud_text">Vaavud er en dansk teknologi start-up.\n Vores mission er at levere højopløst, personaliseret vejrinformation.\n For at læse mere og købe en Vaavud vindmåler, så besøg Vaavud.com\n &#169; Vaavud ApS 2014, all rights reserved\n Version: %1$s</string>
     <string name="link_terms_of_service">Betingelser</string>
     <string name="link_privacy_policy">Privatlivspolitik</string>
     
@@ -154,4 +154,10 @@
 	    <!--  App ID -->
 	    <string name="app_name">Vaavud</string>
 	    <string name="app_id">624217360948538</string>
+	<string name="title_activity_about">Om</string>
+	<string name="title_activity_login">Log ind</string>
+	<string name="title_activity_settings">Indstillinger</string>
+	<string name="title_activity_calibration">Kalibrering</string>
+	<string name="unit_cardinal">Kardinal</string>
+	<string name="unit_degrees">Grader</string>
 </resources>

@@ -53,7 +53,7 @@
 	<string name="history_go_to_measure">측정으로 가서 시작을 누르고 계속하세요!</string>
     
     <string name="about_title">회사 소개</string>
-    <string name="about_vaavud_text">Vaavud는 덴마크의 신생 테크놀로지 회사입니다.\n 당사의 사명은 유용성, 기능 및 제3자와의 통합 면에서 지구상 최고의 풍속계를 만드는 것입니다. \n  Vaavud 풍속계에 대한 상세 정보 및 구입 방법에 대해 아시고 싶으면 Vaavud.com을 찾아 주십시오. \n &#169; Vaavud ApS 2014, 무단 전재 금지\n 버전: %1$s</string>
+    <string name="about_vaavud_text">Vaavud는 덴마크의 신생 테크놀로지 회사입니다.\n .  당사의 임무는 고화질의 맞춤형 기상 정보를 제공하는 것입니다.\n  Vaavud 풍속계에 대한 상세 정보 및 구입 방법에 대해 아시고 싶으면 Vaavud.com을 찾아 주십시오. \n &#169; Vaavud ApS 2014, 무단 전재 금지\n 버전: %1$s</string>
     <string name="link_terms_of_service">서비스 약관</string>
     <string name="link_privacy_policy">개인정보 취급방침</string>
     
@@ -152,4 +152,8 @@
     <!--  App ID -->
     <string name="app_name">Vaavud</string>
     <string name="app_id">624217360948538</string>
+    <string name="title_activity_about">회사 소개</string>
+    <string name="title_activity_login">로그인</string>
+    <string name="title_activity_settings">설정</string>
+    <string name="title_activity_calibration">측정</string>
 </resources>

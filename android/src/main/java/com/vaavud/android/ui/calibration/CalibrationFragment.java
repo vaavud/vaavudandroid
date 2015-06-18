@@ -7,6 +7,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -46,7 +47,7 @@ public class CalibrationFragment extends Fragment {
 
 		private SleipnirCoreController mController;
 
-		private CalibrationActivity mActivity;
+		private Context context;
 
 		private TextView percentage;
 		private long startTime;
@@ -90,7 +91,7 @@ public class CalibrationFragment extends Fragment {
 		@Override
 		public void onAttach(Activity activity) {
 				super.onAttach(activity);
-				mActivity = (CalibrationActivity) activity;
+				context = activity;
 		}
 
 		@Override
@@ -100,8 +101,8 @@ public class CalibrationFragment extends Fragment {
 				View rootView = inflater.inflate(R.layout.fragment_calibration,
 								container, false);
 
-				Typeface robotoLight = Typeface.createFromAsset(mActivity.getAssets(), "Roboto-Light.ttf");
-				Typeface robotoRegular = Typeface.createFromAsset(mActivity.getAssets(), "Roboto-Regular.ttf");
+				Typeface robotoLight = Typeface.createFromAsset(context.getAssets(), "Roboto-Light.ttf");
+				Typeface robotoRegular = Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf");
 
 				mCircularBar = (HoloCircularProgressBar) rootView.findViewById(R.id.holoCircularProgressBar);
 				mCircularBar.setVisibility(View.VISIBLE);
@@ -127,14 +128,14 @@ public class CalibrationFragment extends Fragment {
 										mController.stopController();
 										mController = null;
 								}
-								if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-										MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
+								if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
 								}
-								mActivity.finish();
+								((Activity)context).finish();
 						}
 				});
 
-				askUploadDialog = new AlertDialog.Builder(getActivity())
+				askUploadDialog = new AlertDialog.Builder(context)
 								.setPositiveButton(R.string.button_ok,
 												new DialogInterface.OnClickListener() {
 														public void onClick(DialogInterface dialog, int whichButton) {
@@ -146,12 +147,12 @@ public class CalibrationFragment extends Fragment {
 																				handler = null;
 																		}
 																		mController.stopController();
-																		if (InternetManager.Check(mActivity)) {
+																		if (InternetManager.Check(context)) {
 																				uploadDialog = new UploadSoundFilesDialog(getActivity(), mController.getFileName());
 																				uploadDialog.show(getFragmentManager(), "UploadDialog");
 																		} else {
-																				Toast.makeText(getActivity(), getResources().getString(R.string.conectivity_error_message), Toast.LENGTH_LONG).show();
-																				mActivity.finish();
+																				Toast.makeText(context, getResources().getString(R.string.conectivity_error_message), Toast.LENGTH_LONG).show();
+																				((Activity)context).finish();
 																		}
 																		mController = null;
 																}
@@ -171,8 +172,8 @@ public class CalibrationFragment extends Fragment {
 																		mController.stopController();
 																		mController = null;
 																}
-																if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-																		MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
+																if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+																		MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
 																}
 
 														}
@@ -197,7 +198,7 @@ public class CalibrationFragment extends Fragment {
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 				super.onCreate(savedInstanceState);
-				mController = new SleipnirCoreController(getActivity(), null, null, null, true);
+				mController = new SleipnirCoreController(context.getApplicationContext(), null, null, null, true);
 
 		}
 
@@ -230,7 +231,7 @@ public class CalibrationFragment extends Fragment {
 										mController.stopMeasuring();
 										mController.stopController();
 										mController = null;
-										mActivity.getSupportFragmentManager().beginTransaction()
+										((CalibrationActivity)context).getSupportFragmentManager().beginTransaction()
 														.replace(R.id.container, new FinishCalibrationFragment()).commit();
 								}
 						}

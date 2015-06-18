@@ -2,6 +2,7 @@ package com.vaavud.android.ui.calibration;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,7 +22,7 @@ public class InitCalibrationFragment extends Fragment {
 
     private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0";
     private Boolean layoutVersion;
-    private CalibrationActivity mActivity;
+    private Context context;
 
     public InitCalibrationFragment() {
 
@@ -30,15 +31,15 @@ public class InitCalibrationFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = (CalibrationActivity) activity;
+        context = (CalibrationActivity) activity;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Typeface robotoBold = Typeface.createFromAsset(mActivity.getAssets(), "Roboto-Bold.ttf");
-        Typeface robotoLight = Typeface.createFromAsset(mActivity.getAssets(), "Roboto-Light.ttf");
-        Typeface robotoRegular = Typeface.createFromAsset(mActivity.getAssets(), "Roboto-Regular.ttf");
+        Typeface robotoBold = Typeface.createFromAsset(context.getAssets(), "Roboto-Bold.ttf");
+        Typeface robotoLight = Typeface.createFromAsset(context.getAssets(), "Roboto-Light.ttf");
+        Typeface robotoRegular = Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf");
 
         View rootView = inflater.inflate(R.layout.fragment_init_calibration, container, false);
 
@@ -56,11 +57,11 @@ public class InitCalibrationFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-            	if (mActivity.getIsSleipnirPlugged()){
-	                mActivity.getSupportFragmentManager().beginTransaction()
+            	if (((CalibrationActivity)context).getIsSleipnirPlugged()){
+                  ((CalibrationActivity)context).getSupportFragmentManager().beginTransaction()
 	                        .replace(R.id.container, new CalibrationFragment()).commit();
             	}else{
-            		Toast.makeText(mActivity, getResources().getString(R.string.calibration_not_sleipnir_toast),Toast.LENGTH_LONG).show();
+            		Toast.makeText(context, getResources().getString(R.string.calibration_not_sleipnir_toast),Toast.LENGTH_LONG).show();
             	}
             }
         });
@@ -70,14 +71,14 @@ public class InitCalibrationFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-                    MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
+                if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+                    MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
                 }
-                mActivity.finish();
+                ((Activity)context).finish();
             }
         });
 
-        if (mActivity.isFirstTime()) {
+        if (((CalibrationActivity)context).isFirstTime()) {
             cancel.setText(R.string.calibration_later_text);
         } else {
             access.setVisibility(View.GONE);
@@ -91,8 +92,8 @@ public class InitCalibrationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-            MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Calibration Initial Screen", null);
+        if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+            MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Calibration Initial Screen", null);
         }
     }
 }

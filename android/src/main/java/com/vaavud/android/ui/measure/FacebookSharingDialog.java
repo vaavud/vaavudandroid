@@ -117,8 +117,8 @@ public class FacebookSharingDialog extends DialogFragment {
 	/** The system calls this only when creating the layout in a dialog. */
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		if (getActivity()!=null && Device.getInstance(getActivity()).isMixpanelEnabled()){
-			MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).track("Share Dialog", null);
+		if (context!=null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()){
+			MixpanelAPI.getInstance(context.getApplicationContext(),MIXPANEL_TOKEN).track("Share Dialog", null);
 		}
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -128,7 +128,7 @@ public class FacebookSharingDialog extends DialogFragment {
 		imageViewCenter = (ImageView) view.findViewById(R.id.fbImageViewCenter);
 		imageViewRight = (ImageView) view.findViewById(R.id.fbImageViewRight);
 		
-		currentUnit = Device.getInstance(context).getWindSpeedUnit();
+		currentUnit = Device.getInstance(context.getApplicationContext()).getWindSpeedUnit();
 		
 		text = ((EditText)view.findViewById(R.id.fbEditText));
 		
@@ -158,8 +158,8 @@ public class FacebookSharingDialog extends DialogFragment {
 		});
 		builder.setNegativeButton(((Activity)context).getResources().getString(R.string.button_cancel), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
-				if (getActivity()!=null && Device.getInstance(getActivity()).isMixpanelEnabled()){
-					MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).track("Share Dialog Cancelled", null);
+				if (context!=null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()){
+					MixpanelAPI.getInstance(context.getApplicationContext(),MIXPANEL_TOKEN).track("Share Dialog Cancelled", null);
 				}
 			}
 		});
@@ -243,7 +243,6 @@ public class FacebookSharingDialog extends DialogFragment {
 				// Image captured and saved to fileUri specified in the Intent
 //				Toast.makeText(getActivity(), "OK", Toast.LENGTH_SHORT).show();
 				imageTaken=true;
-
 			} else if (resultCode == Activity.RESULT_CANCELED) {
 				imageTaken=false;
 //				Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_SHORT).show();
@@ -401,7 +400,7 @@ public class FacebookSharingDialog extends DialogFragment {
 				progress=new ProgressDialog(context);
 				progress.setCancelable(false);
 				progress.setMessage(context.getResources().getString(R.string.register_feedback_conecting_server));
-				((MainActivity)context).setProgressDialog(progress);
+//				((MainActivity)context).setProgressDialog(progress);
 			}
 			progress.show();
 			fbStatusCallback=new FBStatusCallback();
@@ -440,12 +439,12 @@ public class FacebookSharingDialog extends DialogFragment {
 	protected void publishStory() {
 		
 //		Settings.addLoggingBehavior(LoggingBehavior.REQUESTS);
-		progress = ((MainActivity)context).getProgressDialog();
+
 		if (progress == null){
 			progress=new ProgressDialog(context);
 			progress.setCancelable(false);
 			progress.setMessage(context.getResources().getString(R.string.register_feedback_conecting_server));
-			((MainActivity)context).setProgressDialog(progress);
+//			((MainActivity)context).setProgressDialog(progress);
 		}
 		progress.show();
 
@@ -571,7 +570,7 @@ public class FacebookSharingDialog extends DialogFragment {
 						e.printStackTrace();
 					}
 	        		if (getActivity()!=null && Device.getInstance(getActivity()).isMixpanelEnabled()){
-	        			MixpanelAPI.getInstance(context,MIXPANEL_TOKEN).track("Share Dialog Successful", props);
+	        			MixpanelAPI.getInstance(context.getApplicationContext(),MIXPANEL_TOKEN).track("Share Dialog Successful", props);
 	        		}
 				}
 			}

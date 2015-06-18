@@ -13,9 +13,6 @@
 
     </style>
 
-
-
-
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowNoTitle">true</item>
@@ -24,22 +21,28 @@
         <item name="actionBarStyle">@style/VaavudActionBarStyle</item>
         <item name="actionBarTabStyle">@style/VaavudActionBarTabStyle</item>
         <item name="actionBarItemBackground">@drawable/ab_selectable_background</item>
+        <item name="android:actionBarTabTextStyle">@style/VaavudActionBarTabTextColor</item>
+        <item name="actionBarTabTextStyle">@style/VaavudActionBarTabTextColor</item>
+        <item name="android:actionModeBackground">@color/vaavudgray_20</item>
+        <item name="actionModeBackground">@color/vaavudgray_20</item>
+        <item name="android:actionOverflowButtonStyle">@style/VaavudActionOverflowButtonStyle</item>
+        <item name="actionOverflowButtonStyle">@style/VaavudActionOverflowButtonStyle</item>
+        <item name="android:actionMenuTextColor">@color/vaavudgray</item>
+        <item name="actionMenuTextColor">@color/vaavudgray</item>
 
         <item name="dropDownListViewStyle">@style/VaavudListViewDropDown</item>
         <item name="popupMenuStyle">@style/VaavudPopupMenu</item>
-        <!--<item name="actionDropDownStyle">@style/Widget.Styled.Spinner.DropDown.ActionBar</item>-->
-        <!--<item name="dropDownListViewStyle">@style/Widget.Styled.ListView.DropDown</item>-->
-        <!--<item name="popupMenuStyle">@style/Widget.Styled.PopupMenu</item>-->
 
-
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_black</item>
+        <item name="homeAsUpIndicator">@drawable/ic_arrow_back_black</item>
         <item name="circularProgressBarStyle">@style/CircularProgressBar</item>
 
 
         <!-- COLORS-->
         <!-- colorPrimary is used for the default action bar background -->
-        <item name="colorPrimary">@color/midgray</item>
+        <item name="colorPrimary">@color/vaavudgray_20</item>
         <!-- colorPrimaryDark is used for the status bar -->
-        <item name="colorPrimaryDark">@color/darkgray</item>
+        <item name="colorPrimaryDark">@color/vaavudgray</item>
         <!-- colorAccent is used as the default value for colorControlActivated
              which is used to tint widgets -->
         <item name="colorAccent">@color/blue</item>
@@ -53,11 +56,14 @@
         <item name="android:textColor">#ffffffff</item>
     </style>
 
+    <style name="VaavudActionOverflowButtonStyle" parent="@style/Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_more_black</item>
+    </style>
     <!-- DropDown Menu Style -->
 
     <style name="VaavudListViewDropDown"
            parent="@style/Widget.AppCompat.Light.ListView.DropDown">
-        <item name="android:listSelector">@drawable/ab_selectable_background</item>
+        <!--<item name="android:listSelector">@drawable/ab_selectable_background</item>-->
     </style>
     <!-- Popup Menu Style -->
 
@@ -69,16 +75,25 @@
     <style name="VaavudActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="displayOptions">showHome|useLogo</item>
         <item name="logo">@drawable/logo</item>
-        <item name="android:background">@color/midgray</item>
-        <item name="background">@color/midgray</item>
+        <item name="android:background">@color/vaavudgray_20</item>
+        <item name="background">@color/vaavudgray_20</item>
+        <item name="android:titleTextStyle">@style/VaavudActionBarTitleTextColor</item>
+        <item name="titleTextStyle">@style/VaavudActionBarTitleTextColor</item>
     </style>
 
     <!--Action Bar Tab Style -->
     <style name="VaavudActionBarTabStyle" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
-        <item name="android:actionBarDivider">@color/darkgray</item>
-        <item name="actionBarDivider">@color/darkgray</item>
+        <item name="android:actionBarDivider">@color/vaavudgray_20</item>
+        <item name="actionBarDivider">@color/vaavudgray_20</item>
         <item name="android:background">@drawable/ab_tab_indicator</item>
         <item name="background">@drawable/ab_tab_indicator</item>
+    </style>
+
+    <style name="VaavudActionBarTabTextColor" parent="@style/Widget.AppCompat.Light.ActionBar.TabText">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="VaavudActionBarTitleTextColor" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/blue</item>
     </style>
 
 

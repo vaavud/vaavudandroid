@@ -1,6 +1,7 @@
 package com.vaavud.android.ui.calibration;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,7 @@ import com.vaavud.android.model.entity.Device;
 
 public class FinishCalibrationFragment extends Fragment {
 
-    private CalibrationActivity mActivity;
+    private Context context;
     private static final String KEY_FIRST_TIME_SLEIPNIR = "firstTimeSleipnir";
     private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0";
 
@@ -29,14 +30,14 @@ public class FinishCalibrationFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = (CalibrationActivity) activity;
+        context =  activity;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Typeface robotoLight = Typeface.createFromAsset(mActivity.getAssets(), "Roboto-Light.ttf");
-        Typeface robotoRegular = Typeface.createFromAsset(mActivity.getAssets(), "Roboto-Regular.ttf");
+        Typeface robotoLight = Typeface.createFromAsset(context.getAssets(), "Roboto-Light.ttf");
+        Typeface robotoRegular = Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf");
 
         View rootView = inflater.inflate(R.layout.fragment_end_calibration, container, false);
 
@@ -51,11 +52,11 @@ public class FinishCalibrationFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                VaavudDatabase.getInstance(mActivity.getApplicationContext()).setPropertyAsBoolean(KEY_FIRST_TIME_SLEIPNIR, true);
-                if (getActivity() != null && Device.getInstance(getActivity()).isMixpanelEnabled()) {
-                    MixpanelAPI.getInstance(getActivity(), MIXPANEL_TOKEN).track("Calibration Finished", null);
+                VaavudDatabase.getInstance(context.getApplicationContext()).setPropertyAsBoolean(KEY_FIRST_TIME_SLEIPNIR, true);
+                if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+                    MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Calibration Finished", null);
                 }
-                mActivity.finish();
+                ((Activity)context).finish();
             }
         });
 

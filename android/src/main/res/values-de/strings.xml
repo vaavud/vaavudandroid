@@ -47,7 +47,7 @@
     <string name="history_no_measurements">Noch keine Messungen</string>
     <string name="history_go_to_measure">Gehen Sie in \'Messung\' und drücken Sie auf \'Start\', um zu beginnen!</string>
     <string name="about_title">Über</string>
-    <string name="about_vaavud_text">Vaavud ist eine dänisches Technologie-Startup.\n Unsere Mission besteht darin, die besten Windmesser der Welt in Bezug auf Nutzbarkeit, Funktionen und Dritt-Integration anzubieten.\n Um mehr zu erfahren und einen Vaavud-Windmesser zu kaufen, besuchen Sie bitte Vaavud.com\n &#169; Vaavud ApS 2014, alle Recht vorbehalten\n Version: %1$s</string>
+    <string name="about_vaavud_text">Vaavud ist eine dänisches Technologie-Startup.\n Unsere Mission besteht darin, hochauflösende, personalisierte Wetterinformationen zu liefern.\n Um mehr zu erfahren und einen Vaavud-Windmesser zu kaufen, besuchen Sie bitte Vaavud.com\n &#169; Vaavud ApS 2014, alle Recht vorbehalten\n Version: %1$s</string>
     <string name="link_terms_of_service">Servicebedingungen</string>
     <string name="link_privacy_policy">Datenschutzerklärung</string>
     <string name="register_title_signup">Anmeldung</string>
@@ -96,7 +96,7 @@
     <!-- Menu Items -->
     <string name="option_login">Log-In/Erstellen</string>
     <string name="option_about">Über</string>
-    <string name="option_logout">Lot-Out</string>
+    <string name="option_logout">Ausloggen</string>
     <string name="option_delete">Löschen</string>
 
     <!-- Share Items -->
@@ -143,5 +143,11 @@
     <!-- App ID -->
     <string name="app_name">Vaavud</string>
     <string name="app_id">624217360948538</string>
+    <string name="title_activity_about">Über</string>
+    <string name="title_activity_login">Log-In</string>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="title_activity_calibration">Kalibrierung</string>
+    <string name="unit_degrees">Grad</string>
+    <string name="unit_cardinal">Kardinal</string>
 
 </resources>
