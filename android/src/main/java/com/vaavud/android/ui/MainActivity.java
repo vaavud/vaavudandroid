@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -276,7 +277,6 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 										// create single request queue
 										uploadManager.registerDevice(false);
 										shareToFacebook = false;
-										SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 										SharedPreferences.Editor editor = pref.edit();
 										editor.clear();
 										editor.commit();
@@ -327,6 +327,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		protected void onResume() {
 //		Log.i(TAG, "onResume");
 				super.onResume();
+				pref = getSharedPreferences("Vaavud", Context.MODE_PRIVATE);
 				user = User.getInstance(getApplicationContext());
 				device = Device.getInstance(getApplicationContext());
 
@@ -334,7 +335,6 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						getSupportActionBar().setSelectedNavigationItem(MEASURE_TAB);
 				}
 
-				pref = getSharedPreferences("Vaavud", Context.MODE_PRIVATE);
 				device.setWindSpeedUnit(getApplicationContext(),SpeedUnit.valueOf(pref.getString("heading_unit", "MS")));
 
 				orientationListener.enable();
@@ -445,6 +445,10 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 				return myVaavudCoreController;
 		}
 
+		public SharedPreferences getSharedPreferences(){
+				return pref;
+		}
+
 		public boolean isCurrentTab(Fragment fragment) {
 				boolean isCurrent = false;
 				if (fragment == null || pagerAdapter == null || viewPager == null) {
@@ -471,13 +475,13 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 				REVERSE_PORTRAIT
 		}
 
-		public boolean isFacebookSharingEnabled() {
-				return shareToFacebook;
-		}
-
-		public void setFacebookSharing(Boolean shareToFacebook) {
-				this.shareToFacebook = shareToFacebook;
-		}
+//		public boolean isFacebookSharingEnabled() {
+//				return shareToFacebook;
+//		}
+//
+//		public void setFacebookSharing(Boolean shareToFacebook) {
+//				this.shareToFacebook = shareToFacebook;
+//		}
 
 		public boolean hasCompass() {
 				return hasCompass;

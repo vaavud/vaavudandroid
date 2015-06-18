@@ -25,6 +25,7 @@ import java.util.TimeZone;
 public class VaavudCoreController implements MeasurementController {
 
 		private Context context;
+		private Context appContext;
 		private Device device;
 		private MagneticFieldSensorManager myMagneticFieldSensorManager;
 		private OrientationSensorManager orientationSensorManager;
@@ -52,14 +53,15 @@ public class VaavudCoreController implements MeasurementController {
 		public VaavudCoreController(Context context, DataManager dataManager, UploadManager uploadManager, LocationUpdateManager locationManager) {
 //				Log.d("VaavudCoreController", "Vaavud Core Controller Context: " + context);
 				this.context = context;
+				this.appContext = context.getApplicationContext();
 				this.dataManager = dataManager;
 				this.uploadManager = uploadManager;
 				this.locationManager = locationManager;
-				myMagneticFieldSensorManager = new MagneticFieldSensorManager(context, dataManager);
-				orientationSensorManager = new OrientationSensorManager(context);
-				myFFTManager = new FFTManager(context, dataManager); // add stuff?
+				myMagneticFieldSensorManager = new MagneticFieldSensorManager(appContext, dataManager);
+				orientationSensorManager = new OrientationSensorManager(appContext);
+				myFFTManager = new FFTManager(appContext, dataManager); // add stuff?
 				handler = new Handler();
-				device = Device.getInstance(context.getApplicationContext());
+				device = Device.getInstance(appContext);
 		}
 
 		public FFTManager getFFTManager() {
@@ -163,7 +165,7 @@ public class VaavudCoreController implements MeasurementController {
 								currentSession.setPosition(location);
 						}
 
-						VaavudDatabase.getInstance(context).updateDynamicMeasurementSession(currentSession);
+						VaavudDatabase.getInstance(appContext).updateDynamicMeasurementSession(currentSession);
 
 						// add MeasurementPoint and save to database
 						MeasurementPoint measurementPoint = new MeasurementPoint();
@@ -172,7 +174,7 @@ public class VaavudCoreController implements MeasurementController {
 						measurementPoint.setWindSpeed(currentActualValueMS);
 						measurementPoint.setWindDirection(null);
 
-						VaavudDatabase.getInstance(context).insertMeasurementPoint(measurementPoint);
+						VaavudDatabase.getInstance(appContext).insertMeasurementPoint(measurementPoint);
 
 						for (MeasurementReceiver measurementReceiver : measurementReceivers) {
 								measurementReceiver.measurementAdded(currentSession, dataManager.getLastTime(), currentActualValueMS, currentMeanValueMS == null ? null : currentMeanValueMS.floatValue(), currentMaxValueMS, null);
@@ -224,7 +226,7 @@ public class VaavudCoreController implements MeasurementController {
 				currentSession.setEndIndex(0);
 				currentSession.setPosition(locationManager.getLocation());
 
-				VaavudDatabase.getInstance(context).insertMeasurementSession(currentSession);
+				VaavudDatabase.getInstance(appContext).insertMeasurementSession(currentSession);
 
 				startMeasuring();
 
@@ -239,7 +241,7 @@ public class VaavudCoreController implements MeasurementController {
 				stopMeasuring();
 
 				currentSession.setMeasuring(false);
-				VaavudDatabase.getInstance(context).updateDynamicMeasurementSession(currentSession);
+				VaavudDatabase.getInstance(appContext).updateDynamicMeasurementSession(currentSession);
 
 				uploadManager.triggerUpload();
 

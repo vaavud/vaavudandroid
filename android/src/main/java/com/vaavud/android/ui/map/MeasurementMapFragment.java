@@ -436,7 +436,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 						MapsInitializer.initialize(context);
 						map.setOnMarkerClickListener(this);
 						map.setOnMapClickListener(this);
-						map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+						map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 						UiSettings settings = map.getUiSettings();
 						settings.setCompassEnabled(false);
 						settings.setMyLocationButtonEnabled(false);
@@ -453,7 +453,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 				if (isFirst) {
 //			Log.i(TAG, "isFirst=true");
 						if (map != null) {
-								com.vaavud.android.model.entity.LatLng location = LocationUpdateManager.getInstance(context).getLastLocation();
+								com.vaavud.android.model.entity.LatLng location = LocationUpdateManager.getInstance(context.getApplicationContext()).getLastLocation();
 //				Log.i("MeasurementMapFragment", "Setting initial location: " + location);
 								if (location != null) {
 										map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 7));

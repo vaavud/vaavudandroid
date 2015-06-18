@@ -96,7 +96,7 @@
     <!-- Menu Items -->
     <string name="option_login">Log-In/Erstellen</string>
     <string name="option_about">Über</string>
-    <string name="option_logout">Lot-Out</string>
+    <string name="option_logout">Ausloggen</string>
     <string name="option_delete">Löschen</string>
 
     <!-- Share Items -->

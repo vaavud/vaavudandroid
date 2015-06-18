@@ -14,7 +14,9 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.SwitchPreference;
 import android.support.v4.preference.PreferenceFragment;
 import android.telephony.TelephonyManager;
+import android.widget.ImageSwitcher;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.vaavud.android.R;
 import com.vaavud.android.model.entity.Device;
@@ -27,8 +29,8 @@ import com.vaavud.android.ui.tour.TourActivity;
 public class SettingsFragment extends PreferenceFragment {
 
 		private static final String TAG = "PreferencesFragment";
-		private Preference headingUnit;
-		private Preference directionUnit;
+		private ListPreference headingUnit;
+		private ListPreference directionUnit;
 		private Preference aboutFlow;
 		private Preference buy;
 		private Preference useFlow;
@@ -52,10 +54,10 @@ public class SettingsFragment extends PreferenceFragment {
 				addPreferencesFromResource(R.xml.preferences);
 
 
-				pref = getActivity().getApplicationContext().getSharedPreferences("Vaavud", Context.MODE_PRIVATE);
+				pref = context.getApplicationContext().getSharedPreferences("Vaavud", Context.MODE_PRIVATE);
 
 				aboutFlow =  findPreference("about_fragment");
-				Intent about = new Intent(getActivity(), AboutActivity.class);
+				Intent about = new Intent(context.getApplicationContext(), AboutActivity.class);
 				aboutFlow.setIntent(about);
 				aboutFlow.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 						@Override
@@ -65,16 +67,16 @@ public class SettingsFragment extends PreferenceFragment {
 						}
 				});
 
-				headingUnit = findPreference("heading_unit");
+				headingUnit = (ListPreference) findPreference("heading_unit");
 
-				((ListPreference) headingUnit).setValue(pref.getString(headingUnit.getKey(), "MS"));
+				headingUnit.setValue(pref.getString(headingUnit.getKey(), "MS"));
 				headingUnit.setSummary(SpeedUnit.valueOf(pref.getString(headingUnit.getKey(), "MS")).getDisplayName(getActivity()));
 				headingUnit.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
 						@Override
 						public boolean onPreferenceChange(Preference preference, Object newValue) {
 								Device.getInstance(context.getApplicationContext()).setWindSpeedUnit(context.getApplicationContext(),SpeedUnit.valueOf((String) newValue));
-								preference.setSummary(SpeedUnit.valueOf((String) newValue).getDisplayName(getActivity()));
+								preference.setSummary(SpeedUnit.valueOf((String) newValue).getDisplayName(context));
 								Editor edit = pref.edit();
 								edit.putString(headingUnit.getKey(), (String) newValue);
 								edit.commit();
@@ -83,15 +85,15 @@ public class SettingsFragment extends PreferenceFragment {
 						}
 				});
 
-				directionUnit = findPreference("direction_unit");
+				directionUnit = (ListPreference)findPreference("direction_unit");
 
-				((ListPreference) directionUnit).setValue(pref.getString(directionUnit.getKey(), "CARDINAL"));
-				directionUnit.setSummary(DirectionUnit.valueOf(pref.getString(directionUnit.getKey(), "CARDINAL")).getDisplayName(getActivity()));
+				directionUnit.setValue(pref.getString(directionUnit.getKey(),"CARDINAL"));
+				directionUnit.setSummary(DirectionUnit.valueOf(pref.getString(directionUnit.getKey(),"CARDINAL")).getDisplayName(context));
 				directionUnit.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 						@Override
 						public boolean onPreferenceChange(Preference preference, Object newValue) {
 								Device.getInstance(context.getApplicationContext()).setWindDirectionUnit(context.getApplicationContext(),DirectionUnit.valueOf((String) newValue));
-								preference.setSummary(DirectionUnit.valueOf((String) newValue).getDisplayName(getActivity()));
+								preference.setSummary(DirectionUnit.valueOf((String) newValue).getDisplayName(context));
 								Editor edit = pref.edit();
 								edit.putString(directionUnit.getKey(), (String) newValue);
 								edit.commit();
@@ -113,6 +115,10 @@ public class SettingsFragment extends PreferenceFragment {
 //								return true;
 //						}
 //				});
+
+
+
+
 
 				buy = findPreference("buy");
 

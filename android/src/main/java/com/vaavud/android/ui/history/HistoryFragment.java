@@ -3,6 +3,7 @@ package com.vaavud.android.ui.history;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap.CompressFormat;
 
 import android.graphics.Typeface;
@@ -65,7 +66,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-public class HistoryFragment extends Fragment implements BackPressedListener, SelectedListener, HistoryMeasurementsResponseListener {
+public class HistoryFragment extends Fragment implements BackPressedListener, SelectedListener, HistoryMeasurementsResponseListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
 		private static final String TAG = "HISTORY_FRAGMENT";
 
@@ -131,6 +132,7 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 		public void onAttach(Activity activity) {
 				super.onAttach(activity);
 				context = activity;
+				((MainActivity)activity).getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 		}
 
 		@Override
@@ -310,6 +312,7 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 						historyAdapter.clearSelection();
 						unregisterForContextMenu(historyListView);
 				}
+				((MainActivity)context).getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 				super.onDestroyView();
 				//				Log.i(TAG, "onDestroyView");
 		}
@@ -450,6 +453,11 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 				MixpanelUtil.updateMeasurementProperties(context.getApplicationContext());
 
 
+		}
+
+		@Override
+		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+				((MainActivity)getActivity()).getViewPager().getAdapter().notifyDataSetChanged();
 		}
 
 		private class HistoryArrayAdapter extends ArrayAdapter<MeasurementSession> {

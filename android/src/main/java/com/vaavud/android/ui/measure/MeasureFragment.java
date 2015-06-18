@@ -3,6 +3,7 @@ package com.vaavud.android.ui.measure;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -49,7 +50,7 @@ import org.json.JSONObject;
 
 // TODO: plot what has been going on while fragment wasn't visible
 // TODO: scroll view to last x-position
-public class MeasureFragment extends Fragment implements MeasurementReceiver, SelectedListener {
+public class MeasureFragment extends Fragment implements MeasurementReceiver, SelectedListener,SharedPreferences.OnSharedPreferenceChangeListener {
 
 		private static final double YAXISSTARTMAXVALUE = 6.2D;
 		private static final double XAXISSTARTMAXVALUE = 10D;
@@ -115,6 +116,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		public void onAttach(Activity activity) {
 				super.onAttach(activity);
 				context = activity;
+				((MainActivity)activity).getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 		}
 
 		@Override
@@ -375,6 +377,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		public void onDestroyView() {
 				super.onDestroyView();
 				getMeasurementController().removeMeasurementReceiver(this);
+				((MainActivity)context).getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 				UIupdate = false;
 				meanText = null;
 				actualText = null;
@@ -692,4 +695,8 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		}
 
 
+		@Override
+		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+				updateUnit();
+		}
 }
