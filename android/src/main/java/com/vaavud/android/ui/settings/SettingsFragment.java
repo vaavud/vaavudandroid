@@ -70,7 +70,7 @@ public class SettingsFragment extends PreferenceFragment {
 				headingUnit = (ListPreference) findPreference("heading_unit");
 
 				headingUnit.setValue(pref.getString(headingUnit.getKey(), "MS"));
-				headingUnit.setSummary(SpeedUnit.valueOf(pref.getString(headingUnit.getKey(), "MS")).getDisplayName(getActivity()));
+				headingUnit.setSummary(SpeedUnit.valueOf(pref.getString(headingUnit.getKey(), "MS")).getDisplayName(context));
 				headingUnit.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
 						@Override
