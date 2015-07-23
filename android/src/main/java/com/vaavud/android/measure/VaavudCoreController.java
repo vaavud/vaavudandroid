@@ -2,7 +2,6 @@ package com.vaavud.android.measure;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
 import com.vaavud.android.measure.sensor.DataManager;
 import com.vaavud.android.measure.sensor.FFTManager;
@@ -57,6 +56,7 @@ public class VaavudCoreController implements MeasurementController {
 				this.dataManager = dataManager;
 				this.uploadManager = uploadManager;
 				this.locationManager = locationManager;
+				measurementReceivers = new ArrayList<MeasurementReceiver>();
 				myMagneticFieldSensorManager = new MagneticFieldSensorManager(appContext, dataManager);
 				orientationSensorManager = new OrientationSensorManager(appContext);
 				myFFTManager = new FFTManager(appContext, dataManager); // add stuff?
@@ -66,6 +66,18 @@ public class VaavudCoreController implements MeasurementController {
 
 		public FFTManager getFFTManager() {
 				return myFFTManager;
+		}
+
+
+		public void startController() {
+
+				measurementReceivers = new ArrayList<MeasurementReceiver>();
+				myMagneticFieldSensorManager = new MagneticFieldSensorManager(appContext, dataManager);
+				orientationSensorManager = new OrientationSensorManager(appContext);
+				myFFTManager = new FFTManager(appContext, dataManager); // add stuff?
+				handler = new Handler();
+
+				device = Device.getInstance(appContext);
 		}
 
 		public void startMeasuring() {

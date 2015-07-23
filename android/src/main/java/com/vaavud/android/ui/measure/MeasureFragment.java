@@ -299,7 +299,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				LinearLayout layout = (LinearLayout) view.findViewById(R.id.chart);
 				mChartView = ChartFactory.getCubeLineChartView(view.getContext(), dataset, renderer, 0.3f);
 				layout.addView(mChartView);
-				mChartView.setBackground(new ColorDrawable(getResources().getColor(R.color.lightgray)));
+				mChartView.setBackgroundColor(getResources().getColor(R.color.lightgray));
 				mChartView.repaint();
 
 				// set type face
@@ -680,6 +680,8 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 				informationText.setText(getResources().getString(status.getResourceId()));
 				if (status.getResourceId() == MeasureStatus.NO_SIGNAL.getResourceId() & UIupdate)
+						pauseProgressBar();
+				if (status.getResourceId() == MeasureStatus.NO_AUDIO_SIGNAL.getResourceId() & UIupdate)
 						pauseProgressBar();
 				if (status.getResourceId() == MeasureStatus.KEEP_VERTICAL.getResourceId() & UIupdate)
 						pauseProgressBar();

@@ -29,6 +29,8 @@ import com.vaavud.android.measure.SleipnirCoreController;
 import com.vaavud.android.model.entity.Device;
 import com.vaavud.android.network.InternetManager;
 import com.vaavud.android.ui.calibration.s3upload.UploadSoundFilesDialog;
+import com.vaavud.sleipnirSDK.SleipnirSDKController;
+import com.vaavud.sleipnirSDK.listener.SpeedListener;
 
 import java.util.Date;
 
@@ -64,18 +66,17 @@ public class CalibrationFragment extends Fragment {
 						if (mController != null) {
 								float oldPercentage = mCircularBar.getProgress();
 								float percentageValue = mController.getCalibrationProgress();
-								Float currentPlayerVolume = mController.getPlayerVolume()!=null?mController.getPlayerVolume():0.0f;
+
 								float calibrationPercentageIncrement = (percentageValue - oldPercentage);
-								float calibrationVolumeLevel = (currentPlayerVolume - playerVolume);
 								animate(mCircularBar, null, percentageValue);
 								long time = new Date().getTime();
-//                Log.d("CalibrationFragment", "Time: " + time + " startTime: " + startTime + " CalibrationPercentageIncrement: " + calibrationPercentageIncrement + "Volume Calibration"+calibrationVolumeLevel);
-								if ((time - startTime) > SUPPORT_INTERVAL && calibrationPercentageIncrement < PERCENTAGE_MINIMUM_INCREMENT && calibrationVolumeLevel == 0) {
+//                Log.d("CalibrationFragment", "Time: " + time + " startTime: " + startTime + " CalibrationPercentageIncrement: " + calibrationPercentageIncrement);
+								if ((time - startTime) > SUPPORT_INTERVAL && calibrationPercentageIncrement < PERCENTAGE_MINIMUM_INCREMENT ) {
 //										Log.d("CalibrationFragment","currentPlayerVolume: "+currentPlayerVolume);
 										askUploadDialog.show();
 								} else {
 										if (calibrationPercentageIncrement > PERCENTAGE_MINIMUM_INCREMENT) {
-												playerVolume = currentPlayerVolume;
+
 												startTime = new Date().getTime();
 										}
 										handler.postDelayed(updateUI, UPLOAD_INTERVAL);
@@ -183,23 +184,37 @@ public class CalibrationFragment extends Fragment {
 				askUploadDialog.setTitle(getResources().getString(R.string.calibration_upload_dialog_title));
 				askUploadDialog.setMessage(getResources().getString(R.string.calibration_upload_dialog_text));
 
-				mController.startController();
-				mController.startMeasuring();
-
-
 				startTime = new Date().getTime();
-
-
-				handler.post(updateUI);
 
 				return rootView;
 		}
 
 		@Override
+		public void onResume(){
+				super.onResume();
+				mController.startMeasuring();
+				handler.post(updateUI);
+
+		}
+		@Override
 		public void onCreate(Bundle savedInstanceState) {
 				super.onCreate(savedInstanceState);
-				mController = new SleipnirCoreController(context.getApplicationContext(), null, null, null, true);
+				mController = new SleipnirCoreController(context, null, null, null,true);
+				mController.startController();
+		}
 
+		@Override
+		public void onDestroy(){
+				super.onDestroy();
+				if (mController != null) {
+						if (mController.isMeasuring()) {
+								handler.removeCallbacks(updateUI);
+								handler = null;
+								mController.stopMeasuring();
+						}
+						mController.stopController();
+						mController = null;
+				}
 		}
 
 		/**

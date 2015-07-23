@@ -166,12 +166,12 @@ public class DataManager {
 		return windSpeedMax;
 	}
 	
-	public Float  getLastTime() {
+	public Float getLastTime() {
 		if (windspeedMeasurements.size() >= 1) {
 			return windspeedMeasurements.get(windspeedMeasurements.size() -1).time;
 		}
 		else {
-			return null;
+				return 0f;
 		}
 	}
 	

@@ -171,13 +171,13 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 				}
 
 
-				if (myVaavudCoreController == null) {
-						myVaavudCoreController = new VaavudCoreController(getApplicationContext(), dataManager, uploadManager, locationUpdater);
-				}
-				uploadManager.setMeasurementController(myVaavudCoreController);
-				if (myVaavudCoreController instanceof VaavudCoreController) {
-						uploadManager.setFFTManager(((VaavudCoreController) myVaavudCoreController).getFFTManager());
-				}
+//				if (myVaavudCoreController == null) {
+//						myVaavudCoreController = new VaavudCoreController(getApplicationContext(), dataManager, uploadManager, locationUpdater);
+//				}
+//				uploadManager.setMeasurementController(myVaavudCoreController);
+//				if (myVaavudCoreController instanceof VaavudCoreController) {
+//						uploadManager.setFFTManager(((VaavudCoreController) myVaavudCoreController).getFFTManager());
+//				}
 
 				pagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
 
@@ -296,6 +296,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						case R.id.option_settings:
 								Intent settings = new Intent(this, SettingsActivity.class);
 								startActivity(settings);
+								myVaavudCoreController.stopController();
 								return true;
 						default:
 								return super.onOptionsItemSelected(item);
@@ -316,11 +317,24 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		@Override
 		protected void onStart() {
 				super.onStart();
+
+				if (myVaavudCoreController == null) {
+						myVaavudCoreController = new VaavudCoreController(getApplicationContext(), dataManager, uploadManager, locationUpdater);
+				}
+				if (myVaavudCoreController instanceof SleipnirCoreController){
+						((SleipnirCoreController)myVaavudCoreController).startController();
+				}
+				if (myVaavudCoreController instanceof VaavudCoreController) {
+						((VaavudCoreController) myVaavudCoreController).startController();
+						uploadManager.setFFTManager(((VaavudCoreController) myVaavudCoreController).getFFTManager());
+				}
+				uploadManager.setMeasurementController(myVaavudCoreController);
 		}
 
 		@Override
 		protected void onRestart() {
 				super.onRestart();
+
 		}
 
 		@Override
@@ -399,6 +413,9 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		@Override
 		protected void onStop() {
 				Log.i(TAG, "onStop");
+				if (myVaavudCoreController instanceof SleipnirCoreController) {
+						myVaavudCoreController.stopController();
+				}
 				VaavudDatabase.getInstance(getApplicationContext()).setPropertyAsBoolean(KEY_FIRST_TIME_SLEIPNIR, firstTimeCalibrationDone);
 				if (user.isUserLogged()) user.setDataBase(getApplicationContext());
 				super.onStop();

@@ -41,7 +41,9 @@
     
     <string name="info_measuring">Measurement in progress</string>
     <string name="info_no_signal">No signal</string>
+    <string name="info_no_audio_signal">No audio signal</string>
     <string name="info_keep_steady">Keep vertical &#038; steady</string>
+
     
     <string name="x_hours">%d hours</string>
     <string name="map_refresh_error_title">Map Refresh Error</string>

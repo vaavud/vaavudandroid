@@ -172,9 +172,9 @@ public class SettingsFragment extends PreferenceFragment {
 //										SleipnirCoreController controller = (SleipnirCoreController) ((MainActivity) getActivity()).getMeasurementController();
 //										if (controller.isMeasuring()) {
 //												controller.stopSession();
-//										}
+////										}
 //										controller.stopController();
-//								}
+////								}
 								if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
 										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Settings Clicked Calibration", null);
 								}
