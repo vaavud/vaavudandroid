@@ -131,7 +131,7 @@ public class CalibrationFragment extends Fragment {
 								if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
 										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
 								}
-								((Activity)context).finish();
+								((Activity) context).finish();
 						}
 				});
 
@@ -183,15 +183,6 @@ public class CalibrationFragment extends Fragment {
 				askUploadDialog.setTitle(getResources().getString(R.string.calibration_upload_dialog_title));
 				askUploadDialog.setMessage(getResources().getString(R.string.calibration_upload_dialog_text));
 
-				mController.startController();
-				mController.startMeasuring();
-
-
-				startTime = new Date().getTime();
-
-
-				handler.post(updateUI);
-
 				return rootView;
 		}
 
@@ -200,6 +191,17 @@ public class CalibrationFragment extends Fragment {
 				super.onCreate(savedInstanceState);
 				mController = new SleipnirCoreController(context.getApplicationContext(), null, null, null, true);
 
+		}
+
+		@Override
+		public void onResume(){
+				super.onResume();
+				mController.startController();
+				mController.startMeasuring();
+				startTime = new Date().getTime();
+
+
+				handler.post(updateUI);
 		}
 
 		/**
