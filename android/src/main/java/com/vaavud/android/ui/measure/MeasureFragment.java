@@ -10,12 +10,11 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint.Align;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +49,7 @@ import org.json.JSONObject;
 
 // TODO: plot what has been going on while fragment wasn't visible
 // TODO: scroll view to last x-position
-public class MeasureFragment extends Fragment implements MeasurementReceiver, SelectedListener,SharedPreferences.OnSharedPreferenceChangeListener {
+public class MeasureFragment extends Fragment implements MeasurementReceiver, SelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
 		private static final double YAXISSTARTMAXVALUE = 6.2D;
 		private static final double XAXISSTARTMAXVALUE = 10D;
@@ -102,7 +101,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		private Context context;
 
 		/*DEBUG TAG*/
-		private static final String TAG = "MEASUREMENT_FRAGMENT";
+		private static final String TAG = "Vaavud:MeasureFrag";
 
 		private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0";
 
@@ -116,18 +115,18 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		public void onAttach(Activity activity) {
 				super.onAttach(activity);
 				context = activity;
-				((MainActivity)activity).getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
 		}
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 				super.onCreate(savedInstanceState);
-				//		Log.i("MeasureFragment", "onCreate, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
+				Log.d(TAG, "onCreate, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-				//		Log.i("MeasureFragment", "onCreateView, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
+				Log.d(TAG, "onCreateView, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 
 				// create view
 				view = inflater.inflate(R.layout.fragment_measure, container, false);
@@ -152,6 +151,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 				// crete progress bar
 				progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+				clearProgressBar();
 
 				// create buttons
 
@@ -302,23 +302,15 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				mChartView.setBackgroundColor(getResources().getColor(R.color.lightgray));
 				mChartView.repaint();
 
-				// set type face
-
-//		Typeface futuraMediumTypeface = Typeface.createFromAsset(view.getContext().getAssets(), "futuraMedium.ttf");
-//		meanText.setTypeface(futuraMediumTypeface);
-//		actualText.setTypeface(futuraMediumTypeface);
-//		maxText.setTypeface(futuraMediumTypeface);
-//		unitButton.setTypeface(futuraMediumTypeface);
-
 				// restore state of wind speed text fields
-				if (savedInstanceState != null) {
-						currentMeanValueMS = savedInstanceState.containsKey("currentMeanValueMS") ? savedInstanceState.getFloat("currentMeanValueMS") : null;
-						currentActualValueMS = savedInstanceState.containsKey("currentActualValueMS") ? savedInstanceState.getFloat("currentActualValueMS") : null;
-						currentMaxValueMS = savedInstanceState.containsKey("currentMaxValueMS") ? savedInstanceState.getFloat("currentMaxValueMS") : null;
-						if (savedInstanceState.containsKey("xAxisTime")) {
-								xAxisTime = savedInstanceState.getFloat("xAxisTime");
-						}
-				}
+//				if (savedInstanceState != null) {
+//						currentMeanValueMS = savedInstanceState.containsKey("currentMeanValueMS") ? savedInstanceState.getFloat("currentMeanValueMS") : null;
+//						currentActualValueMS = savedInstanceState.containsKey("currentActualValueMS") ? savedInstanceState.getFloat("currentActualValueMS") : null;
+//						currentMaxValueMS = savedInstanceState.containsKey("currentMaxValueMS") ? savedInstanceState.getFloat("currentMaxValueMS") : null;
+//						if (savedInstanceState.containsKey("xAxisTime")) {
+//								xAxisTime = savedInstanceState.getFloat("xAxisTime");
+//						}
+//				}
 				updateWindspeedTextValues();
 				updateXaxis(xAxisTime);
 
@@ -340,44 +332,53 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
 				super.onActivityCreated(savedInstanceState);
-				//Log.i("MeasureFragment", "onActivityCreated, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
+				Log.d(TAG, "onActivityCreated, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 		}
 
 		@Override
 		public void onViewStateRestored(Bundle savedInstanceState) {
 				super.onViewStateRestored(savedInstanceState);
-				//Log.i("MeasureFragment", "onViewStateRestored, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
+				Log.d(TAG, "onViewStateRestored, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 		}
 
 		@Override
 		public void onStart() {
 				super.onStart();
-				//Log.i("MeasureFragment", "onStart");
+				Log.i(TAG, "onStart");
 		}
 
 		@Override
 		public void onResume() {
 				super.onResume();
-				//Log.i("MeasureFragment", "onResume");
+				((MainActivity) context).getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+				Log.d(TAG, "onResume");
 		}
 
 		@Override
 		public void onPause() {
 				super.onPause();
-				//Log.i("MeasureFragment", "onPause");
+				Log.d(TAG, "onPause");
 		}
 
 		@Override
 		public void onStop() {
 				super.onStop();
-				//Log.i("MeasureFragment", "onStop");
+				stop();
+				((MainActivity) context).getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+				Log.i(TAG, "onStop");
 		}
 
 		@Override
 		public void onDestroyView() {
+				Log.i(TAG, "onDestroyView");
 				super.onDestroyView();
-				getMeasurementController().removeMeasurementReceiver(this);
-				((MainActivity)context).getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+		}
+
+		@Override
+		public void onDestroy() {
+				super.onDestroy();
+				Log.i(TAG, "onDestroy");
+				progressBar = null;
 				UIupdate = false;
 				meanText = null;
 				actualText = null;
@@ -391,12 +392,6 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		}
 
 		@Override
-		public void onDestroy() {
-				super.onDestroy();
-				//Log.i("MeasureFragment", "onDestroy");
-		}
-
-		@Override
 		public void onDetach() {
 				super.onDetach();
 				//Log.i("MeasureFragment", "onDetach");
@@ -407,21 +402,21 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				super.onSaveInstanceState(outState);
 				//Log.i("MeasureFragment", "onSaveInstanceState");
 
-				if (currentMeanValueMS != null) {
-						outState.putFloat("currentMeanValueMS", currentMeanValueMS);
-				}
-				if (currentActualValueMS != null) {
-						outState.putFloat("currentActualValueMS", currentActualValueMS);
-				}
-				if (currentMaxValueMS != null) {
-						outState.putFloat("currentMaxValueMS", currentMaxValueMS);
-				}
-
-				outState.putSerializable("xySeries", xySeries);
-				outState.putSerializable("averageSeries", averageSeries);
-
-				outState.putDouble("yAxisMaxValue", yAxisMaxValue);
-				outState.putFloat("xAxisTime", xAxisTime);
+//				if (currentMeanValueMS != null) {
+//						outState.putFloat("currentMeanValueMS", currentMeanValueMS);
+//				}
+//				if (currentActualValueMS != null) {
+//						outState.putFloat("currentActualValueMS", currentActualValueMS);
+//				}
+//				if (currentMaxValueMS != null) {
+//						outState.putFloat("currentMaxValueMS", currentMaxValueMS);
+//				}
+//
+//				outState.putSerializable("xySeries", xySeries);
+//				outState.putSerializable("averageSeries", averageSeries);
+//
+//				outState.putDouble("yAxisMaxValue", yAxisMaxValue);
+//				outState.putFloat("xAxisTime", xAxisTime);
 		}
 
 		private MeasurementController getMeasurementController() {
@@ -466,21 +461,18 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		}
 
 		private void stop() {
-//		Log.d(TAG,"Stop Measurement");
-				getMeasurementController().stopSession();
+				if (UIupdate) {
+						Log.d(TAG, "Stop Measurement");
+						getMeasurementController().stopSession();
 
-				getMeasurementController().removeMeasurementReceiver(this);
-				if (getMeasurementController() instanceof SleipnirCoreController) {
-						getMeasurementController().stopController();
+						getMeasurementController().removeMeasurementReceiver(this);
+						if (getMeasurementController() instanceof SleipnirCoreController) {
+								getMeasurementController().stopController();
+						}
+
+//						startButton.setText(getResources().getString(R.string.button_start));
+//						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
 				}
-				clearProgressBar();
-				UIupdate = false;
-
-
-				startButton.setText(getResources().getString(R.string.button_start));
-				startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
-
-				informationText.setVisibility(View.INVISIBLE);
 		}
 
 		@Override
@@ -634,10 +626,13 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		}
 
 		private void clearProgressBar() {
-				if (countDown != null) countDown.cancel();
+				if (countDown != null){
+						countDown.cancel();
+				}
+				countDown = null;
 				progressStatus = 0;
 				progressBar.setProgress(progressStatus);
-				//Log.d("PROGRESS_BAR","Clear progress bar");
+				Log.d(TAG,"Clear progress bar: "+ progressStatus);
 		}
 
 		private void pauseProgressBar() {

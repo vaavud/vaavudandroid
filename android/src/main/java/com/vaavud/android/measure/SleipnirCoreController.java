@@ -120,12 +120,12 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 
 		@Override
 		public void pauseMeasuring() {
-				sleipnirSDK.pauseMeasuring();
+//				sleipnirSDK.pauseMeasuring();
 		}
 
 		@Override
 		public void resumeMeasuring() {
-				sleipnirSDK.resumeMeasuring();
+//				sleipnirSDK.resumeMeasuring();
 		}
 
 		public void clearData() {
@@ -294,6 +294,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 
 		@Override
 		public void stopController() {
+
 				sleipnirSDK.stopController();
 		}
 
