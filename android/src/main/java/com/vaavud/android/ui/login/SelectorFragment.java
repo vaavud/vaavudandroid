@@ -2,6 +2,7 @@ package com.vaavud.android.ui.login;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,16 +22,14 @@ import com.vaavud.android.ui.SelectedListener;
 import com.vaavud.android.ui.SelectorListener;
 
 
-public class SelectorFragment extends Fragment implements BackPressedListener, SelectedListener {
+public class SelectorFragment extends Fragment implements BackPressedListener {
 
-		private SelectorListener mCallback;
 		private View view;
 		private Context context;
 
 		private Button signUpButton;
 		private Button logInButton;
-		private TextView labelText;
-		private Typeface futuraMediumTypeface;
+
 
 		private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0";
 
@@ -45,7 +44,6 @@ public class SelectorFragment extends Fragment implements BackPressedListener, S
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 				super.onCreate(savedInstanceState);
-				futuraMediumTypeface = Typeface.createFromAsset(getActivity().getAssets(), "futuraMedium.ttf");
 		}
 
 		@Override
@@ -55,8 +53,7 @@ public class SelectorFragment extends Fragment implements BackPressedListener, S
 
 				signUpButton = (Button) view.findViewById(R.id.signUpButton);
 				logInButton = (Button) view.findViewById(R.id.logInButton);
-				labelText = (TextView) view.findViewById(R.id.labelText);
-
+				signUpButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
 
 				signUpButton.setOnClickListener(new OnClickListener() {
 
@@ -108,6 +105,9 @@ public class SelectorFragment extends Fragment implements BackPressedListener, S
 		@Override
 		public void onStart() {
 				super.onStart();
+				if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+						MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Signup/Login Selection Screen", null);
+				}
 //		Log.i("SelectorFragment", "onStart");
 		}
 
@@ -163,13 +163,5 @@ public class SelectorFragment extends Fragment implements BackPressedListener, S
 
 		}
 
-		@Override
-		public void onSelected() {
-//		super.onSelected();
-				if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
-						MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Signup/Login Selection Screen", null);
-				}
-//		Log.i("SelectorFragment", "onSelected");
-		}
 
 }

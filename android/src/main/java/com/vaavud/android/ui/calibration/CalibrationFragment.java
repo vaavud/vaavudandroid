@@ -13,6 +13,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,9 +37,9 @@ public class CalibrationFragment extends Fragment {
 
 		private static final int UPLOAD_INTERVAL = 100;
 		private static final int SUPPORT_INTERVAL = 10000;
-		private static final float PERCENTAGE_MINIMUM_INCREMENT = 0.1f;
+		private static final float PERCENTAGE_MINIMUM_INCREMENT = 0.01f;
 		private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0";
-		private static final String TAG = "Calibration Fragment";
+		private static final String TAG = "Vaavud:CalibrationFrag";
 
 		private HoloCircularProgressBar mCircularBar;
 
@@ -50,12 +51,12 @@ public class CalibrationFragment extends Fragment {
 
 		private TextView percentage;
 		private long startTime;
-		//		private float calibrationPercentageIncrement = 0.0f;
-		private float playerVolume = 1.0f;
+
 		private UploadSoundFilesDialog uploadDialog;
 		private AlertDialog askUploadDialog;
 
 		private Handler handler = new Handler();
+
 		private Runnable updateUI = new Runnable() {
 
 				@Override
@@ -67,13 +68,12 @@ public class CalibrationFragment extends Fragment {
 								float calibrationPercentageIncrement = (percentageValue - oldPercentage);
 								animate(mCircularBar, null, percentageValue);
 								long time = new Date().getTime();
-//                Log.d("CalibrationFragment", "Time: " + time + " startTime: " + startTime + " CalibrationPercentageIncrement: " + calibrationPercentageIncrement);
+//                Log.d(TAG, "Time: " + time + " startTime: " + startTime + " CalibrationPercentageIncrement: " + calibrationPercentageIncrement);
 								if ((time - startTime) > SUPPORT_INTERVAL && calibrationPercentageIncrement < PERCENTAGE_MINIMUM_INCREMENT) {
-//										Log.d("CalibrationFragment","currentPlayerVolume: "+currentPlayerVolume);
+//										Log.d(TAG,"currentPlayerVolume: "+currentPlayerVolume);
 										askUploadDialog.show();
 								} else {
 										if (calibrationPercentageIncrement > PERCENTAGE_MINIMUM_INCREMENT) {
-
 												startTime = new Date().getTime();
 										}
 										handler.postDelayed(updateUI, UPLOAD_INTERVAL);
@@ -81,7 +81,6 @@ public class CalibrationFragment extends Fragment {
 						}
 				}
 		};
-
 
 		public CalibrationFragment() {
 		}
@@ -177,11 +176,8 @@ public class CalibrationFragment extends Fragment {
 		@Override
 		public void onResume() {
 				super.onResume();
-				if (mController!=null) {
 						mController.startMeasuring();
 						handler.post(updateUI);
-				}
-
 		}
 
 		@Override

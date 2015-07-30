@@ -156,4 +156,5 @@
     <string name="title_activity_login">登录</string>
     <string name="title_activity_settings">设置</string>
     <string name="title_activity_calibration">校准</string>
+    <string name="info_no_audio_signal">无音频信号</string>
 </resources>

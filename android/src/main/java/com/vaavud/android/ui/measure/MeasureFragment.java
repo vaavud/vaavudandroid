@@ -362,10 +362,10 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 		@Override
 		public void onStop() {
-				super.onStop();
 				stop();
 				((MainActivity) context).getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 				Log.i(TAG, "onStop");
+				super.onStop();
 		}
 
 		@Override
@@ -469,9 +469,13 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 						if (getMeasurementController() instanceof SleipnirCoreController) {
 								getMeasurementController().stopController();
 						}
+						clearProgressBar();
+						UIupdate = false;
 
-//						startButton.setText(getResources().getString(R.string.button_start));
-//						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
+						startButton.setText(getResources().getString(R.string.button_start));
+						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
+
+						informationText.setVisibility(View.INVISIBLE);
 				}
 		}
 
@@ -509,13 +513,13 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		public void measurementFinished(MeasurementSession session) {
 
 				getMeasurementController().removeMeasurementReceiver(this);
-				clearProgressBar();
-				UIupdate = false;
-
-				startButton.setText(getResources().getString(R.string.button_start));
-				startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
-
-				informationText.setVisibility(View.INVISIBLE);
+//				clearProgressBar();
+//				UIupdate = false;
+//
+//				startButton.setText(getResources().getString(R.string.button_start));
+//				startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
+//
+//				informationText.setVisibility(View.INVISIBLE);
 		}
 
 		private void updateYaxis(Float windspeedInUnit, boolean forceSet) {
@@ -626,13 +630,13 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		}
 
 		private void clearProgressBar() {
-				if (countDown != null){
+				if (countDown != null) {
 						countDown.cancel();
 				}
 				countDown = null;
 				progressStatus = 0;
 				progressBar.setProgress(progressStatus);
-				Log.d(TAG,"Clear progress bar: "+ progressStatus);
+				Log.d(TAG, "Clear progress bar: " + progressStatus);
 		}
 
 		private void pauseProgressBar() {

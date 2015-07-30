@@ -296,7 +296,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						case R.id.option_settings:
 								Intent settings = new Intent(this, SettingsActivity.class);
 								startActivity(settings);
-								myVaavudCoreController.stopController();
+//								myVaavudCoreController.stopController();
 								return true;
 						default:
 								return super.onOptionsItemSelected(item);
@@ -402,7 +402,6 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 				Log.i(TAG, "onPause");
 				super.onPause();
 				orientationListener.disable();
-//				myVaavudCoreController.pauseMeasuring();
 				locationUpdater.stop();
 				uploadManager.stop();
 

@@ -158,4 +158,5 @@
     <string name="title_activity_calibration">Étalonnage</string>
     <string name="unit_cardinal">Cardinal</string>
     <string name="unit_degrees">Degrés</string>
+    <string name="info_no_audio_signal">Pas de signal audio</string>
 </resources>

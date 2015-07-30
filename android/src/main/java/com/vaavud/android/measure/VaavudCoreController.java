@@ -23,7 +23,7 @@ import java.util.TimeZone;
 
 public class VaavudCoreController implements MeasurementController {
 
-		private Context context;
+		private Context mContext;
 		private Context appContext;
 		private Device device;
 		private MagneticFieldSensorManager myMagneticFieldSensorManager;
@@ -35,7 +35,7 @@ public class VaavudCoreController implements MeasurementController {
 		private boolean isMeasuring = false;
 		private MeasurementSession currentSession;
 		private Handler handler;
-		private List<MeasurementReceiver> measurementReceivers = new ArrayList<MeasurementReceiver>();
+		private List<MeasurementReceiver> measurementReceivers;
 		private MeasureStatus status;
 
 		private Runnable readDataRunnable = new Runnable() {
@@ -51,7 +51,7 @@ public class VaavudCoreController implements MeasurementController {
 
 		public VaavudCoreController(Context context, DataManager dataManager, UploadManager uploadManager, LocationUpdateManager locationManager) {
 //				Log.d("VaavudCoreController", "Vaavud Core Controller Context: " + context);
-				this.context = context;
+				this.mContext = context;
 				this.appContext = context.getApplicationContext();
 				this.dataManager = dataManager;
 				this.uploadManager = uploadManager;
@@ -62,6 +62,7 @@ public class VaavudCoreController implements MeasurementController {
 				myFFTManager = new FFTManager(appContext, dataManager); // add stuff?
 				handler = new Handler();
 				device = Device.getInstance(appContext);
+				startController();
 		}
 
 		public FFTManager getFFTManager() {
@@ -71,18 +72,17 @@ public class VaavudCoreController implements MeasurementController {
 
 		public void startController() {
 
-				measurementReceivers = new ArrayList<MeasurementReceiver>();
 				myMagneticFieldSensorManager = new MagneticFieldSensorManager(appContext, dataManager);
 				orientationSensorManager = new OrientationSensorManager(appContext);
-				myFFTManager = new FFTManager(appContext, dataManager); // add stuff?
+				myFFTManager = new FFTManager(mContext, dataManager); // add stuff?
 				handler = new Handler();
-
 				device = Device.getInstance(appContext);
 		}
 
 		public void startMeasuring() {
 				isMeasuring = true;
 				uploadManager.triggerUpload();
+				handler.post(readDataRunnable);
 				resumeMeasuring();
 		}
 
@@ -241,8 +241,6 @@ public class VaavudCoreController implements MeasurementController {
 				VaavudDatabase.getInstance(appContext).insertMeasurementSession(currentSession);
 
 				startMeasuring();
-
-				handler.post(readDataRunnable);
 
 				return currentSession;
 		}

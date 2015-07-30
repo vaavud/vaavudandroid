@@ -2,11 +2,9 @@ package com.vaavud.android.measure;
 
 
 import android.content.Context;
-
 import android.os.Handler;
 import android.util.Log;
 
-import com.vaavud.android.R;
 import com.vaavud.android.measure.sensor.DataManager;
 import com.vaavud.android.measure.sensor.LocationUpdateManager;
 import com.vaavud.android.model.VaavudDatabase;
@@ -18,12 +16,9 @@ import com.vaavud.android.model.entity.WindMeasurement;
 import com.vaavud.android.model.entity.WindMeter;
 import com.vaavud.android.network.UploadManager;
 import com.vaavud.android.ui.calibration.CalibrationActivity;
-
 import com.vaavud.sleipnirSDK.SleipnirSDKController;
 import com.vaavud.sleipnirSDK.listener.SpeedListener;
-
 import com.vaavud.util.UUIDUtil;
-
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,8 +55,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 
 		private float calibrationProgress = 0F;
 
-
-//		private String mFileName;
+		private static final String TAG = "Vaavud:SleipnirCore";
 
 		private Runnable readDataRunnable = new Runnable() {
 				@Override
@@ -85,12 +79,12 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 
 				measurementReceivers = new ArrayList<MeasurementReceiver>();
 
-				if (mCalibrationMode){
+				if (mCalibrationMode) {
 						String name = device.getModel() + "_" + device.getUuid() + "_" + new SimpleDateFormat("ddMMyy-HHmmss").format(new Date()) + ".raw";
 						mFileName = appContext.getExternalCacheDir().getAbsolutePath() + "/" + name;
 //						Log.d("SleipnirCoreController",mFileName);
 				}
-				sleipnirSDK = new SleipnirSDKController(mContext,mCalibrationMode,this,null,coefficients,mFileName);
+				sleipnirSDK = new SleipnirSDKController(mContext, mCalibrationMode, this, null, coefficients, mFileName);
 
 		}
 
@@ -115,6 +109,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 		}
 
 		public void stopMeasuring() {
+//				Log.d(TAG, "Stop Measuring " + currentSession.getWindMeter());
 				sleipnirSDK.stopMeasuring();
 		}
 
@@ -229,7 +224,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 				MeasureStatus newStatus = MeasureStatus.MEASURING;
 
 				if (!dataManager.newMeasurementsAvailable()) {
-						if (dataManager.getLastTime() + 2 < (new Date().getTime()/ (float) 1000)) {
+						if (dataManager.getLastTime() + 2 < (new Date().getTime() / (float) 1000)) {
 								newStatus = MeasureStatus.NO_AUDIO_SIGNAL;
 						}
 				}
@@ -275,7 +270,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 
 		@Override
 		public void stopSession() {
-//		Log.d("SleipnirCoreController", "Stop Session "+currentSession.getWindMeter());
+//				Log.d(TAG, "Stop Session " + currentSession.getWindMeter());
 				handler.removeCallbacks(readDataRunnable);
 
 				stopMeasuring();
@@ -294,7 +289,6 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 
 		@Override
 		public void stopController() {
-
 				sleipnirSDK.stopController();
 		}
 
