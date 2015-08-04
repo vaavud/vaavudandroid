@@ -162,22 +162,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 						@Override
 						public void onClick(View v) {
 								if (UIupdate) {
-										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
-												//MixPanel
-												JSONObject props = new JSONObject();
-												try {
-														props.put("Duration", (getMeasurementController().currentSession().getEndTime().getTime() - getMeasurementController().currentSession().getStartTime().getTime()) / 1000);
-														if (currentMeanValueMS != null && currentMaxValueMS != null) {
-																props.put("Avg Wind Speed", currentUnit.format(currentMeanValueMS));
-																props.put("Max Wind Speed", currentUnit.format(currentMaxValueMS));
-														}
 
-												} catch (JSONException e) {
-														// TODO Auto-generated catch block
-														e.printStackTrace();
-												}
-												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Stop Measurement", props);
-										}
 										stop();
 //										if (currentMaxValueMS != null && currentMeanValueMS != null && ((MainActivity) getActivity()).isFacebookSharingEnabled()) {
 //												FragmentManager fragmentManager = ((Activity)context).getSupportFragmentManager();
@@ -283,13 +268,22 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 								break;
 				}
 
-				if (savedInstanceState != null) {
-						xySeries = savedInstanceState.containsKey("xySeries") ? (XYSeriesUnitSupport) savedInstanceState.getSerializable("xySeries") : new XYSeriesUnitSupport("actual", currentUnit);
-						averageSeries = savedInstanceState.containsKey("averageSeries") ? (XYSeriesUnitSupport) savedInstanceState.getSerializable("averageSeries") : new XYSeriesUnitSupport("mean", currentUnit);
-				} else if (xySeries == null) {
-						xySeries = new XYSeriesUnitSupport("actual", currentUnit);
-						averageSeries = new XYSeriesUnitSupport("mean", currentUnit);
+
+				if (!((MainActivity) context).hasCompass()) {
+						arrowView.setVisibility(View.VISIBLE);
+						directionText.setText(getResources().getString(R.string.no_compass_measurements).toUpperCase());
+						directionText.setTextSize(9.6f);
+						arrowView.setImageDrawable(getResources().getDrawable(R.drawable.no_compass));
+						arrowView.setScaleType(ScaleType.CENTER);
 				}
+
+//				if (savedInstanceState != null) {
+//						xySeries = savedInstanceState.containsKey("xySeries") ? (XYSeriesUnitSupport) savedInstanceState.getSerializable("xySeries") : new XYSeriesUnitSupport("actual", currentUnit);
+//						averageSeries = savedInstanceState.containsKey("averageSeries") ? (XYSeriesUnitSupport) savedInstanceState.getSerializable("averageSeries") : new XYSeriesUnitSupport("mean", currentUnit);
+//				} else if (xySeries == null) {
+				xySeries = new XYSeriesUnitSupport("actual", currentUnit);
+				averageSeries = new XYSeriesUnitSupport("mean", currentUnit);
+//				}
 
 				dataset.addSeries(xySeries);
 				dataset.addSeries(averageSeries);
@@ -301,30 +295,6 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				layout.addView(mChartView);
 				mChartView.setBackgroundColor(getResources().getColor(R.color.lightgray));
 				mChartView.repaint();
-
-				// restore state of wind speed text fields
-//				if (savedInstanceState != null) {
-//						currentMeanValueMS = savedInstanceState.containsKey("currentMeanValueMS") ? savedInstanceState.getFloat("currentMeanValueMS") : null;
-//						currentActualValueMS = savedInstanceState.containsKey("currentActualValueMS") ? savedInstanceState.getFloat("currentActualValueMS") : null;
-//						currentMaxValueMS = savedInstanceState.containsKey("currentMaxValueMS") ? savedInstanceState.getFloat("currentMaxValueMS") : null;
-//						if (savedInstanceState.containsKey("xAxisTime")) {
-//								xAxisTime = savedInstanceState.getFloat("xAxisTime");
-//						}
-//				}
-				updateWindspeedTextValues();
-				updateXaxis(xAxisTime);
-
-				// restore state of start/stop button and possibly register for receiving measurement updates if measuring
-				if (getMeasurementController().isMeasuring()) {
-						getMeasurementController().addMeasurementReceiver(this);
-						startButton.setText(getResources().getString(R.string.button_stop));
-						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
-						UIupdate = true;
-				} else {
-						startButton.setText(getResources().getString(R.string.button_start));
-						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
-						UIupdate = false;
-				}
 
 				return view;
 		}
@@ -352,6 +322,17 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				super.onResume();
 				((MainActivity) context).getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 				Log.d(TAG, "onResume");
+				// restore state of start/stop button and possibly register for receiving measurement updates if measuring
+				if (getMeasurementController().isMeasuring()) {
+						getMeasurementController().addMeasurementReceiver(this);
+						startButton.setText(getResources().getString(R.string.button_stop));
+						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
+						UIupdate = true;
+				} else {
+						startButton.setText(getResources().getString(R.string.button_start));
+						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
+						UIupdate = false;
+				}
 		}
 
 		@Override
@@ -463,11 +444,14 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		private void stop() {
 				if (UIupdate) {
 						Log.d(TAG, "Stop Measurement");
-						getMeasurementController().stopSession();
+						if (getMeasurementController().isMeasuring()) {
+								getMeasurementController().stopSession();
 
-						getMeasurementController().removeMeasurementReceiver(this);
+						}
+//
+////						getMeasurementController().removeMeasurementReceiver(this);
 						if (getMeasurementController() instanceof SleipnirCoreController) {
-								getMeasurementController().stopController();
+							getMeasurementController().stopController();
 						}
 						clearProgressBar();
 						UIupdate = false;
@@ -512,7 +496,24 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		@Override
 		public void measurementFinished(MeasurementSession session) {
 
+				if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+						//MixPanel
+						JSONObject props = new JSONObject();
+						try {
+								props.put("Duration", (getMeasurementController().currentSession().getEndTime().getTime() - getMeasurementController().currentSession().getStartTime().getTime()) / 1000);
+								if (currentMeanValueMS != null && currentMaxValueMS != null) {
+										props.put("Avg Wind Speed", currentUnit.format(currentMeanValueMS));
+										props.put("Max Wind Speed", currentUnit.format(currentMaxValueMS));
+								}
+
+						} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+						}
+						MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Stop Measurement", props);
+				}
 				getMeasurementController().removeMeasurementReceiver(this);
+				stop();
 //				clearProgressBar();
 //				UIupdate = false;
 //
@@ -545,16 +546,10 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		private void updateWindspeedTextValues() {
 //		Log.d(TAG,"Update Wind Speed");
 
-				if (!((MainActivity) getActivity()).hasCompass()) {
-						arrowView.setVisibility(View.VISIBLE);
-						directionText.setText(getResources().getString(R.string.no_compass_measurements).toUpperCase());
-						directionText.setTextSize(9.6f);
-						arrowView.setImageDrawable(getResources().getDrawable(R.drawable.no_compass));
-						arrowView.setScaleType(ScaleType.CENTER);
-				} else {
+				if (getMeasurementController().isMeasuring()) {
 						if (currentDirection != null) {
 								arrowView.setVisibility(View.VISIBLE);
-								Bitmap arrow = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.wind_arrow);
+								Bitmap arrow = BitmapFactory.decodeResource(context.getResources(), R.drawable.wind_arrow);
 								if (arrow == null) return;
 								Matrix matrix = new Matrix();
 								matrix.postRotate(currentDirection);

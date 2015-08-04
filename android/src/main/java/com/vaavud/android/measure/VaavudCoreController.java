@@ -264,12 +264,12 @@ public class VaavudCoreController implements MeasurementController {
 
 		@Override
 		public void stopController() {
-				measurementReceivers.clear();
+//				measurementReceivers.clear();
 				measurementReceivers = null;
 				myMagneticFieldSensorManager = null;
-				orientationSensorManager.stop();
+//				orientationSensorManager.stop();
 				orientationSensorManager = null;
-				myFFTManager.stop();
+//				myFFTManager.stop();
 				myFFTManager = null;
 				handler = null;
 		}

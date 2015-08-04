@@ -413,9 +413,6 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		@Override
 		protected void onStop() {
 				Log.i(TAG, "onStop");
-				if (myVaavudCoreController instanceof SleipnirCoreController) {
-						myVaavudCoreController.stopController();
-				}
 				VaavudDatabase.getInstance(getApplicationContext()).setPropertyAsBoolean(KEY_FIRST_TIME_SLEIPNIR, firstTimeCalibrationDone);
 				if (user.isUserLogged()) user.setDataBase(getApplicationContext());
 				super.onStop();
@@ -598,7 +595,9 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		@Override
 		public void isSleipnirPlugged(boolean plugged) {
 				if (myVaavudCoreController.isMeasuring()) {
+						Log.d(TAG,"isMeasuring"+ "VaavudController:" +myVaavudCoreController.getClass().getCanonicalName());
 						myVaavudCoreController.stopSession();
+						myVaavudCoreController.stopController();
 				}
 				if (plugged) {
 //			Log.d("MainActivity","Sleipnir Plugged");
@@ -613,9 +612,9 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						}
 				} else {
 //			Log.d("MainActivity","Sleipnir Unplugged");
-						if (myVaavudCoreController instanceof SleipnirCoreController) {
-								myVaavudCoreController.stopController();
-						}
+//						if (myVaavudCoreController instanceof SleipnirCoreController) {
+//								myVaavudCoreController.stopController();
+//						}
 						myVaavudCoreController = null;
 						myVaavudCoreController = new VaavudCoreController(getApplicationContext(), dataManager, uploadManager, locationUpdater);
 						uploadManager.setFFTManager(((VaavudCoreController) myVaavudCoreController).getFFTManager());
