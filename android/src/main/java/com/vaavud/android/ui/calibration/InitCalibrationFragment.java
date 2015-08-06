@@ -39,7 +39,7 @@ public class InitCalibrationFragment extends Fragment {
 														 Bundle savedInstanceState) {
 				Typeface robotoBold = Typeface.createFromAsset(mContext.getAssets(), "Roboto-Bold.ttf");
 				Typeface robotoLight = Typeface.createFromAsset(mContext.getAssets(), "Roboto-Light.ttf");
-				Typeface robotoRegular = Typeface.createFromAsset(mContext.getAssets(), "Roboto-Regular.ttf");
+//				Typeface robotoRegular = Typeface.createFromAsset(mContext.getAssets(), "Roboto-Regular.ttf");
 
 				View rootView = inflater.inflate(R.layout.fragment_init_calibration, container, false);
 
@@ -58,6 +58,7 @@ public class InitCalibrationFragment extends Fragment {
 						public void onClick(View v) {
 								if (((CalibrationActivity) mContext).getIsSleipnirPlugged()) {
 										((CalibrationActivity) mContext).getSupportFragmentManager().beginTransaction()
+														.setCustomAnimations(R.anim.abc_fade_in,R.anim.abc_fade_out)
 														.replace(R.id.container, new CalibrationFragment()).commit();
 								} else {
 										Toast.makeText(mContext, getResources().getString(R.string.calibration_not_sleipnir_toast), Toast.LENGTH_LONG).show();

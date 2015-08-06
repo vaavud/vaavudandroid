@@ -121,12 +121,12 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 				super.onCreate(savedInstanceState);
-				Log.d(TAG, "onCreate, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
+//				Log.d(TAG, "onCreate, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-				Log.d(TAG, "onCreateView, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
+//				Log.d(TAG, "onCreateView, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 
 				// create view
 				view = inflater.inflate(R.layout.fragment_measure, container, false);
@@ -302,26 +302,26 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
 				super.onActivityCreated(savedInstanceState);
-				Log.d(TAG, "onActivityCreated, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
+//				Log.d(TAG, "onActivityCreated, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 		}
 
 		@Override
 		public void onViewStateRestored(Bundle savedInstanceState) {
 				super.onViewStateRestored(savedInstanceState);
-				Log.d(TAG, "onViewStateRestored, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
+//				Log.d(TAG, "onViewStateRestored, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 		}
 
 		@Override
 		public void onStart() {
 				super.onStart();
-				Log.i(TAG, "onStart");
+//				Log.i(TAG, "onStart");
 		}
 
 		@Override
 		public void onResume() {
 				super.onResume();
 				((MainActivity) context).getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-				Log.d(TAG, "onResume");
+//				Log.d(TAG, "onResume");
 				// restore state of start/stop button and possibly register for receiving measurement updates if measuring
 				if (getMeasurementController().isMeasuring()) {
 						getMeasurementController().addMeasurementReceiver(this);
@@ -338,27 +338,27 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		@Override
 		public void onPause() {
 				super.onPause();
-				Log.d(TAG, "onPause");
+//				Log.d(TAG, "onPause");
 		}
 
 		@Override
 		public void onStop() {
 				stop();
 				((MainActivity) context).getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
-				Log.i(TAG, "onStop");
+//				Log.i(TAG, "onStop");
 				super.onStop();
 		}
 
 		@Override
 		public void onDestroyView() {
-				Log.i(TAG, "onDestroyView");
+//				Log.i(TAG, "onDestroyView");
 				super.onDestroyView();
 		}
 
 		@Override
 		public void onDestroy() {
 				super.onDestroy();
-				Log.i(TAG, "onDestroy");
+//				Log.i(TAG, "onDestroy");
 				progressBar = null;
 				UIupdate = false;
 				meanText = null;
@@ -443,7 +443,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 		private void stop() {
 				if (UIupdate) {
-						Log.d(TAG, "Stop Measurement");
+//						Log.d(TAG, "Stop Measurement");
 						if (getMeasurementController().isMeasuring()) {
 								getMeasurementController().stopSession();
 
@@ -481,12 +481,12 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				}
 
 				if (currentMeanValueMS != null) {
-						averageSeries.clear();
-						averageSeries.add(0, currentMeanValueMS);
-						float t = 0F;
-						while ((t += 10F) < time) {
-								averageSeries.add(time, currentMeanValueMS);
-						}
+//						averageSeries.clear();
+//						averageSeries.add(0, currentMeanValueMS);
+//						float t = 0F;
+//						while ((t += 10F) < time) {
+//								averageSeries.add(time, currentMeanValueMS);
+//						}
 						averageSeries.add(time, currentMeanValueMS);
 				}
 
@@ -631,7 +631,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				countDown = null;
 				progressStatus = 0;
 				progressBar.setProgress(progressStatus);
-				Log.d(TAG, "Clear progress bar: " + progressStatus);
+//				Log.d(TAG, "Clear progress bar: " + progressStatus);
 		}
 
 		private void pauseProgressBar() {

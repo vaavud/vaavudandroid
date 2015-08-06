@@ -595,7 +595,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		@Override
 		public void isSleipnirPlugged(boolean plugged) {
 				if (myVaavudCoreController.isMeasuring()) {
-						Log.d(TAG,"isMeasuring"+ "VaavudController:" +myVaavudCoreController.getClass().getCanonicalName());
+//						Log.d(TAG,"isMeasuring"+ "VaavudController:" +myVaavudCoreController.getClass().getCanonicalName());
 						myVaavudCoreController.stopSession();
 						myVaavudCoreController.stopController();
 				}

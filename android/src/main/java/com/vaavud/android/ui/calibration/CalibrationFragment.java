@@ -52,8 +52,7 @@ public class CalibrationFragment extends Fragment {
 		private TextView percentage;
 		private long startTime;
 
-		private UploadSoundFilesDialog uploadDialog;
-		private AlertDialog askUploadDialog;
+
 
 		private Handler handler = new Handler();
 
@@ -71,7 +70,10 @@ public class CalibrationFragment extends Fragment {
 //                Log.d(TAG, "Time: " + time + " startTime: " + startTime + " CalibrationPercentageIncrement: " + calibrationPercentageIncrement);
 								if ((time - startTime) > SUPPORT_INTERVAL && calibrationPercentageIncrement < PERCENTAGE_MINIMUM_INCREMENT) {
 //										Log.d(TAG,"currentPlayerVolume: "+currentPlayerVolume);
-										askUploadDialog.show();
+										((CalibrationActivity) mContext).getSupportFragmentManager().beginTransaction()
+														.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
+														.replace(R.id.container, new FinishCalibrationFragment(false, mController.getFileName())).commit();
+
 								} else {
 										if (calibrationPercentageIncrement > PERCENTAGE_MINIMUM_INCREMENT) {
 												startTime = new Date().getTime();
@@ -116,75 +118,32 @@ public class CalibrationFragment extends Fragment {
 				button.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-								if (mController.isMeasuring()) {
-										handler.removeCallbacks(updateUI);
-										mController.stopMeasuring();
-								}
-								mController.stopController();
 								if (mContext != null && Device.getInstance(mContext.getApplicationContext()).isMixpanelEnabled()) {
 										MixpanelAPI.getInstance(mContext.getApplicationContext(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
 								}
 								((Activity) mContext).finish();
 						}
 				});
-
-				askUploadDialog = new AlertDialog.Builder(mContext)
-								.setPositiveButton(R.string.button_ok,
-												new DialogInterface.OnClickListener() {
-														public void onClick(DialogInterface dialog, int whichButton) {
-																if (mController.isMeasuring()) {
-																		mController.stopMeasuring();
-																		mController.stopController();
-																		handler.removeCallbacks(updateUI);
-																}
-
-																if (InternetManager.Check(mContext)) {
-																		uploadDialog = new UploadSoundFilesDialog(getActivity(), mController.getFileName());
-																		uploadDialog.show(getFragmentManager(), "UploadDialog");
-																} else {
-																		Toast.makeText(mContext, getResources().getString(R.string.conectivity_error_message), Toast.LENGTH_LONG).show();
-																		((Activity) mContext).finish();
-																}
-														}
-												}
-								)
-								.setNegativeButton(R.string.button_cancel,
-												new DialogInterface.OnClickListener() {
-														public void onClick(DialogInterface dialog, int whichButton) {
-																if (mController.isMeasuring()) {
-																		mController.stopMeasuring();
-																		mController.stopController();
-																		handler.removeCallbacks(updateUI);
-																}
-																if (mContext != null && Device.getInstance(mContext.getApplicationContext()).isMixpanelEnabled()) {
-																		MixpanelAPI.getInstance(mContext.getApplicationContext(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
-																}
-																((Activity) mContext).finish();
-
-														}
-												}
-								)
-								.create();
-				askUploadDialog.setTitle(getResources().getString(R.string.calibration_upload_dialog_title));
-				askUploadDialog.setMessage(getResources().getString(R.string.calibration_upload_dialog_text));
-
-				startTime = new Date().getTime();
-
 				return rootView;
 		}
 
 		@Override
 		public void onResume() {
 				super.onResume();
+				startTime = new Date().getTime();
+				if (((CalibrationActivity)mContext).getIsSleipnirPlugged()){
+						mController = ((CalibrationActivity)mContext).getMeasurementController();
+						mController.startController();
 						mController.startMeasuring();
 						handler.post(updateUI);
+				}
+
 		}
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 				super.onCreate(savedInstanceState);
-				mController = new SleipnirCoreController(mContext, null, null, null, true);
-				mController.startController();
+
 		}
 
 		@Override
@@ -192,9 +151,8 @@ public class CalibrationFragment extends Fragment {
 				super.onStop();
 				if (mController.isMeasuring()) {
 						mController.stopMeasuring();
-						handler.removeCallbacks(updateUI);
 						mController.stopController();
-						((Activity) mContext).finish();
+						handler.removeCallbacks(updateUI);
 				}
 
 		}
@@ -233,11 +191,12 @@ public class CalibrationFragment extends Fragment {
 						public void onAnimationEnd(final Animator animation) {
 								progressBar.setProgress(progress);
 								if (progress >= 1 && mController != null) {
-										handler.removeCallbacks(updateUI);
-										mController.stopMeasuring();
-										mController.stopController();
+//										handler.removeCallbacks(updateUI);
+//										mController.stopMeasuring();
+//										mController.stopController();
 										((CalibrationActivity) mContext).getSupportFragmentManager().beginTransaction()
-														.replace(R.id.container, new FinishCalibrationFragment()).commit();
+														.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
+														.replace(R.id.container, new FinishCalibrationFragment(true, null)).commit();
 								}
 						}
 
