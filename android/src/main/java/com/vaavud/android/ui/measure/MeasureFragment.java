@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint.Align;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -23,9 +26,11 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.vaavud.android.R;
 import com.vaavud.android.measure.MeasureStatus;
 import com.vaavud.android.measure.MeasurementController;
@@ -47,6 +52,12 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 // TODO: plot what has been going on while fragment wasn't visible
 // TODO: scroll view to last x-position
 public class MeasureFragment extends Fragment implements MeasurementReceiver, SelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -65,15 +76,18 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 
 		private View view;
-
+		private View measurementView;
 		private TextView meanText;
 		private TextView actualText;
 		private TextView maxText;
 		private TextView directionText;
 		private TextView informationText;
 		private ImageView arrowView;
-		private Button startButton;
 		private Button unitButton;
+
+		private LinearLayout startButtonLayout;
+		private Button startButton;
+		private Button shareButton;
 		private ProgressBar progressBar;
 
 		private int progressStatus = 0;
@@ -97,13 +111,15 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 		private SpeedUnit currentUnit;
 		private DirectionUnit currentDirectionUnit;
-		private boolean UIupdate;
+		private boolean measurementStarted;
+		private boolean UIupdate=false;
 		private Context context;
 
 		/*DEBUG TAG*/
 		private static final String TAG = "Vaavud:MeasureFrag";
 
 		private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0";
+
 
 
 		public MeasureFragment() {
@@ -130,6 +146,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 				// create view
 				view = inflater.inflate(R.layout.fragment_measure, container, false);
+				measurementView = view.findViewById(R.id.measurement_layout);
 
 				currentUnit = Device.getInstance(context.getApplicationContext()).getWindSpeedUnit();
 				currentDirectionUnit = Device.getInstance(context.getApplicationContext()).getWindDirectionUnit();
@@ -155,14 +172,35 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 				// create buttons
 
+
+				startButtonLayout = (LinearLayout) view.findViewById(R.id.startButtonLayout);
 				startButton = (Button) view.findViewById(R.id.startButton);
 				startButton.setText(getResources().getString(R.string.button_start));
 				startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
+
+				shareButton = new Button(context);
+				LinearLayout.LayoutParams paramsShare = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT, 0.60f);
+				paramsShare.setMargins(10,0,10,0);
+				shareButton.setLayoutParams(paramsShare);
+				shareButton.setBackground(getResources().getDrawable(R.drawable.button_rounded_blue));
+				shareButton.setText("SHARE");
+				shareButton.setTextColor(getResources().getColor(R.color.white));
+				shareButton.setTextSize(23);
+
 				startButton.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
-								if (UIupdate) {
+								if (measurementStarted) {
+										startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+										startButton.setTextColor(getResources().getColor(R.color.blue));
+										LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT, 0.40f);
+										startButton.setLayoutParams(params);
+										shareButton.setVisibility(View.VISIBLE);
+										startButtonLayout.addView(shareButton);
 
+//										startButton.getLayoutParams().width=newSize;
+//										shareButton.setVisibility(View.VISIBLE);
+//										shareButton.setLayoutParams(new RelativeLayout.LayoutParams(size-newSize, RelativeLayout.LayoutParams.WRAP_CONTENT));
 										stop();
 //										if (currentMaxValueMS != null && currentMeanValueMS != null && ((MainActivity) getActivity()).isFacebookSharingEnabled()) {
 //												FragmentManager fragmentManager = ((Activity)context).getSupportFragmentManager();
@@ -170,6 +208,13 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 //												fbFragment.show(fragmentManager, "PostToFB");
 //										}
 								} else {
+										if (shareButton !=null) {
+												startButtonLayout.removeView(shareButton);
+										}
+										LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
+										startButton.setLayoutParams(params);
+										startButton.setTextColor(getResources().getColor(R.color.white));
+
 										start();
 										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
 												//MixPanel
@@ -185,6 +230,26 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 						@Override
 						public void onClick(View v) {
 								changeUnit();
+						}
+				});
+
+				shareButton.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+
+//								startButton.setLayoutParams(new RelativeLayout.LayoutParams(size, RelativeLayout.LayoutParams.WRAP_CONTENT));
+
+								Uri uri = Uri.fromFile(new File(getScreenshot()));
+								Intent sendIntent = new Intent();
+								sendIntent.setAction(Intent.ACTION_SEND);
+								sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+								sendIntent.setType("image/png");
+								startActivity(sendIntent);
+								startButtonLayout.removeView(shareButton);
+								LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
+								startButton.setLayoutParams(params);
+								startButton.setBackground(getResources().getDrawable(R.drawable.button_rounded_blue));
+								startButton.setTextColor(getResources().getColor(R.color.white));
 						}
 				});
 
@@ -268,7 +333,6 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 								break;
 				}
 
-
 				if (!((MainActivity) context).hasCompass()) {
 						arrowView.setVisibility(View.VISIBLE);
 						directionText.setText(getResources().getString(R.string.no_compass_measurements).toUpperCase());
@@ -327,11 +391,11 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 						getMeasurementController().addMeasurementReceiver(this);
 						startButton.setText(getResources().getString(R.string.button_stop));
 						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
-						UIupdate = true;
+						measurementStarted = true;
 				} else {
 						startButton.setText(getResources().getString(R.string.button_start));
 						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
-						UIupdate = false;
+						measurementStarted = false;
 				}
 		}
 
@@ -361,6 +425,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 //				Log.i(TAG, "onDestroy");
 				progressBar = null;
 				UIupdate = false;
+				measurementStarted = false;
 				meanText = null;
 				actualText = null;
 				maxText = null;
@@ -378,27 +443,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				//Log.i("MeasureFragment", "onDetach");
 		}
 
-		@Override
-		public void onSaveInstanceState(Bundle outState) {
-				super.onSaveInstanceState(outState);
-				//Log.i("MeasureFragment", "onSaveInstanceState");
 
-//				if (currentMeanValueMS != null) {
-//						outState.putFloat("currentMeanValueMS", currentMeanValueMS);
-//				}
-//				if (currentActualValueMS != null) {
-//						outState.putFloat("currentActualValueMS", currentActualValueMS);
-//				}
-//				if (currentMaxValueMS != null) {
-//						outState.putFloat("currentMaxValueMS", currentMaxValueMS);
-//				}
-//
-//				outState.putSerializable("xySeries", xySeries);
-//				outState.putSerializable("averageSeries", averageSeries);
-//
-//				outState.putDouble("yAxisMaxValue", yAxisMaxValue);
-//				outState.putFloat("xAxisTime", xAxisTime);
-		}
 
 		private MeasurementController getMeasurementController() {
 				MainActivity activity = (MainActivity) getActivity();
@@ -409,7 +454,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		}
 
 		private void start() {
-				if (!UIupdate) {
+				if (!measurementStarted) {
 						arrowView.setVisibility(View.INVISIBLE);
 //			Log.d(TAG,"Start Measurement");
 						if (getMeasurementController() instanceof SleipnirCoreController) {
@@ -428,7 +473,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 						startButton.setText(getResources().getString(R.string.button_stop));
 						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
-
+//						shareButton.setVisibility(View.INVISIBLE);
 						informationText.setVisibility(View.VISIBLE);
 
 
@@ -437,12 +482,12 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 						currentMaxValueMS = null;
 						updateWindspeedTextValues();
 
-						UIupdate = true;
+						measurementStarted = true;
 				}
 		}
 
 		private void stop() {
-				if (UIupdate) {
+				if (measurementStarted) {
 //						Log.d(TAG, "Stop Measurement");
 						if (getMeasurementController().isMeasuring()) {
 								getMeasurementController().stopSession();
@@ -451,14 +496,14 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 //
 ////						getMeasurementController().removeMeasurementReceiver(this);
 						if (getMeasurementController() instanceof SleipnirCoreController) {
-							getMeasurementController().stopController();
+								getMeasurementController().stopController();
 						}
 						clearProgressBar();
-						UIupdate = false;
+						measurementStarted = false;
 
 						startButton.setText(getResources().getString(R.string.button_start));
-						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
-
+//						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
+//						startButton.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
 						informationText.setVisibility(View.INVISIBLE);
 				}
 		}
@@ -472,25 +517,21 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				currentDirection = direction;
 				currentPosition = getMeasurementController().currentSession().getPosition();
 
-				updateWindspeedTextValues();
+				if (UIupdate) {
+						updateWindspeedTextValues();
 
-				if (currentWindSpeed != null) {
-						xySeries.add(time, currentWindSpeed);
-						updateXaxis(time);
-						updateYaxis(currentUnit.toDisplayValue(currentWindSpeed), false);
+						if (currentWindSpeed != null) {
+								xySeries.add(time, currentWindSpeed);
+								updateXaxis(time);
+								updateYaxis(currentUnit.toDisplayValue(currentWindSpeed), false);
+						}
+
+						if (currentMeanValueMS != null) {
+								averageSeries.add(time, currentMeanValueMS);
+						}
+
+						mChartView.repaint();
 				}
-
-				if (currentMeanValueMS != null) {
-//						averageSeries.clear();
-//						averageSeries.add(0, currentMeanValueMS);
-//						float t = 0F;
-//						while ((t += 10F) < time) {
-//								averageSeries.add(time, currentMeanValueMS);
-//						}
-						averageSeries.add(time, currentMeanValueMS);
-				}
-
-				mChartView.repaint();
 		}
 
 		@Override
@@ -514,13 +555,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				}
 				getMeasurementController().removeMeasurementReceiver(this);
 				stop();
-//				clearProgressBar();
-//				UIupdate = false;
-//
-//				startButton.setText(getResources().getString(R.string.button_start));
-//				startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
-//
-//				informationText.setVisibility(View.INVISIBLE);
+
 		}
 
 		private void updateYaxis(Float windspeedInUnit, boolean forceSet) {
@@ -671,16 +706,18 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		@Override
 		public void measurementStatusChanged(MeasureStatus status) {
 				// TODO Auto-generated method stub
-
+				UIupdate = false;
 				informationText.setText(getResources().getString(status.getResourceId()));
-				if (status.getResourceId() == MeasureStatus.NO_SIGNAL.getResourceId() & UIupdate)
+				if (status.getResourceId() == MeasureStatus.NO_SIGNAL.getResourceId() & measurementStarted)
 						pauseProgressBar();
-				if (status.getResourceId() == MeasureStatus.NO_AUDIO_SIGNAL.getResourceId() & UIupdate)
+				if (status.getResourceId() == MeasureStatus.NO_AUDIO_SIGNAL.getResourceId() & measurementStarted)
 						pauseProgressBar();
-				if (status.getResourceId() == MeasureStatus.KEEP_VERTICAL.getResourceId() & UIupdate)
+				if (status.getResourceId() == MeasureStatus.KEEP_VERTICAL.getResourceId() & measurementStarted)
 						pauseProgressBar();
-				if (status.getResourceId() == MeasureStatus.MEASURING.getResourceId() & UIupdate)
+				if (status.getResourceId() == MeasureStatus.MEASURING.getResourceId() & measurementStarted) {
 						restartProgressBar();
+						UIupdate = true;
+				}
 
 		}
 
@@ -694,5 +731,45 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 				updateUnit();
+		}
+
+
+		private String getScreenshot() {
+
+
+
+				String mPath = Environment.getExternalStorageDirectory().toString() + "/Screenshot.png";
+				SharingView shareView;
+				shareView = new SharingView(context,currentMeanValueMS,currentDirection,currentMeanValueMS,currentMaxValueMS,dataset,renderer,currentUnit,currentDirectionUnit);
+				int specWidth = View.MeasureSpec.makeMeasureSpec(measurementView.getWidth(), View.MeasureSpec.AT_MOST);
+				int specHeight = View.MeasureSpec.makeMeasureSpec(measurementView.getHeight(), View.MeasureSpec.AT_MOST);
+				shareView.measure(specWidth,specHeight);
+//				Log.d(TAG, "Rendered View: " + measurementView.getWidth() + " " + measurementView.getHeight());
+				Log.d(TAG, "Measured: " + shareView.getMeasuredWidth()+ " " + shareView.getMeasuredHeight());
+				Bitmap bitmap = Bitmap.createBitmap(shareView.getMeasuredWidth(), shareView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+				Canvas c = new Canvas(bitmap);
+//				Log.d(TAG, "Measured Height: " + measurementView.getHeight());
+				shareView.layout(0, 0,shareView.getMeasuredWidth() ,shareView.getMeasuredHeight());
+				shareView.draw(c);
+				// create bitmap screen capture
+
+				OutputStream fout = null;
+				File imageFile = new File(mPath);
+
+				try
+
+				{
+						fout = new FileOutputStream(imageFile);
+						bitmap.compress(Bitmap.CompressFormat.PNG, 100, fout);
+						fout.flush();
+						fout.close();
+
+				} catch (FileNotFoundException e) {
+						e.printStackTrace();
+				} catch (IOException e) {
+						e.printStackTrace();
+				}
+
+				return mPath;
 		}
 }

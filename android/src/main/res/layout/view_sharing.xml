@@ -1,0 +1,161 @@
+<RelativeLayout
+    android:id="@+id/sharing_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgray"
+    android:paddingBottom="40dp"
+    android:paddingLeft="20dp">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/logo"
+        />
+
+
+    <TextView
+        android:id="@+id/actualLabelText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="sans-serif"
+        android:gravity="bottom|left"
+        android:text="CURRENT"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/directionLabelText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/actualLabelText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif"
+        android:gravity="bottom|right"
+        android:text="DIRECTION"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/maxLabelText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/actualTextShare"
+        android:layout_below="@+id/actualTextShare"
+        android:fontFamily="sans-serif"
+        android:gravity="bottom|left"
+        android:text="MAX"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/maxTextShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/maxLabelText"
+        android:layout_below="@+id/maxLabelText"
+        android:fontFamily="sans-serif"
+        android:gravity="top|left"
+        android:text="-"
+        android:textColor="@color/blue"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:id="@+id/directionTextShare"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignRight="@+id/directionLabelText"
+        android:layout_below="@+id/directionLabelText"
+        android:fontFamily="sans-serif"
+        android:gravity="center|right"
+        android:text="-"
+        android:textColor="@color/red"
+        android:textSize="50sp"/>
+
+    <TextView
+        android:id="@+id/unitLabelText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/actualTextShare"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:gravity="bottom|left"
+        android:text="UNIT"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/meanTextShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/directionTextShare"
+        android:layout_below="@+id/meanLabeltext"
+        android:fontFamily="sans-serif"
+        android:gravity="top|left"
+        android:text="-"
+        android:textColor="@color/red"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:id="@+id/actualTextShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/actualLabelText"
+        android:layout_below="@+id/actualLabelText"
+        android:fontFamily="sans-serif"
+        android:gravity="top|left"
+        android:text="-"
+        android:textColor="@color/blue"
+        android:textSize="50sp"/>
+
+    <ImageView
+        android:id="@+id/arrowViewShare"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/directionTextShare"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="sans-serif"/>
+
+    <Button
+        android:id="@+id/unitButtonShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/unitLabelText"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:fontFamily="sans-serif"
+        android:gravity="top|center_horizontal"
+        android:text="m/s"
+        android:textColor="@color/blue"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/meanLabeltext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/unitLabelText"
+        android:layout_alignRight="@+id/directionLabelText"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:gravity="bottom|left"
+        android:text="AVERAGE"
+        android:textSize="12sp"/>
+
+    <LinearLayout
+        android:id="@+id/chartShare"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/unitButtonShare"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal"
+        />
+</RelativeLayout>
+
