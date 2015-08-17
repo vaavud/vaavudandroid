@@ -109,6 +109,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		@Override
 		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 				super.onActivityResult(requestCode, resultCode, data);
+//				Log.d(TAG, "OnActivityResult Activity Request Code: " + requestCode + " Result Code: " + resultCode + " data: " + data);
 				if (Session.getActiveSession() != null) {
 						Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 				}

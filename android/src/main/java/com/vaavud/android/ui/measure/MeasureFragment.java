@@ -12,9 +12,11 @@ import android.graphics.Matrix;
 import android.graphics.Paint.Align;
 import android.graphics.PorterDuff;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -26,16 +28,15 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.vaavud.android.R;
 import com.vaavud.android.measure.MeasureStatus;
 import com.vaavud.android.measure.MeasurementController;
 import com.vaavud.android.measure.MeasurementReceiver;
 import com.vaavud.android.measure.SleipnirCoreController;
+import com.vaavud.android.measure.sensor.LocationUpdateManager;
 import com.vaavud.android.model.entity.Device;
 import com.vaavud.android.model.entity.DirectionUnit;
 import com.vaavud.android.model.entity.LatLng;
@@ -112,14 +113,20 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		private SpeedUnit currentUnit;
 		private DirectionUnit currentDirectionUnit;
 		private boolean measurementStarted;
-		private boolean UIupdate=false;
+		private boolean UIupdate = false;
 		private Context context;
 
 		/*DEBUG TAG*/
 		private static final String TAG = "Vaavud:MeasureFrag";
 
 		private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0";
-
+		private Handler shareHandler = new Handler();
+		private Runnable shareRunnable = new Runnable() {
+				@Override
+				public void run() {
+//
+				}
+		};
 
 
 		public MeasureFragment() {
@@ -179,10 +186,10 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
 
 				shareButton = new Button(context);
-				LinearLayout.LayoutParams paramsShare = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT, 0.60f);
-				paramsShare.setMargins(10,0,10,0);
+				LinearLayout.LayoutParams paramsShare = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 0.60f);
+				paramsShare.setMargins(10, 0, 10, 0);
 				shareButton.setLayoutParams(paramsShare);
-				shareButton.setBackground(getResources().getDrawable(R.drawable.button_rounded_blue));
+				shareButton.setBackgroundResource(R.drawable.button_rounded_blue);
 				shareButton.setText("SHARE");
 				shareButton.setTextColor(getResources().getColor(R.color.white));
 				shareButton.setTextSize(23);
@@ -193,7 +200,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 								if (measurementStarted) {
 										startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 										startButton.setTextColor(getResources().getColor(R.color.blue));
-										LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT, 0.40f);
+										LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 0.40f);
 										startButton.setLayoutParams(params);
 										shareButton.setVisibility(View.VISIBLE);
 										startButtonLayout.addView(shareButton);
@@ -208,10 +215,10 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 //												fbFragment.show(fragmentManager, "PostToFB");
 //										}
 								} else {
-										if (shareButton !=null) {
+										if (shareButton != null) {
 												startButtonLayout.removeView(shareButton);
 										}
-										LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
+										LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
 										startButton.setLayoutParams(params);
 										startButton.setTextColor(getResources().getColor(R.color.white));
 
@@ -236,20 +243,8 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				shareButton.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
-
-//								startButton.setLayoutParams(new RelativeLayout.LayoutParams(size, RelativeLayout.LayoutParams.WRAP_CONTENT));
-
-								Uri uri = Uri.fromFile(new File(getScreenshot()));
-								Intent sendIntent = new Intent();
-								sendIntent.setAction(Intent.ACTION_SEND);
-								sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
-								sendIntent.setType("image/png");
-								startActivity(sendIntent);
-								startButtonLayout.removeView(shareButton);
-								LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
-								startButton.setLayoutParams(params);
-								startButton.setBackground(getResources().getDrawable(R.drawable.button_rounded_blue));
-								startButton.setTextColor(getResources().getColor(R.color.white));
+								new ScreenshotGenerator().execute();
+								MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Start Share Dialog", null);
 						}
 				});
 
@@ -444,7 +439,6 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		}
 
 
-
 		private MeasurementController getMeasurementController() {
 				MainActivity activity = (MainActivity) getActivity();
 				if (activity != null) {
@@ -453,9 +447,19 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				return null;
 		}
 
+		private LocationUpdateManager getLocationController() {
+				MainActivity activity = (MainActivity) getActivity();
+				if (activity != null) {
+						return activity.getLocationUpdateManager();
+				}
+				return null;
+		}
+
+
 		private void start() {
+				arrowView.setVisibility(View.INVISIBLE);
 				if (!measurementStarted) {
-						arrowView.setVisibility(View.INVISIBLE);
+
 //			Log.d(TAG,"Start Measurement");
 						if (getMeasurementController() instanceof SleipnirCoreController) {
 								((SleipnirCoreController) getMeasurementController()).startController();
@@ -476,7 +480,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 //						shareButton.setVisibility(View.INVISIBLE);
 						informationText.setVisibility(View.VISIBLE);
 
-
+						currentDirection = null;
 						currentActualValueMS = null;
 						currentMeanValueMS = null;
 						currentMaxValueMS = null;
@@ -724,7 +728,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		@Override
 		public void onActivityResult(int requestCode, int resultCode, Intent data) {
 				super.onActivityResult(requestCode, resultCode, data);
-				//		Log.d(TAG,"OnActivityResult");
+//				Log.d(TAG, "OnActivityResult Fragment Request Code: " + requestCode + " Result Code: " + resultCode + " data: " + data);
 		}
 
 
@@ -733,37 +737,63 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				updateUnit();
 		}
 
+		private class ScreenshotGenerator extends AsyncTask<Void, Void, String> {
+
+				@Override
+				protected String doInBackground(Void... params) {
+						return getScreenshot();
+				}
+
+				@Override
+				protected void onPreExecute() {
+				}
+
+				@Override
+				protected void onPostExecute(String result) {
+						Uri uri = Uri.fromFile(new File(result));
+						Intent sendIntent = new Intent();
+						sendIntent.setAction(Intent.ACTION_SEND);
+						sendIntent.putExtra(Intent.EXTRA_TEXT, "#VaavudWather");
+						sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+						sendIntent.setType("image/png");
+
+//								sendIntent.setType("text/plain");
+						startActivity(sendIntent);
+						startButtonLayout.removeView(shareButton);
+						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
+						startButton.setLayoutParams(params);
+						startButton.setBackgroundResource(R.drawable.button_rounded_blue);
+						startButton.setTextColor(getResources().getColor(R.color.white));
+
+				}
+		}
+
 
 		private String getScreenshot() {
 
-
-
+				int screenshotWidth = 1080;
+				int screenshotHeight = 1080;
 				String mPath = Environment.getExternalStorageDirectory().toString() + "/Screenshot.png";
-				SharingView shareView;
-				shareView = new SharingView(context,currentMeanValueMS,currentDirection,currentMeanValueMS,currentMaxValueMS,dataset,renderer,currentUnit,currentDirectionUnit);
-				int specWidth = View.MeasureSpec.makeMeasureSpec(measurementView.getWidth(), View.MeasureSpec.AT_MOST);
-				int specHeight = View.MeasureSpec.makeMeasureSpec(measurementView.getHeight(), View.MeasureSpec.AT_MOST);
-				shareView.measure(specWidth,specHeight);
+				SharingView shareView = new SharingView(context, currentMeanValueMS, currentDirection, currentMeanValueMS, currentMaxValueMS, dataset, renderer, currentUnit, currentDirectionUnit, currentPosition,getLocationController().getGeoLocation());
+				int specWidth = View.MeasureSpec.makeMeasureSpec(screenshotWidth, View.MeasureSpec.AT_MOST);
+				int specHeight = View.MeasureSpec.makeMeasureSpec(screenshotHeight, View.MeasureSpec.AT_MOST);
+				shareView.measure(specWidth, specHeight);
 //				Log.d(TAG, "Rendered View: " + measurementView.getWidth() + " " + measurementView.getHeight());
-				Log.d(TAG, "Measured: " + shareView.getMeasuredWidth()+ " " + shareView.getMeasuredHeight());
+//				Log.d(TAG, "Measured: " + shareView.getMeasuredWidth() + " " + shareView.getMeasuredHeight());
 				Bitmap bitmap = Bitmap.createBitmap(shareView.getMeasuredWidth(), shareView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
 				Canvas c = new Canvas(bitmap);
 //				Log.d(TAG, "Measured Height: " + measurementView.getHeight());
-				shareView.layout(0, 0,shareView.getMeasuredWidth() ,shareView.getMeasuredHeight());
+				shareView.layout(0, 0, shareView.getMeasuredWidth(), shareView.getMeasuredHeight());
 				shareView.draw(c);
 				// create bitmap screen capture
-
 				OutputStream fout = null;
 				File imageFile = new File(mPath);
-
 				try
-
 				{
 						fout = new FileOutputStream(imageFile);
 						bitmap.compress(Bitmap.CompressFormat.PNG, 100, fout);
 						fout.flush();
 						fout.close();
-
 				} catch (FileNotFoundException e) {
 						e.printStackTrace();
 				} catch (IOException e) {

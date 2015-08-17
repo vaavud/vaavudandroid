@@ -1,12 +1,17 @@
 package com.vaavud.android.measure.sensor;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.vaavud.android.model.entity.LatLng;
+
+import java.io.IOException;
+import java.util.List;
 
 public class LocationUpdateManager {
 
@@ -16,6 +21,8 @@ public class LocationUpdateManager {
 		private LocationManager locationManager;
 		private LocationListener locationListener;
 		private Location lastLocation;
+		private List<Address> addressList;
+		private Geocoder geocoder;
 
 		public static synchronized LocationUpdateManager getInstance(Context context) {
 				if (instance == null) {
@@ -26,13 +33,14 @@ public class LocationUpdateManager {
 
 		private LocationUpdateManager(Context context) {
 				locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-
+				geocoder = new Geocoder(context);
 				locationListener = new LocationListener() {
 						public void onLocationChanged(Location location) {
 								if (isBetterLocation(location, lastLocation)) {
 										//Log.i("LocationUpdateManager", "Got better location (" + location.getLatitude() + "," + location.getLongitude() + ", " + location.getAccuracy() + ")");
 										lastLocation = location;
 								}
+
 						}
 
 						public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -77,6 +85,30 @@ public class LocationUpdateManager {
 						} catch (IllegalArgumentException e) {
 								return null;
 						}
+				}
+				return null;
+		}
+
+		public String getGeoLocation() {
+				if (lastLocation != null && (System.currentTimeMillis() - lastLocation.getTime()) < TWO_MINUTES) {
+						Address address = null;
+						try {
+								address = geocoder.getFromLocation(lastLocation.getLatitude(), lastLocation.getLongitude(), 1).get(0);
+								if (address.getSubLocality()!=null){
+										return address.getSubLocality();
+								}
+								if (address.getLocality()!=null){
+										return address.getLocality();
+								}
+								if (address.getCountryName()!=null){
+										return address.getCountryName();
+								}
+						} catch (IllegalArgumentException e) {
+								return null;
+						} catch (IOException e) {
+								e.printStackTrace();
+						}
+
 				}
 				return null;
 		}
