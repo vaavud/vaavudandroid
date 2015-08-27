@@ -7,9 +7,13 @@ import android.content.pm.ActivityInfo;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.OrientationEventListener;
 
 import com.vaavud.android.R;
+import com.vaavud.android.measure.MeasurementController;
+import com.vaavud.android.measure.SleipnirCoreController;
+import com.vaavud.android.measure.VaavudCoreController;
 import com.vaavud.android.model.entity.Device;
 import com.vaavud.sleipnirSDK.HeadsetIntentReceiver;
 import com.vaavud.sleipnirSDK.listener.PlugListener;
@@ -25,6 +29,7 @@ public class CalibrationActivity extends AppCompatActivity implements PlugListen
 		private static final int ROTATION_THRESHOLD = 45;
 		private OrientationEventListener orientationListener;
 		private Orientation orientation = Orientation.PORTRAIT;
+		private SleipnirCoreController myVaavudCoreController;
 
 		private enum Orientation {
 				PORTRAIT,
@@ -142,10 +147,22 @@ public class CalibrationActivity extends AppCompatActivity implements PlugListen
 				return dir.delete();
 		}
 
+
+		public SleipnirCoreController getMeasurementController() {
+				return myVaavudCoreController;
+		}
+
 		@Override
 		public void isSleipnirPlugged(boolean plugged) {
-//		Log.d("Calibration Activity","Sleipnir plugged: "+plugged);
-				isSleipnirPlugged = plugged;
+
+				if (plugged) {
+						myVaavudCoreController = null;
+						myVaavudCoreController = new SleipnirCoreController(this, null,null, null, true);
+						isSleipnirPlugged=plugged;
+				}else{
+						myVaavudCoreController = null;
+				}
+
 		}
 
 		public boolean getIsSleipnirPlugged() {

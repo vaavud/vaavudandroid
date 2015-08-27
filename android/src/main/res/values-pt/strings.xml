@@ -159,4 +159,5 @@
     <string name="title_activity_calibration">Calibração</string>
     <string name="unit_cardinal">Cardeal</string>
     <string name="unit_degrees">Graus</string>
+    <string name="info_no_audio_signal">Sem sinal de áudio</string>
 </resources>

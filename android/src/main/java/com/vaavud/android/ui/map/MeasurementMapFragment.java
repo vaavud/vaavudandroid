@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -80,14 +81,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class MeasurementMapFragment extends Fragment implements MeasurementsResponseListener, MeasurementReceiver, SelectedListener, OnMarkerClickListener, OnMapClickListener {
+public class MeasurementMapFragment extends Fragment implements MeasurementsResponseListener, MeasurementReceiver, OnMarkerClickListener, OnMapClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
 		private static final long GRACE_TIME_BETWEEN_READ_MEASUREMENTS = 300L * 1000L;
 		private static final long GRACE_TIME_BETWEEN_NETWORK_ERROR_FEEDBACK = 300L * 1000L;
 		private static final int MAX_NEARBY_MEASUREMENTS = 50;
 		private static final int MARKER_BITMAP_CACHE_SIZE = 150;
 		private static final double ANALYTICS_GRID_DEGREE = 0.125D;
-		private static final String TAG = "MAP_MEASUREMENT_FRAGMENT";
+		private static final String TAG = "Vaavud:MapFrag";
 
 		private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0";
 
@@ -146,22 +147,22 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 		private ImageLoader imageLoader;
 		private UploadManager uploadManager;
 		private Device device;
-		private Context context;
+		private Context mContext;
 		private ProgressBar mapProgressBar;
 
 
 		@Override
 		public void onAttach(Activity activity) {
 				super.onAttach(activity);
-				context = activity;
+				mContext = activity;
 //		Log.i(TAG, "onAttach");
 		}
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 				super.onCreate(savedInstanceState);
-				uploadManager = UploadManager.getInstance(context.getApplicationContext());
-				device = Device.getInstance(context.getApplicationContext());
+				uploadManager = UploadManager.getInstance(mContext.getApplicationContext());
+				device = Device.getInstance(mContext.getApplicationContext());
 //		Log.i(TAG, "onCreate, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 
 		}
@@ -178,8 +179,8 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 				}
 				if (savedInstanceState != null && savedInstanceState.containsKey("hours")) {
 						hours = savedInstanceState.getInt("hours");
-				} else if (context != null) {
-						float[] hourOptions = Device.getInstance(context.getApplicationContext()).getHourOptions();
+				} else if (mContext != null) {
+						float[] hourOptions = Device.getInstance(mContext.getApplicationContext()).getHourOptions();
 						if (hourOptions.length > 0) {
 								hours = Math.round(hourOptions[hourOptions.length - 1]);
 						}
@@ -196,11 +197,11 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 						public void onClick(View view) {
 								deselectCurrentMeasurement(true);
 
-								if (context == null) {
+								if (mContext == null) {
 										return;
 								}
 
-								float[] hourOptions = Device.getInstance(context.getApplicationContext()).getHourOptions();
+								float[] hourOptions = Device.getInstance(mContext.getApplicationContext()).getHourOptions();
 								boolean isOptionChanged = false;
 								for (float hourOption : hourOptions) {
 										int hourOptionInt = Math.round(hourOption);
@@ -214,19 +215,19 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 										hours = Math.round(hourOptions[0]);
 								}
 
-								mapHoursTextView.setText(String.format(context.getResources().getString(R.string.x_hours), hours));
+								mapHoursTextView.setText(String.format(mContext.getResources().getString(R.string.x_hours), hours));
 								readMeasurements(true, true, true);
 
 						}
 				});
-				mapHoursTextView.setText(String.format(context.getResources().getString(R.string.x_hours), hours));
+				mapHoursTextView.setText(String.format(mContext.getResources().getString(R.string.x_hours), hours));
 
 				mapUnitTextView = (TextView) view.findViewById(R.id.map_unitTextView);
 				mapUnitTextView.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View view) {
 								deselectCurrentMeasurement(true);
-								device.setWindSpeedUnit(context.getApplicationContext(),SpeedUnit.nextUnit(currentUnit));
+								device.setWindSpeedUnit(mContext.getApplicationContext(),SpeedUnit.nextUnit(currentUnit));
 								updateUnit();
 						}
 				});
@@ -254,17 +255,17 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 								if (selectedMeasurement != null) {
 										MapMeasurement measurement = selectedMeasurement;
 										deselectCurrentMeasurement(true);
-										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
-												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Map Marker Thumbnail Zoom", null);
+										if (mContext != null && Device.getInstance(mContext.getApplicationContext()).isMixpanelEnabled()) {
+												MixpanelAPI.getInstance(mContext.getApplicationContext(), MIXPANEL_TOKEN).track("Map Marker Thumbnail Zoom", null);
 										}
 										getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(measurement.getPosition(), 14), 700, null);
 								}
 						}
 				});
 
-				if (context != null) {
-						((TextView) view.findViewById(R.id.info_maxLabelTextView)).setText(context.getResources().getString(R.string.heading_max).toUpperCase());
-						((TextView) view.findViewById(R.id.info_nearbyTextView)).setText(context.getResources().getString(R.string.heading_nearby_measurements).toUpperCase());
+				if (mContext != null) {
+						((TextView) view.findViewById(R.id.info_maxLabelTextView)).setText(mContext.getResources().getString(R.string.heading_max).toUpperCase());
+						((TextView) view.findViewById(R.id.info_nearbyTextView)).setText(mContext.getResources().getString(R.string.heading_nearby_measurements).toUpperCase());
 				}
 
 				infoHoursAgoTextView = (TextView) view.findViewById(R.id.info_hoursAgoTextView);
@@ -286,7 +287,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 
 				updateUnit();
 
-				imageLoader = new ImageLoader(Volley.newRequestQueue(context), new ImageLoader.ImageCache() {
+				imageLoader = new ImageLoader(Volley.newRequestQueue(mContext), new ImageLoader.ImageCache() {
 						private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
 
 						public void putBitmap(String url, Bitmap bitmap) {
@@ -326,11 +327,19 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 		public void onResume() {
 //		Log.i(TAG, "onResume");
 				super.onResume();
+				((MainActivity) mContext).getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+				if (mContext != null && Device.getInstance(mContext.getApplicationContext()).isMixpanelEnabled()) {
+						MixpanelAPI.getInstance(mContext.getApplicationContext(), MIXPANEL_TOKEN).track("Map Screen", null);
+				}
+
 				if (mapView != null) {
 //			Log.i(TAG, "mapView.onResume");
 						mapView.onResume();
 				}
-				getMap();
+//				getMap();
+
+				updateUnit();
+				ensureInitialLocation(true, getMap());
 
 				readMeasurements(false, false, true);
 		}
@@ -355,6 +364,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 				super.onDestroyView();
 //		Log.i(TAG, "onDestroyView");
 				getMeasurementController().removeMeasurementReceiver(this);
+				((MainActivity) mContext).getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 				markerBitmapCache = null;
 		}
 
@@ -392,19 +402,10 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 
 
 
-		@Override
-		public void onSelected() {
-//		Log.i(TAG, "onSelected");
-				if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
-						MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Map Screen", null);
-				}
-				updateUnit();
-				ensureInitialLocation(true, getMap());
-				readMeasurements(false, false, true);
-		}
+
 
 		private MeasurementController getMeasurementController() {
-				MainActivity activity = (MainActivity) context;
+				MainActivity activity = (MainActivity) mContext;
 				if (activity != null) {
 						return activity.getMeasurementController();
 				}
@@ -413,7 +414,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 
 		private boolean isCurrentTab() {
 //		Log.i(TAG, "isCurrentTab");
-				MainActivity activity = (MainActivity) context;
+				MainActivity activity = (MainActivity) mContext;
 				if (activity != null) {
 						return activity.isCurrentTab(this);
 				}
@@ -433,7 +434,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 				}
 
 				try {
-						MapsInitializer.initialize(context);
+						MapsInitializer.initialize(mContext);
 						map.setOnMarkerClickListener(this);
 						map.setOnMapClickListener(this);
 						map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -453,7 +454,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 				if (isFirst) {
 //			Log.i(TAG, "isFirst=true");
 						if (map != null) {
-								com.vaavud.android.model.entity.LatLng location = LocationUpdateManager.getInstance(context.getApplicationContext()).getLastLocation();
+								com.vaavud.android.model.entity.LatLng location = LocationUpdateManager.getInstance(mContext.getApplicationContext()).getLastLocation();
 //				Log.i("MeasurementMapFragment", "Setting initial location: " + location);
 								if (location != null) {
 										map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 7));
@@ -466,13 +467,13 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 		}
 
 		private void updateUnit() {
-				SpeedUnit unit = Device.getInstance(context.getApplicationContext()).getWindSpeedUnit();
-				directionUnit = Device.getInstance(context.getApplicationContext()).getWindDirectionUnit();
+				SpeedUnit unit = Device.getInstance(mContext.getApplicationContext()).getWindSpeedUnit();
+				directionUnit = Device.getInstance(mContext.getApplicationContext()).getWindDirectionUnit();
 				if (unit != currentUnit) {
 						currentUnit = unit;
-//			infoMaxUnitTextView.setText(currentUnit.getDisplayName(context));
-						infoAvgUnitTextView.setText(currentUnit.getDisplayName(context));
-						mapUnitTextView.setText(currentUnit.getDisplayName(context));
+//			infoMaxUnitTextView.setText(currentUnit.getDisplayName(mContext));
+						infoAvgUnitTextView.setText(currentUnit.getDisplayName(mContext));
+						mapUnitTextView.setText(currentUnit.getDisplayName(mContext));
 
 						if (selectedMeasurement != null) {
 //				Log.d(TAG,"SelectedMeasurement");
@@ -486,7 +487,6 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 										infoDirectionTextView.setText("-");
 								}
 						}
-
 						refreshMarkers();
 				}
 		}
@@ -496,7 +496,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 						return;
 				}
 
-				if (showActivityIndicator && context != null) {
+				if (showActivityIndicator && mContext != null) {
 						mapProgressBar.setVisibility(View.VISIBLE);
 				}
 
@@ -509,7 +509,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 		public void measurementsReceived(MapMeasurement[] measurements) {
 //		Log.i(TAG, "Received " + measurements.length + " measurements");
 
-				if (context == null) {
+				if (mContext == null) {
 						// this is an indication that we've probably been detached from the activity
 						return;
 				}
@@ -523,7 +523,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 
 				giveNetworkErrorFeedback = false;
 				lastNetworkErrorFeedback = null;
-				((Activity)context).setProgressBarIndeterminateVisibility(false);
+				((Activity)mContext).setProgressBarIndeterminateVisibility(false);
 				deselectCurrentMeasurement(true);
 
 				lastReadMeasurements = new Date();
@@ -536,7 +536,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 
 				Arrays.sort(measurements, startTimeComparatorAscending);
 
-				int maxMapMarkers = Device.getInstance(context.getApplicationContext()).getMaxMapMarkers();
+				int maxMapMarkers = Device.getInstance(mContext.getApplicationContext()).getMaxMapMarkers();
 				if (maxMapMarkers < measurements.length) {
 						MapMeasurement[] truncatedMeasurements = new MapMeasurement[maxMapMarkers];
 						System.arraycopy(measurements, measurements.length - truncatedMeasurements.length, truncatedMeasurements, 0, maxMapMarkers);
@@ -574,7 +574,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 
 		@Override
 		public void measurementsLoadingFailed() {
-				if (context != null) {
+				if (mContext != null) {
 						mapProgressBar.setVisibility(View.GONE);
 						if (giveNetworkErrorFeedback) {
 								if (lastNetworkErrorFeedback == null || ((System.currentTimeMillis() - lastNetworkErrorFeedback.getTime()) > GRACE_TIME_BETWEEN_NETWORK_ERROR_FEEDBACK)) {
@@ -589,7 +589,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 		}
 
 		private void showNoDataFeedbackMessage() {
-				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 				builder.setTitle(R.string.map_refresh_error_title);
 				builder.setMessage(R.string.map_refresh_error_message);
 				builder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
@@ -602,8 +602,8 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 		}
 
 		private IconGenerator createMarkerIconGenerator(boolean selected) {
-				IconGenerator iconFactory = new IconGenerator(context);
-				ViewGroup markerContainer = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.marker_map, null);
+				IconGenerator iconFactory = new IconGenerator(mContext);
+				ViewGroup markerContainer = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.marker_map, null);
 				TextView textView = (TextView) markerContainer.findViewById(R.id.text);
 				markerContainer.removeView(textView);
 				textView.setId(com.google.maps.android.R.id.text);
@@ -659,8 +659,8 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 						}
-						if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
-								MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Map Marker Selected", props);
+						if (mContext != null && Device.getInstance(mContext.getApplicationContext()).isMixpanelEnabled()) {
+								MixpanelAPI.getInstance(mContext.getApplicationContext(), MIXPANEL_TOKEN).track("Map Marker Selected", props);
 						}
 
 						selectMeasurement(selectedMeasurement, marker);
@@ -684,7 +684,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 				textMarker.setIcon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon(currentUnit.formatWithTwoDigits(measurement.getWindSpeedAvg()))));
 				textMarker.getPosition();
 
-				infoHoursAgoTextView.setText(FormatUtil.formatRelativeDate(measurement.getStartTime(), context));
+				infoHoursAgoTextView.setText(FormatUtil.formatRelativeDate(measurement.getStartTime(), mContext));
 				infoMaxTextView.setText(currentUnit.format(selectedMeasurement.getWindSpeedMax()));
 				infoAvgTextView.setText(currentUnit.format(selectedMeasurement.getWindSpeedAvg()));
 				if (selectedMeasurement.getWindDirection() != null) {
@@ -711,7 +711,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 				infoMapThumbnailImageView.setImageUrl(mapUrl, imageLoader);
 
 				List<MapMeasurement> nearbyMeasurements = getNearbyMeasurements(measurement);
-				NearbyArrayAdapter adapter = new NearbyArrayAdapter(context, nearbyMeasurements);
+				NearbyArrayAdapter adapter = new NearbyArrayAdapter(mContext, nearbyMeasurements);
 				infoNearbyListView.setAdapter(adapter);
 				infoNearbyListView.setOnItemClickListener(adapter);
 
@@ -763,8 +763,8 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 				}
 				selectedMeasurement = null;
 				selectedMarker = null;
-				if (context != null) {
-						infoNearbyListView.setAdapter(new NearbyArrayAdapter(context, Collections.<MapMeasurement>emptyList()));
+				if (mContext != null) {
+						infoNearbyListView.setAdapter(new NearbyArrayAdapter(mContext, Collections.<MapMeasurement>emptyList()));
 				}
 		}
 
@@ -816,7 +816,7 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 
 		@Override
 		public void measurementStatusChanged(MeasureStatus status) {
-				// do nothing
+				updateUnit();
 		}
 
 
@@ -866,22 +866,27 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 				return Double.toString(ANALYTICS_GRID_DEGREE) + ":" + latitudeGrid + "," + longitudeGrid;
 		}
 
+		@Override
+		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+		}
+
 		private class NearbyArrayAdapter extends ArrayAdapter<MapMeasurement> implements OnItemClickListener {
 
-				private final Context context;
-				private final List<MapMeasurement> values;
+				private final Context mContext;
+				private final List<MapMeasurement> mValues;
 
 				public NearbyArrayAdapter(Context context, List<MapMeasurement> values) {
 						super(context, R.layout.listview_row_nearby, values);
-						this.context = context;
-						this.values = values;
+						mContext = context;
+						mValues = values;
 				}
 
 				@Override
 				public View getView(int position, View convertView, ViewGroup parent) {
-						MapMeasurement measurement = values.get(position);
+						MapMeasurement measurement = mValues.get(position);
 
-						LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+						LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 						View rowView = inflater.inflate(R.layout.listview_row_nearby, parent, false);
 
 						TextView speedTextView = (TextView) rowView.findViewById(R.id.nearby_speedTextView);
@@ -889,10 +894,10 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 						speedTextView.setTypeface(futuraMediumTypeface);
 
 						TextView unitTextView = (TextView) rowView.findViewById(R.id.nearby_unitTextView);
-						unitTextView.setText(currentUnit.getDisplayName(context));
+						unitTextView.setText(currentUnit.getDisplayName(mContext));
 
 						TextView hoursTextView = (TextView) rowView.findViewById(R.id.nearby_hoursTextView);
-						hoursTextView.setText(FormatUtil.formatRelativeDate(measurement.getStartTime(), context));
+						hoursTextView.setText(FormatUtil.formatRelativeDate(measurement.getStartTime(), mContext));
 
 						TextView directionTextView = (TextView) rowView.findViewById(R.id.nearby_windTextView);
 						if (measurement.getWindDirection() != null) {
@@ -904,8 +909,8 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 
 				@Override
 				public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-						if (position < values.size()) {
-								MapMeasurement measurement = values.get(position);
+						if (position < mValues.size()) {
+								MapMeasurement measurement = mValues.get(position);
 								JSONObject props = new JSONObject();
 								try {
 										props.put("Source", "Nearby Measurements");
@@ -913,8 +918,8 @@ public class MeasurementMapFragment extends Fragment implements MeasurementsResp
 										// TODO Auto-generated catch block
 										e.printStackTrace();
 								}
-								if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
-										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Map Marker Selected", props);
+								if (mContext != null && Device.getInstance(mContext.getApplicationContext()).isMixpanelEnabled()) {
+										MixpanelAPI.getInstance(mContext.getApplicationContext(), MIXPANEL_TOKEN).track("Map Marker Selected", props);
 								}
 								deselectCurrentMeasurement(false);
 								selectedMeasurement = measurement;

@@ -5,13 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap.CompressFormat;
-
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.view.ActionMode;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -43,8 +41,6 @@ import com.vaavud.android.network.UploadManager;
 import com.vaavud.android.network.listener.HistoryMeasurementsResponseListener;
 import com.vaavud.android.ui.BackPressedListener;
 import com.vaavud.android.ui.MainActivity;
-import com.vaavud.android.ui.SelectedListener;
-import com.vaavud.android.ui.SelectorListener;
 import com.vaavud.android.ui.history.cache.ImageCacheManager;
 import com.vaavud.android.ui.history.cache.ImageCacheManager.CacheType;
 import com.vaavud.util.FormatUtil;
@@ -66,11 +62,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-public class HistoryFragment extends Fragment implements BackPressedListener, SelectedListener, HistoryMeasurementsResponseListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class HistoryFragment extends Fragment implements BackPressedListener, HistoryMeasurementsResponseListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
-		private static final String TAG = "HISTORY_FRAGMENT";
-
-		private SelectorListener mCallback;
+		private static final String TAG = "Vaavud:HistoryFrag";
 
 		private static final long GRACE_TIME_BETWEEN_READ_MEASUREMENTS = 11 * 1000L;
 
@@ -85,6 +79,7 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 		private String splitterDay;
 		private String splitterMonth;
 
+		private ProgressDialog progress;
 		private NetworkImageView historyMapThumbnailImageView;
 		private TextView maxSpeed;
 		private TextView averageSpeed;
@@ -99,20 +94,14 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 		private ImageCacheManager imageCacheManager;
 		private Typeface futuraMediumTypeface;
 
-		private ProgressDialog progress;
 
 		private HistoryArrayAdapter historyAdapter;
-
 		private ListView historyListView;
-
 		private View view;
 
 		private Date lastReadMeasurements;
 
-		private boolean mActionModeAvailable = false;
-		private boolean isMeasurementReceived = false;
-
-		private Context context;
+		private Context mContext;
 		private UploadManager uploadManager;
 		private Device device;
 
@@ -131,8 +120,7 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 		@Override
 		public void onAttach(Activity activity) {
 				super.onAttach(activity);
-				context = activity;
-				((MainActivity)activity).getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+				mContext = activity;
 		}
 
 		@Override
@@ -143,11 +131,11 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 				if (measurmentSessions == null) {
 						measurmentSessions = getMeasurementsFromDB();
 				}
-				device = Device.getInstance(context.getApplicationContext());
+				device = Device.getInstance(mContext.getApplicationContext());
 				unit = device.getWindSpeedUnit();
 				directionUnit = device.getWindDirectionUnit();
 				futuraMediumTypeface = Typeface.createFromAsset(getActivity().getAssets(), "futuraMedium.ttf");
-				uploadManager = UploadManager.getInstance(context.getApplicationContext());
+				uploadManager = UploadManager.getInstance(mContext.getApplicationContext());
 
 		}
 
@@ -168,7 +156,6 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 								public boolean onItemLongClick(AdapterView<?> adapter,
 																							 View view, int position, long arg3) {
 										view.setSelected(true);
-
 										ActionMode.Callback modeCallBack = new ActionMode.Callback() {
 												private int nr = 0;
 
@@ -207,7 +194,7 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 																				historyAdapter.removeSelection(position);
 																		}
 																		for (int i = 0; i < removeList.size(); i++) {
-																				VaavudDatabase.getInstance(context.getApplicationContext()).deleteMeasurementSession(removeList.get(i));
+																				VaavudDatabase.getInstance(mContext.getApplicationContext()).deleteMeasurementSession(removeList.get(i));
 																				uploadManager.deleteMeasurement(removeList.get(i));
 																				//MixPanel
 																				JSONObject props = new JSONObject();
@@ -216,13 +203,13 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 																				} catch (JSONException e) {
 																						e.printStackTrace();
 																				}
-																				if (context != null && device.isMixpanelEnabled()) {
-																						MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Delete Measurement", props);
+																				if (mContext != null && device.isMixpanelEnabled()) {
+																						MixpanelAPI.getInstance(mContext.getApplicationContext(), MIXPANEL_TOKEN).track("Delete Measurement", props);
 																				}
 																				measurmentSessions.remove(removeList.get(i));
 																		}
 																		historyAdapter.clearSelection();
-																		((MainActivity)getActivity()).getViewPager().getAdapter().notifyDataSetChanged();
+																		((MainActivity) getActivity()).getViewPager().getAdapter().notifyDataSetChanged();
 																		mode.finish();
 
 																		return true;
@@ -239,11 +226,11 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 						});
 						imageCacheManager = ImageCacheManager.getInstance();
 						imageCacheManager.init(getActivity(), Environment.getExternalStorageDirectory().getAbsolutePath(),
-										DISK_IMAGECACHE_SIZE, DISK_IMAGECACHE_COMPRESS_FORMAT, DISK_IMAGECACHE_QUALITY, CacheType.DISK, Volley.newRequestQueue(context));
+										DISK_IMAGECACHE_SIZE, DISK_IMAGECACHE_COMPRESS_FORMAT, DISK_IMAGECACHE_QUALITY, CacheType.DISK, Volley.newRequestQueue(mContext));
 
 						imageLoader = imageCacheManager.getImageLoader();
 				} else {
-						view = new ArrowLayoutView(context);
+						view = new ArrowLayoutView(mContext);
 				}
 				MixpanelUtil.updateMeasurementProperties(getActivity());
 				return view;
@@ -282,6 +269,7 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 		public void onResume() {
 				//		Log.i(TAG, "onResume");
 				super.onResume();
+				((MainActivity) mContext).getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 				if (lastReadMeasurements != null && ((System.currentTimeMillis() - lastReadMeasurements.getTime()) > GRACE_TIME_BETWEEN_READ_MEASUREMENTS)) {
 						return;
 				}
@@ -312,7 +300,7 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 						historyAdapter.clearSelection();
 						unregisterForContextMenu(historyListView);
 				}
-				((MainActivity)context).getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+				((MainActivity) mContext).getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 				super.onDestroyView();
 				//				Log.i(TAG, "onDestroyView");
 		}
@@ -358,7 +346,7 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 
 		private List<MeasurementSession> getMeasurementsFromDB() {
 				//Log.i(TAG, "getMeasurementsFromDB");
-				List<MeasurementSession> measurementsList = VaavudDatabase.getInstance(context.getApplicationContext()).getMeasurementSessions();
+				List<MeasurementSession> measurementsList = VaavudDatabase.getInstance(mContext.getApplicationContext()).getMeasurementSessions();
 				Collections.sort(measurementsList, startTimeComparatorDescending);
 				return measurementsList;
 		}
@@ -391,18 +379,11 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 				}
 		}
 
-		@Override
-		public void onSelected() {
-				//		Log.d(TAG,"On Selected");
-				if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
-						MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("History Screen", null);
-				}
-		}
 
 		@Override
 		public void measurementsLoadingFailed() {
-				if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
-						MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Measurements Loading Failed", null);
+				if (mContext != null && Device.getInstance(mContext.getApplicationContext()).isMixpanelEnabled()) {
+						MixpanelAPI.getInstance(mContext.getApplicationContext(), MIXPANEL_TOKEN).track("Measurements Loading Failed", null);
 						//		Log.e(TAG,"Measurements Loading Failed");
 				}
 		}
@@ -422,7 +403,7 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 														current.setWindSpeedAvg(histObjList.get(i).getWindSpeedAvg());
 														current.setWindSpeedMax(histObjList.get(i).getWindSpeedMax());
 														current.setWindDirection(histObjList.get(i).getWindDirection());
-														VaavudDatabase.getInstance(context.getApplicationContext()).updateCompleteMeasurementSession(current);
+														VaavudDatabase.getInstance(mContext.getApplicationContext()).updateCompleteMeasurementSession(current);
 												}
 												histObjList.remove(i);
 												break;
@@ -431,12 +412,12 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 						}
 						if (histObjList.size() > 0) {
 								for (int i = 0; i < histObjList.size(); i++) {
-										VaavudDatabase.getInstance(context.getApplicationContext()).insertMeasurementSession(histObjList.get(i));
+										VaavudDatabase.getInstance(mContext.getApplicationContext()).insertMeasurementSession(histObjList.get(i));
 								}
 						}
 				} else {
-						if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
-								MixpanelAPI.getInstance(context, MIXPANEL_TOKEN).track("Empty History Screen", null);
+						if (mContext != null && Device.getInstance(mContext.getApplicationContext()).isMixpanelEnabled()) {
+								MixpanelAPI.getInstance(mContext, MIXPANEL_TOKEN).track("Empty History Screen", null);
 						}
 				}
 				measurmentSessions = getMeasurementsFromDB();
@@ -447,17 +428,17 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 						e.printStackTrace();
 				}
 				if (progress != null && progress.isShowing()) progress.dismiss();
-				if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
-						MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).registerSuperProperties(props);
+				if (mContext != null && Device.getInstance(mContext.getApplicationContext()).isMixpanelEnabled()) {
+						MixpanelAPI.getInstance(mContext.getApplicationContext(), MIXPANEL_TOKEN).registerSuperProperties(props);
 				}
-				MixpanelUtil.updateMeasurementProperties(context.getApplicationContext());
+				MixpanelUtil.updateMeasurementProperties(mContext.getApplicationContext());
 
 
 		}
 
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-				((MainActivity)getActivity()).getViewPager().getAdapter().notifyDataSetChanged();
+				((MainActivity) getActivity()).getViewPager().getAdapter().notifyDataSetChanged();
 		}
 
 		private class HistoryArrayAdapter extends ArrayAdapter<MeasurementSession> {
@@ -555,8 +536,6 @@ public class HistoryFragment extends Fragment implements BackPressedListener, Se
 								windText.setText("-");
 								windArrowView.setImageDrawable(null);
 						}
-
-
 
 						if (isSplitterNeeded(position)) {
 								splitterDay = FormatUtil.formatDayDate(measurement.getStartTime());

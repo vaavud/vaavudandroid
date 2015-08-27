@@ -71,7 +71,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		private static final long GRACE_TIME_BETWEEN_RESUME_APP_MS = 1800L * 1000L; // 1 hour
 		private static final String KEY_FIRST_TIME_SLEIPNIR = "firstTimeSleipnir";
 		private static final String KEY_IS_FIRST_FLOW = "isFirstFlow";
-		private static final String TAG = "MAIN_ACTIVITY";
+		private static final String TAG = "Vaavud:MainAct";
 
 		private static final int MEASURE_TAB = 0;
 		private static final int MAP_TAB = 1;
@@ -109,6 +109,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		@Override
 		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 				super.onActivityResult(requestCode, resultCode, data);
+//				Log.d(TAG, "OnActivityResult Activity Request Code: " + requestCode + " Result Code: " + resultCode + " data: " + data);
 				if (Session.getActiveSession() != null) {
 						Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 				}
@@ -171,13 +172,13 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 				}
 
 
-				if (myVaavudCoreController == null) {
-						myVaavudCoreController = new VaavudCoreController(getApplicationContext(), dataManager, uploadManager, locationUpdater);
-				}
-				uploadManager.setMeasurementController(myVaavudCoreController);
-				if (myVaavudCoreController instanceof VaavudCoreController) {
-						uploadManager.setFFTManager(((VaavudCoreController) myVaavudCoreController).getFFTManager());
-				}
+//				if (myVaavudCoreController == null) {
+//						myVaavudCoreController = new VaavudCoreController(getApplicationContext(), dataManager, uploadManager, locationUpdater);
+//				}
+//				uploadManager.setMeasurementController(myVaavudCoreController);
+//				if (myVaavudCoreController instanceof VaavudCoreController) {
+//						uploadManager.setFFTManager(((VaavudCoreController) myVaavudCoreController).getFFTManager());
+//				}
 
 				pagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
 
@@ -296,6 +297,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						case R.id.option_settings:
 								Intent settings = new Intent(this, SettingsActivity.class);
 								startActivity(settings);
+//								myVaavudCoreController.stopController();
 								return true;
 						default:
 								return super.onOptionsItemSelected(item);
@@ -315,17 +317,31 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 
 		@Override
 		protected void onStart() {
+				Log.i(TAG, "onStart");
 				super.onStart();
+
+				if (myVaavudCoreController == null) {
+						myVaavudCoreController = new VaavudCoreController(getApplicationContext(), dataManager, uploadManager, locationUpdater);
+				}
+//				if (myVaavudCoreController instanceof SleipnirCoreController){
+//						((SleipnirCoreController)myVaavudCoreController).startController();
+//				}
+				if (myVaavudCoreController instanceof VaavudCoreController) {
+//						((VaavudCoreController) myVaavudCoreController).startController();
+						uploadManager.setFFTManager(((VaavudCoreController) myVaavudCoreController).getFFTManager());
+				}
+				uploadManager.setMeasurementController(myVaavudCoreController);
 		}
 
 		@Override
 		protected void onRestart() {
 				super.onRestart();
+
 		}
 
 		@Override
 		protected void onResume() {
-//		Log.i(TAG, "onResume");
+		Log.i(TAG, "onResume");
 				super.onResume();
 				pref = getSharedPreferences("Vaavud", Context.MODE_PRIVATE);
 				user = User.getInstance(getApplicationContext());
@@ -342,9 +358,9 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 				locationUpdater.start();
 
 				// start measuring if we were measuring before being paused
-				if (myVaavudCoreController != null) {
-						myVaavudCoreController.resumeMeasuring();
-				}
+//				if (myVaavudCoreController != null) {
+//						myVaavudCoreController.resumeMeasuring();
+//				}
 
 				firstTimeCalibrationDone = VaavudDatabase.getInstance(getApplicationContext()).getPropertyAsBoolean(KEY_FIRST_TIME_SLEIPNIR);
 				if (lastRegisterDevice == null || (System.currentTimeMillis() - lastRegisterDevice.getTime()) > GRACE_TIME_BETWEEN_REGISTER_DEVICE_MS) {
@@ -384,10 +400,9 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 
 		@Override
 		protected void onPause() {
+				Log.i(TAG, "onPause");
 				super.onPause();
-//	    Log.i(TAG, "onPause");
 				orientationListener.disable();
-				myVaavudCoreController.pauseMeasuring();
 				locationUpdater.stop();
 				uploadManager.stop();
 
@@ -407,7 +422,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 
 		@Override
 		protected void onDestroy() {
-//		Log.i(TAG, "onDestroy");
+		Log.i(TAG, "onDestroy");
 				unregisterReceiver(receiver);
 				if (progress != null) {
 //			Log.d(TAG,"Cancel progress: OnStop");
@@ -581,7 +596,9 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 		@Override
 		public void isSleipnirPlugged(boolean plugged) {
 				if (myVaavudCoreController.isMeasuring()) {
+//						Log.d(TAG,"isMeasuring"+ "VaavudController:" +myVaavudCoreController.getClass().getCanonicalName());
 						myVaavudCoreController.stopSession();
+						myVaavudCoreController.stopController();
 				}
 				if (plugged) {
 //			Log.d("MainActivity","Sleipnir Plugged");
@@ -596,9 +613,9 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 						}
 				} else {
 //			Log.d("MainActivity","Sleipnir Unplugged");
-						if (myVaavudCoreController instanceof SleipnirCoreController) {
-								myVaavudCoreController.stopController();
-						}
+//						if (myVaavudCoreController instanceof SleipnirCoreController) {
+//								myVaavudCoreController.stopController();
+//						}
 						myVaavudCoreController = null;
 						myVaavudCoreController = new VaavudCoreController(getApplicationContext(), dataManager, uploadManager, locationUpdater);
 						uploadManager.setFFTManager(((VaavudCoreController) myVaavudCoreController).getFFTManager());

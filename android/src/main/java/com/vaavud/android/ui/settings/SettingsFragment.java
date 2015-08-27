@@ -102,24 +102,6 @@ public class SettingsFragment extends PreferenceFragment {
 						}
 				});
 
-
-//				facebook = (SwitchPreference) findPreference("FacebookSharing");
-//				facebook.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-//						@Override
-//						public boolean onPreferenceChange(Preference preference, Object newValue) {
-////								((MainActivity) getActivity()).setFacebookSharing((Boolean) newValue);
-//								Editor edit = pref.edit();
-//								edit.putBoolean(facebook.getKey(), (Boolean) newValue);
-//								edit.commit();
-//								edit = null;
-//								return true;
-//						}
-//				});
-
-
-
-
-
 				buy = findPreference("buy");
 
 				TelephonyManager tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
@@ -167,14 +149,6 @@ public class SettingsFragment extends PreferenceFragment {
 
 						@Override
 						public boolean onPreferenceClick(Preference preference) {
-//								Log.d(TAG, "Parent Activity: " + getActivity().getParent().getLocalClassName());
-//								if (((MainActivity) getActivity()).getMeasurementController() instanceof SleipnirCoreController) {
-//										SleipnirCoreController controller = (SleipnirCoreController) ((MainActivity) getActivity()).getMeasurementController();
-//										if (controller.isMeasuring()) {
-//												controller.stopSession();
-//										}
-//										controller.stopController();
-//								}
 								if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
 										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Settings Clicked Calibration", null);
 								}

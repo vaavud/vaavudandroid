@@ -6,16 +6,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint.Align;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +36,7 @@ import com.vaavud.android.measure.MeasureStatus;
 import com.vaavud.android.measure.MeasurementController;
 import com.vaavud.android.measure.MeasurementReceiver;
 import com.vaavud.android.measure.SleipnirCoreController;
+import com.vaavud.android.measure.sensor.LocationUpdateManager;
 import com.vaavud.android.model.entity.Device;
 import com.vaavud.android.model.entity.DirectionUnit;
 import com.vaavud.android.model.entity.LatLng;
@@ -48,9 +53,15 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 // TODO: plot what has been going on while fragment wasn't visible
 // TODO: scroll view to last x-position
-public class MeasureFragment extends Fragment implements MeasurementReceiver, SelectedListener,SharedPreferences.OnSharedPreferenceChangeListener {
+public class MeasureFragment extends Fragment implements MeasurementReceiver, SelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
 		private static final double YAXISSTARTMAXVALUE = 6.2D;
 		private static final double XAXISSTARTMAXVALUE = 10D;
@@ -66,15 +77,18 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 
 		private View view;
-
+		private View measurementView;
 		private TextView meanText;
 		private TextView actualText;
 		private TextView maxText;
 		private TextView directionText;
 		private TextView informationText;
 		private ImageView arrowView;
-		private Button startButton;
 		private Button unitButton;
+
+		private LinearLayout startButtonLayout;
+		private Button startButton;
+		private Button shareButton;
 		private ProgressBar progressBar;
 
 		private int progressStatus = 0;
@@ -98,13 +112,21 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 		private SpeedUnit currentUnit;
 		private DirectionUnit currentDirectionUnit;
-		private boolean UIupdate;
+		private boolean measurementStarted;
+		private boolean UIupdate = false;
 		private Context context;
 
 		/*DEBUG TAG*/
-		private static final String TAG = "MEASUREMENT_FRAGMENT";
+		private static final String TAG = "Vaavud:MeasureFrag";
 
 		private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0";
+		private Handler shareHandler = new Handler();
+		private Runnable shareRunnable = new Runnable() {
+				@Override
+				public void run() {
+//
+				}
+		};
 
 
 		public MeasureFragment() {
@@ -116,21 +138,22 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		public void onAttach(Activity activity) {
 				super.onAttach(activity);
 				context = activity;
-				((MainActivity)activity).getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
 		}
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 				super.onCreate(savedInstanceState);
-				//		Log.i("MeasureFragment", "onCreate, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
+//				Log.d(TAG, "onCreate, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-				//		Log.i("MeasureFragment", "onCreateView, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
+//				Log.d(TAG, "onCreateView, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 
 				// create view
 				view = inflater.inflate(R.layout.fragment_measure, container, false);
+				measurementView = view.findViewById(R.id.measurement_layout);
 
 				currentUnit = Device.getInstance(context.getApplicationContext()).getWindSpeedUnit();
 				currentDirectionUnit = Device.getInstance(context.getApplicationContext()).getWindDirectionUnit();
@@ -152,32 +175,39 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 				// crete progress bar
 				progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+				clearProgressBar();
 
 				// create buttons
 
+
+				startButtonLayout = (LinearLayout) view.findViewById(R.id.startButtonLayout);
 				startButton = (Button) view.findViewById(R.id.startButton);
 				startButton.setText(getResources().getString(R.string.button_start));
 				startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
+
+				shareButton = new Button(context);
+				LinearLayout.LayoutParams paramsShare = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 0.60f);
+				paramsShare.setMargins(10, 0, 10, 0);
+				shareButton.setLayoutParams(paramsShare);
+				shareButton.setBackgroundResource(R.drawable.button_rounded_blue);
+				shareButton.setText("SHARE");
+				shareButton.setTextColor(getResources().getColor(R.color.white));
+				shareButton.setTextSize(23);
+
 				startButton.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
-								if (UIupdate) {
-										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
-												//MixPanel
-												JSONObject props = new JSONObject();
-												try {
-														props.put("Duration", (getMeasurementController().currentSession().getEndTime().getTime() - getMeasurementController().currentSession().getStartTime().getTime()) / 1000);
-														if (currentMeanValueMS != null && currentMaxValueMS != null) {
-																props.put("Avg Wind Speed", currentUnit.format(currentMeanValueMS));
-																props.put("Max Wind Speed", currentUnit.format(currentMaxValueMS));
-														}
+								if (measurementStarted) {
+										startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+										startButton.setTextColor(getResources().getColor(R.color.blue));
+										LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 0.40f);
+										startButton.setLayoutParams(params);
+										shareButton.setVisibility(View.VISIBLE);
+										startButtonLayout.addView(shareButton);
 
-												} catch (JSONException e) {
-														// TODO Auto-generated catch block
-														e.printStackTrace();
-												}
-												MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Stop Measurement", props);
-										}
+//										startButton.getLayoutParams().width=newSize;
+//										shareButton.setVisibility(View.VISIBLE);
+//										shareButton.setLayoutParams(new RelativeLayout.LayoutParams(size-newSize, RelativeLayout.LayoutParams.WRAP_CONTENT));
 										stop();
 //										if (currentMaxValueMS != null && currentMeanValueMS != null && ((MainActivity) getActivity()).isFacebookSharingEnabled()) {
 //												FragmentManager fragmentManager = ((Activity)context).getSupportFragmentManager();
@@ -185,6 +215,13 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 //												fbFragment.show(fragmentManager, "PostToFB");
 //										}
 								} else {
+										if (shareButton != null) {
+												startButtonLayout.removeView(shareButton);
+										}
+										LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
+										startButton.setLayoutParams(params);
+										startButton.setTextColor(getResources().getColor(R.color.white));
+
 										start();
 										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
 												//MixPanel
@@ -200,6 +237,14 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 						@Override
 						public void onClick(View v) {
 								changeUnit();
+						}
+				});
+
+				shareButton.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+								new ScreenshotGenerator().execute();
+								MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Start Share Dialog", null);
 						}
 				});
 
@@ -283,13 +328,21 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 								break;
 				}
 
-				if (savedInstanceState != null) {
-						xySeries = savedInstanceState.containsKey("xySeries") ? (XYSeriesUnitSupport) savedInstanceState.getSerializable("xySeries") : new XYSeriesUnitSupport("actual", currentUnit);
-						averageSeries = savedInstanceState.containsKey("averageSeries") ? (XYSeriesUnitSupport) savedInstanceState.getSerializable("averageSeries") : new XYSeriesUnitSupport("mean", currentUnit);
-				} else if (xySeries == null) {
-						xySeries = new XYSeriesUnitSupport("actual", currentUnit);
-						averageSeries = new XYSeriesUnitSupport("mean", currentUnit);
+				if (!((MainActivity) context).hasCompass()) {
+						arrowView.setVisibility(View.VISIBLE);
+						directionText.setText(getResources().getString(R.string.no_compass_measurements).toUpperCase());
+						directionText.setTextSize(9.6f);
+						arrowView.setImageDrawable(getResources().getDrawable(R.drawable.no_compass));
+						arrowView.setScaleType(ScaleType.CENTER);
 				}
+
+//				if (savedInstanceState != null) {
+//						xySeries = savedInstanceState.containsKey("xySeries") ? (XYSeriesUnitSupport) savedInstanceState.getSerializable("xySeries") : new XYSeriesUnitSupport("actual", currentUnit);
+//						averageSeries = savedInstanceState.containsKey("averageSeries") ? (XYSeriesUnitSupport) savedInstanceState.getSerializable("averageSeries") : new XYSeriesUnitSupport("mean", currentUnit);
+//				} else if (xySeries == null) {
+				xySeries = new XYSeriesUnitSupport("actual", currentUnit);
+				averageSeries = new XYSeriesUnitSupport("mean", currentUnit);
+//				}
 
 				dataset.addSeries(xySeries);
 				dataset.addSeries(averageSeries);
@@ -299,40 +352,8 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				LinearLayout layout = (LinearLayout) view.findViewById(R.id.chart);
 				mChartView = ChartFactory.getCubeLineChartView(view.getContext(), dataset, renderer, 0.3f);
 				layout.addView(mChartView);
-				mChartView.setBackground(new ColorDrawable(getResources().getColor(R.color.lightgray)));
+				mChartView.setBackgroundColor(getResources().getColor(R.color.lightgray));
 				mChartView.repaint();
-
-				// set type face
-
-//		Typeface futuraMediumTypeface = Typeface.createFromAsset(view.getContext().getAssets(), "futuraMedium.ttf");
-//		meanText.setTypeface(futuraMediumTypeface);
-//		actualText.setTypeface(futuraMediumTypeface);
-//		maxText.setTypeface(futuraMediumTypeface);
-//		unitButton.setTypeface(futuraMediumTypeface);
-
-				// restore state of wind speed text fields
-				if (savedInstanceState != null) {
-						currentMeanValueMS = savedInstanceState.containsKey("currentMeanValueMS") ? savedInstanceState.getFloat("currentMeanValueMS") : null;
-						currentActualValueMS = savedInstanceState.containsKey("currentActualValueMS") ? savedInstanceState.getFloat("currentActualValueMS") : null;
-						currentMaxValueMS = savedInstanceState.containsKey("currentMaxValueMS") ? savedInstanceState.getFloat("currentMaxValueMS") : null;
-						if (savedInstanceState.containsKey("xAxisTime")) {
-								xAxisTime = savedInstanceState.getFloat("xAxisTime");
-						}
-				}
-				updateWindspeedTextValues();
-				updateXaxis(xAxisTime);
-
-				// restore state of start/stop button and possibly register for receiving measurement updates if measuring
-				if (getMeasurementController().isMeasuring()) {
-						getMeasurementController().addMeasurementReceiver(this);
-						startButton.setText(getResources().getString(R.string.button_stop));
-						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
-						UIupdate = true;
-				} else {
-						startButton.setText(getResources().getString(R.string.button_start));
-						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
-						UIupdate = false;
-				}
 
 				return view;
 		}
@@ -340,45 +361,66 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
 				super.onActivityCreated(savedInstanceState);
-				//Log.i("MeasureFragment", "onActivityCreated, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
+//				Log.d(TAG, "onActivityCreated, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 		}
 
 		@Override
 		public void onViewStateRestored(Bundle savedInstanceState) {
 				super.onViewStateRestored(savedInstanceState);
-				//Log.i("MeasureFragment", "onViewStateRestored, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
+//				Log.d(TAG, "onViewStateRestored, savedInstanceState" + (savedInstanceState == null ? "=null" : "!=null"));
 		}
 
 		@Override
 		public void onStart() {
 				super.onStart();
-				//Log.i("MeasureFragment", "onStart");
+//				Log.i(TAG, "onStart");
 		}
 
 		@Override
 		public void onResume() {
 				super.onResume();
-				//Log.i("MeasureFragment", "onResume");
+				((MainActivity) context).getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+//				Log.d(TAG, "onResume");
+				// restore state of start/stop button and possibly register for receiving measurement updates if measuring
+				if (getMeasurementController().isMeasuring()) {
+						getMeasurementController().addMeasurementReceiver(this);
+						startButton.setText(getResources().getString(R.string.button_stop));
+						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
+						measurementStarted = true;
+				} else {
+						startButton.setText(getResources().getString(R.string.button_start));
+						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
+						measurementStarted = false;
+				}
 		}
 
 		@Override
 		public void onPause() {
 				super.onPause();
-				//Log.i("MeasureFragment", "onPause");
+//				Log.d(TAG, "onPause");
 		}
 
 		@Override
 		public void onStop() {
+				stop();
+				((MainActivity) context).getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+//				Log.i(TAG, "onStop");
 				super.onStop();
-				//Log.i("MeasureFragment", "onStop");
 		}
 
 		@Override
 		public void onDestroyView() {
+//				Log.i(TAG, "onDestroyView");
 				super.onDestroyView();
-				getMeasurementController().removeMeasurementReceiver(this);
-				((MainActivity)context).getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+		}
+
+		@Override
+		public void onDestroy() {
+				super.onDestroy();
+//				Log.i(TAG, "onDestroy");
+				progressBar = null;
 				UIupdate = false;
+				measurementStarted = false;
 				meanText = null;
 				actualText = null;
 				maxText = null;
@@ -391,38 +433,11 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		}
 
 		@Override
-		public void onDestroy() {
-				super.onDestroy();
-				//Log.i("MeasureFragment", "onDestroy");
-		}
-
-		@Override
 		public void onDetach() {
 				super.onDetach();
 				//Log.i("MeasureFragment", "onDetach");
 		}
 
-		@Override
-		public void onSaveInstanceState(Bundle outState) {
-				super.onSaveInstanceState(outState);
-				//Log.i("MeasureFragment", "onSaveInstanceState");
-
-				if (currentMeanValueMS != null) {
-						outState.putFloat("currentMeanValueMS", currentMeanValueMS);
-				}
-				if (currentActualValueMS != null) {
-						outState.putFloat("currentActualValueMS", currentActualValueMS);
-				}
-				if (currentMaxValueMS != null) {
-						outState.putFloat("currentMaxValueMS", currentMaxValueMS);
-				}
-
-				outState.putSerializable("xySeries", xySeries);
-				outState.putSerializable("averageSeries", averageSeries);
-
-				outState.putDouble("yAxisMaxValue", yAxisMaxValue);
-				outState.putFloat("xAxisTime", xAxisTime);
-		}
 
 		private MeasurementController getMeasurementController() {
 				MainActivity activity = (MainActivity) getActivity();
@@ -432,9 +447,19 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				return null;
 		}
 
+		private LocationUpdateManager getLocationController() {
+				MainActivity activity = (MainActivity) getActivity();
+				if (activity != null) {
+						return activity.getLocationUpdateManager();
+				}
+				return null;
+		}
+
+
 		private void start() {
-				if (!UIupdate) {
-						arrowView.setVisibility(View.INVISIBLE);
+				arrowView.setVisibility(View.INVISIBLE);
+				if (!measurementStarted) {
+
 //			Log.d(TAG,"Start Measurement");
 						if (getMeasurementController() instanceof SleipnirCoreController) {
 								((SleipnirCoreController) getMeasurementController()).startController();
@@ -452,35 +477,39 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 						startButton.setText(getResources().getString(R.string.button_stop));
 						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
-
+//						shareButton.setVisibility(View.INVISIBLE);
 						informationText.setVisibility(View.VISIBLE);
 
-
+						currentDirection = null;
 						currentActualValueMS = null;
 						currentMeanValueMS = null;
 						currentMaxValueMS = null;
 						updateWindspeedTextValues();
 
-						UIupdate = true;
+						measurementStarted = true;
 				}
 		}
 
 		private void stop() {
-//		Log.d(TAG,"Stop Measurement");
-				getMeasurementController().stopSession();
+				if (measurementStarted) {
+//						Log.d(TAG, "Stop Measurement");
+						if (getMeasurementController().isMeasuring()) {
+								getMeasurementController().stopSession();
 
-				getMeasurementController().removeMeasurementReceiver(this);
-				if (getMeasurementController() instanceof SleipnirCoreController) {
-						getMeasurementController().stopController();
+						}
+//
+////						getMeasurementController().removeMeasurementReceiver(this);
+						if (getMeasurementController() instanceof SleipnirCoreController) {
+								getMeasurementController().stopController();
+						}
+						clearProgressBar();
+						measurementStarted = false;
+
+						startButton.setText(getResources().getString(R.string.button_start));
+//						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
+//						startButton.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+						informationText.setVisibility(View.INVISIBLE);
 				}
-				clearProgressBar();
-				UIupdate = false;
-
-
-				startButton.setText(getResources().getString(R.string.button_start));
-				startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
-
-				informationText.setVisibility(View.INVISIBLE);
 		}
 
 		@Override
@@ -492,38 +521,45 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				currentDirection = direction;
 				currentPosition = getMeasurementController().currentSession().getPosition();
 
-				updateWindspeedTextValues();
+				if (UIupdate) {
+						updateWindspeedTextValues();
 
-				if (currentWindSpeed != null) {
-						xySeries.add(time, currentWindSpeed);
-						updateXaxis(time);
-						updateYaxis(currentUnit.toDisplayValue(currentWindSpeed), false);
-				}
+						if (currentWindSpeed != null) {
+								xySeries.add(time, currentWindSpeed);
+								updateXaxis(time);
+								updateYaxis(currentUnit.toDisplayValue(currentWindSpeed), false);
+						}
 
-				if (currentMeanValueMS != null) {
-						averageSeries.clear();
-						averageSeries.add(0, currentMeanValueMS);
-						float t = 0F;
-						while ((t += 10F) < time) {
+						if (currentMeanValueMS != null) {
 								averageSeries.add(time, currentMeanValueMS);
 						}
-						averageSeries.add(time, currentMeanValueMS);
-				}
 
-				mChartView.repaint();
+						mChartView.repaint();
+				}
 		}
 
 		@Override
 		public void measurementFinished(MeasurementSession session) {
 
+				if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
+						//MixPanel
+						JSONObject props = new JSONObject();
+						try {
+								props.put("Duration", (getMeasurementController().currentSession().getEndTime().getTime() - getMeasurementController().currentSession().getStartTime().getTime()) / 1000);
+								if (currentMeanValueMS != null && currentMaxValueMS != null) {
+										props.put("Avg Wind Speed", currentUnit.format(currentMeanValueMS));
+										props.put("Max Wind Speed", currentUnit.format(currentMaxValueMS));
+								}
+
+						} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+						}
+						MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Stop Measurement", props);
+				}
 				getMeasurementController().removeMeasurementReceiver(this);
-				clearProgressBar();
-				UIupdate = false;
+				stop();
 
-				startButton.setText(getResources().getString(R.string.button_start));
-				startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
-
-				informationText.setVisibility(View.INVISIBLE);
 		}
 
 		private void updateYaxis(Float windspeedInUnit, boolean forceSet) {
@@ -549,16 +585,10 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		private void updateWindspeedTextValues() {
 //		Log.d(TAG,"Update Wind Speed");
 
-				if (!((MainActivity) getActivity()).hasCompass()) {
-						arrowView.setVisibility(View.VISIBLE);
-						directionText.setText(getResources().getString(R.string.no_compass_measurements).toUpperCase());
-						directionText.setTextSize(9.6f);
-						arrowView.setImageDrawable(getResources().getDrawable(R.drawable.no_compass));
-						arrowView.setScaleType(ScaleType.CENTER);
-				} else {
+				if (getMeasurementController().isMeasuring()) {
 						if (currentDirection != null) {
 								arrowView.setVisibility(View.VISIBLE);
-								Bitmap arrow = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.wind_arrow);
+								Bitmap arrow = BitmapFactory.decodeResource(context.getResources(), R.drawable.wind_arrow);
 								if (arrow == null) return;
 								Matrix matrix = new Matrix();
 								matrix.postRotate(currentDirection);
@@ -634,10 +664,13 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		}
 
 		private void clearProgressBar() {
-				if (countDown != null) countDown.cancel();
+				if (countDown != null) {
+						countDown.cancel();
+				}
+				countDown = null;
 				progressStatus = 0;
 				progressBar.setProgress(progressStatus);
-				//Log.d("PROGRESS_BAR","Clear progress bar");
+//				Log.d(TAG, "Clear progress bar: " + progressStatus);
 		}
 
 		private void pauseProgressBar() {
@@ -677,26 +710,96 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		@Override
 		public void measurementStatusChanged(MeasureStatus status) {
 				// TODO Auto-generated method stub
-
+				UIupdate = false;
 				informationText.setText(getResources().getString(status.getResourceId()));
-				if (status.getResourceId() == MeasureStatus.NO_SIGNAL.getResourceId() & UIupdate)
+				if (status.getResourceId() == MeasureStatus.NO_SIGNAL.getResourceId() & measurementStarted)
 						pauseProgressBar();
-				if (status.getResourceId() == MeasureStatus.KEEP_VERTICAL.getResourceId() & UIupdate)
+				if (status.getResourceId() == MeasureStatus.NO_AUDIO_SIGNAL.getResourceId() & measurementStarted)
 						pauseProgressBar();
-				if (status.getResourceId() == MeasureStatus.MEASURING.getResourceId() & UIupdate)
+				if (status.getResourceId() == MeasureStatus.KEEP_VERTICAL.getResourceId() & measurementStarted)
+						pauseProgressBar();
+				if (status.getResourceId() == MeasureStatus.MEASURING.getResourceId() & measurementStarted) {
 						restartProgressBar();
+						UIupdate = true;
+				}
 
 		}
 
 		@Override
 		public void onActivityResult(int requestCode, int resultCode, Intent data) {
 				super.onActivityResult(requestCode, resultCode, data);
-				//		Log.d(TAG,"OnActivityResult");
+//				Log.d(TAG, "OnActivityResult Fragment Request Code: " + requestCode + " Result Code: " + resultCode + " data: " + data);
 		}
 
 
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 				updateUnit();
+		}
+
+		private class ScreenshotGenerator extends AsyncTask<Void, Void, String> {
+
+				@Override
+				protected String doInBackground(Void... params) {
+						return getScreenshot();
+				}
+
+				@Override
+				protected void onPreExecute() {
+				}
+
+				@Override
+				protected void onPostExecute(String result) {
+						Uri uri = Uri.fromFile(new File(result));
+						Intent sendIntent = new Intent();
+						sendIntent.setAction(Intent.ACTION_SEND);
+						sendIntent.putExtra(Intent.EXTRA_TEXT, "#VaavudWather");
+						sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+						sendIntent.setType("image/png");
+
+//								sendIntent.setType("text/plain");
+						startActivity(sendIntent);
+						startButtonLayout.removeView(shareButton);
+						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
+						startButton.setLayoutParams(params);
+						startButton.setBackgroundResource(R.drawable.button_rounded_blue);
+						startButton.setTextColor(getResources().getColor(R.color.white));
+
+				}
+		}
+
+
+		private String getScreenshot() {
+
+				int screenshotWidth = 1080;
+				int screenshotHeight = 1080;
+				String mPath = Environment.getExternalStorageDirectory().toString() + "/Screenshot.png";
+				SharingView shareView = new SharingView(context, currentMeanValueMS, currentDirection, currentMeanValueMS, currentMaxValueMS, dataset, renderer, currentUnit, currentDirectionUnit, currentPosition,getLocationController().getGeoLocation());
+				int specWidth = View.MeasureSpec.makeMeasureSpec(screenshotWidth, View.MeasureSpec.AT_MOST);
+				int specHeight = View.MeasureSpec.makeMeasureSpec(screenshotHeight, View.MeasureSpec.AT_MOST);
+				shareView.measure(specWidth, specHeight);
+//				Log.d(TAG, "Rendered View: " + measurementView.getWidth() + " " + measurementView.getHeight());
+//				Log.d(TAG, "Measured: " + shareView.getMeasuredWidth() + " " + shareView.getMeasuredHeight());
+				Bitmap bitmap = Bitmap.createBitmap(shareView.getMeasuredWidth(), shareView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+				Canvas c = new Canvas(bitmap);
+//				Log.d(TAG, "Measured Height: " + measurementView.getHeight());
+				shareView.layout(0, 0, shareView.getMeasuredWidth(), shareView.getMeasuredHeight());
+				shareView.draw(c);
+				// create bitmap screen capture
+				OutputStream fout = null;
+				File imageFile = new File(mPath);
+				try
+				{
+						fout = new FileOutputStream(imageFile);
+						bitmap.compress(Bitmap.CompressFormat.PNG, 100, fout);
+						fout.flush();
+						fout.close();
+				} catch (FileNotFoundException e) {
+						e.printStackTrace();
+				} catch (IOException e) {
+						e.printStackTrace();
+				}
+
+				return mPath;
 		}
 }

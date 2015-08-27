@@ -160,4 +160,5 @@
 	<string name="title_activity_calibration">Kalibrering</string>
 	<string name="unit_cardinal">Kardinal</string>
 	<string name="unit_degrees">Grader</string>
+	<string name="info_no_audio_signal">Intet lydsignal</string>
 </resources>

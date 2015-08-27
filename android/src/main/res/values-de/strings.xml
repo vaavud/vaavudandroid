@@ -149,5 +149,6 @@
     <string name="title_activity_calibration">Kalibrierung</string>
     <string name="unit_degrees">Grad</string>
     <string name="unit_cardinal">Kardinal</string>
+    <string name="info_no_audio_signal">Kein audiosignal</string>
 
 </resources>

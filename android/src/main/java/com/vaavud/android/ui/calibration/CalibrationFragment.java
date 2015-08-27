@@ -37,9 +37,9 @@ public class CalibrationFragment extends Fragment {
 
 		private static final int UPLOAD_INTERVAL = 100;
 		private static final int SUPPORT_INTERVAL = 10000;
-		private static final float PERCENTAGE_MINIMUM_INCREMENT = 0.1f;
+		private static final float PERCENTAGE_MINIMUM_INCREMENT = 0.01f;
 		private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0";
-		private static final String TAG = "Calibration Fragment";
+		private static final String TAG = "Vaavud:CalibrationFrag";
 
 		private HoloCircularProgressBar mCircularBar;
 
@@ -47,35 +47,35 @@ public class CalibrationFragment extends Fragment {
 
 		private SleipnirCoreController mController;
 
-		private Context context;
+		private Context mContext;
 
 		private TextView percentage;
 		private long startTime;
-//		private float calibrationPercentageIncrement = 0.0f;
-		private float playerVolume = 1.0f;
-		private UploadSoundFilesDialog uploadDialog;
-		private AlertDialog askUploadDialog;
+
+
 
 		private Handler handler = new Handler();
+
 		private Runnable updateUI = new Runnable() {
 
 				@Override
 				public void run() {
-						if (mController != null) {
+						if (mController.isMeasuring()) {
 								float oldPercentage = mCircularBar.getProgress();
 								float percentageValue = mController.getCalibrationProgress();
-								Float currentPlayerVolume = mController.getPlayerVolume()!=null?mController.getPlayerVolume():0.0f;
+
 								float calibrationPercentageIncrement = (percentageValue - oldPercentage);
-								float calibrationVolumeLevel = (currentPlayerVolume - playerVolume);
 								animate(mCircularBar, null, percentageValue);
 								long time = new Date().getTime();
-//                Log.d("CalibrationFragment", "Time: " + time + " startTime: " + startTime + " CalibrationPercentageIncrement: " + calibrationPercentageIncrement + "Volume Calibration"+calibrationVolumeLevel);
-								if ((time - startTime) > SUPPORT_INTERVAL && calibrationPercentageIncrement < PERCENTAGE_MINIMUM_INCREMENT && calibrationVolumeLevel == 0) {
-//										Log.d("CalibrationFragment","currentPlayerVolume: "+currentPlayerVolume);
-										askUploadDialog.show();
+//                Log.d(TAG, "Time: " + time + " startTime: " + startTime + " CalibrationPercentageIncrement: " + calibrationPercentageIncrement);
+								if ((time - startTime) > SUPPORT_INTERVAL && calibrationPercentageIncrement < PERCENTAGE_MINIMUM_INCREMENT) {
+//										Log.d(TAG,"currentPlayerVolume: "+currentPlayerVolume);
+										((CalibrationActivity) mContext).getSupportFragmentManager().beginTransaction()
+														.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
+														.replace(R.id.container, new FinishCalibrationFragment(false, mController.getFileName())).commit();
+
 								} else {
 										if (calibrationPercentageIncrement > PERCENTAGE_MINIMUM_INCREMENT) {
-												playerVolume = currentPlayerVolume;
 												startTime = new Date().getTime();
 										}
 										handler.postDelayed(updateUI, UPLOAD_INTERVAL);
@@ -84,14 +84,13 @@ public class CalibrationFragment extends Fragment {
 				}
 		};
 
-
 		public CalibrationFragment() {
 		}
 
 		@Override
 		public void onAttach(Activity activity) {
 				super.onAttach(activity);
-				context = activity;
+				mContext = activity;
 		}
 
 		@Override
@@ -101,8 +100,8 @@ public class CalibrationFragment extends Fragment {
 				View rootView = inflater.inflate(R.layout.fragment_calibration,
 								container, false);
 
-				Typeface robotoLight = Typeface.createFromAsset(context.getAssets(), "Roboto-Light.ttf");
-				Typeface robotoRegular = Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf");
+				Typeface robotoLight = Typeface.createFromAsset(mContext.getAssets(), "Roboto-Light.ttf");
+				Typeface robotoRegular = Typeface.createFromAsset(mContext.getAssets(), "Roboto-Regular.ttf");
 
 				mCircularBar = (HoloCircularProgressBar) rootView.findViewById(R.id.holoCircularProgressBar);
 				mCircularBar.setVisibility(View.VISIBLE);
@@ -119,22 +118,23 @@ public class CalibrationFragment extends Fragment {
 				button.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-								if (mController != null) {
-										if (mController.isMeasuring()) {
-												handler.removeCallbacks(updateUI);
-												handler = null;
-												mController.stopMeasuring();
-										}
-										mController.stopController();
-										mController = null;
+								if (mContext != null && Device.getInstance(mContext.getApplicationContext()).isMixpanelEnabled()) {
+										MixpanelAPI.getInstance(mContext.getApplicationContext(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
 								}
+<<<<<<< HEAD
 								if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
 										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
 								}
 								((Activity) context).finish();
+=======
+								((Activity) mContext).finish();
+>>>>>>> v0_5_1-beta
 						}
 				});
+				return rootView;
+		}
 
+<<<<<<< HEAD
 				askUploadDialog = new AlertDialog.Builder(context)
 								.setPositiveButton(R.string.button_ok,
 												new DialogInterface.OnClickListener() {
@@ -184,16 +184,29 @@ public class CalibrationFragment extends Fragment {
 				askUploadDialog.setMessage(getResources().getString(R.string.calibration_upload_dialog_text));
 
 				return rootView;
+=======
+		@Override
+		public void onResume() {
+				super.onResume();
+				startTime = new Date().getTime();
+				if (((CalibrationActivity)mContext).getIsSleipnirPlugged()){
+						mController = ((CalibrationActivity)mContext).getMeasurementController();
+						mController.startController();
+						mController.startMeasuring();
+						handler.post(updateUI);
+				}
+
+>>>>>>> v0_5_1-beta
 		}
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 				super.onCreate(savedInstanceState);
-				mController = new SleipnirCoreController(context.getApplicationContext(), null, null, null, true);
 
 		}
 
 		@Override
+<<<<<<< HEAD
 		public void onResume(){
 				super.onResume();
 				mController.startController();
@@ -202,6 +215,25 @@ public class CalibrationFragment extends Fragment {
 
 
 				handler.post(updateUI);
+=======
+		public void onStop() {
+				super.onStop();
+				if (mController.isMeasuring()) {
+						mController.stopMeasuring();
+						mController.stopController();
+						handler.removeCallbacks(updateUI);
+				}
+
+		}
+
+		@Override
+		public void onDestroy() {
+				super.onDestroy();
+				updateUI = null;
+				handler = null;
+				mController = null;
+				mContext = null;
+>>>>>>> v0_5_1-beta
 		}
 
 		/**
@@ -229,12 +261,12 @@ public class CalibrationFragment extends Fragment {
 						public void onAnimationEnd(final Animator animation) {
 								progressBar.setProgress(progress);
 								if (progress >= 1 && mController != null) {
-										handler.removeCallbacks(updateUI);
-										mController.stopMeasuring();
-										mController.stopController();
-										mController = null;
-										((CalibrationActivity)context).getSupportFragmentManager().beginTransaction()
-														.replace(R.id.container, new FinishCalibrationFragment()).commit();
+//										handler.removeCallbacks(updateUI);
+//										mController.stopMeasuring();
+//										mController.stopController();
+										((CalibrationActivity) mContext).getSupportFragmentManager().beginTransaction()
+														.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
+														.replace(R.id.container, new FinishCalibrationFragment(true, null)).commit();
 								}
 						}
 
