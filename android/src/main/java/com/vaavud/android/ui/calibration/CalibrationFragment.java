@@ -52,8 +52,6 @@ public class CalibrationFragment extends Fragment {
 		private TextView percentage;
 		private long startTime;
 
-
-
 		private Handler handler = new Handler();
 
 		private Runnable updateUI = new Runnable() {
@@ -121,70 +119,12 @@ public class CalibrationFragment extends Fragment {
 								if (mContext != null && Device.getInstance(mContext.getApplicationContext()).isMixpanelEnabled()) {
 										MixpanelAPI.getInstance(mContext.getApplicationContext(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
 								}
-<<<<<<< HEAD
-								if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
-										MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
-								}
-								((Activity) context).finish();
-=======
 								((Activity) mContext).finish();
->>>>>>> v0_5_1-beta
 						}
 				});
 				return rootView;
 		}
 
-<<<<<<< HEAD
-				askUploadDialog = new AlertDialog.Builder(context)
-								.setPositiveButton(R.string.button_ok,
-												new DialogInterface.OnClickListener() {
-														public void onClick(DialogInterface dialog, int whichButton) {
-																if (mController != null) {
-																		if (mController.isMeasuring()) {
-																				mController.stopMeasuring();
-																				handler.removeCallbacks(updateUI);
-																				updateUI = null;
-																				handler = null;
-																		}
-																		mController.stopController();
-																		if (InternetManager.Check(context)) {
-																				uploadDialog = new UploadSoundFilesDialog(getActivity(), mController.getFileName());
-																				uploadDialog.show(getFragmentManager(), "UploadDialog");
-																		} else {
-																				Toast.makeText(context, getResources().getString(R.string.conectivity_error_message), Toast.LENGTH_LONG).show();
-																				((Activity)context).finish();
-																		}
-																		mController = null;
-																}
-														}
-												}
-								)
-								.setNegativeButton(R.string.button_cancel,
-												new DialogInterface.OnClickListener() {
-														public void onClick(DialogInterface dialog, int whichButton) {
-																if (mController != null) {
-																		if (mController.isMeasuring()) {
-																				mController.stopMeasuring();
-																				handler.removeCallbacks(updateUI);
-																				updateUI = null;
-																				handler = null;
-																		}
-																		mController.stopController();
-																		mController = null;
-																}
-																if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
-																		MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Calibration Cancelled", null);
-																}
-
-														}
-												}
-								)
-								.create();
-				askUploadDialog.setTitle(getResources().getString(R.string.calibration_upload_dialog_title));
-				askUploadDialog.setMessage(getResources().getString(R.string.calibration_upload_dialog_text));
-
-				return rootView;
-=======
 		@Override
 		public void onResume() {
 				super.onResume();
@@ -196,7 +136,6 @@ public class CalibrationFragment extends Fragment {
 						handler.post(updateUI);
 				}
 
->>>>>>> v0_5_1-beta
 		}
 
 		@Override
@@ -206,16 +145,6 @@ public class CalibrationFragment extends Fragment {
 		}
 
 		@Override
-<<<<<<< HEAD
-		public void onResume(){
-				super.onResume();
-				mController.startController();
-				mController.startMeasuring();
-				startTime = new Date().getTime();
-
-
-				handler.post(updateUI);
-=======
 		public void onStop() {
 				super.onStop();
 				if (mController.isMeasuring()) {
@@ -233,7 +162,6 @@ public class CalibrationFragment extends Fragment {
 				handler = null;
 				mController = null;
 				mContext = null;
->>>>>>> v0_5_1-beta
 		}
 
 		/**
@@ -261,9 +189,7 @@ public class CalibrationFragment extends Fragment {
 						public void onAnimationEnd(final Animator animation) {
 								progressBar.setProgress(progress);
 								if (progress >= 1 && mController != null) {
-//										handler.removeCallbacks(updateUI);
-//										mController.stopMeasuring();
-//										mController.stopController();
+
 										((CalibrationActivity) mContext).getSupportFragmentManager().beginTransaction()
 														.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
 														.replace(R.id.container, new FinishCalibrationFragment(true, null)).commit();
