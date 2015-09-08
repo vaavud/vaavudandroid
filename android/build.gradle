@@ -8,6 +8,8 @@ android {
         applicationId "com.vaavud.android"
         minSdkVersion 14
         targetSdkVersion 22
+        multiDexEnabled true
+
     }
 
     buildTypes {
@@ -21,25 +23,34 @@ android {
         }
     }
 
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+    }
+
 }
 
 dependencies {
-    compile project(':androidmapsutils')
     compile project(':slidinguppanel')
-    compile project(':androidsupportv4preferencefragmentmaster')
     compile project(':viewPagerIndicator')
     compile project(':facebookSDK')
-    compile project(':volley')
     compile project(':androidHoloCircularProgressBar')
     compile project(':sleipnirSDK')
     compile files('libs/achartengine-1.1.0.jar')
-    compile 'com.google.android.gms:play-services:7.3.0'
-    compile 'com.mixpanel.android:mixpanel-android:4.5.3-JDK7'
+    compile 'com.google.android.gms:play-services:7.8.0'
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.android.support:support-v4:22.1.1'
     compile 'com.amazonaws:aws-android-sdk-cognito:2.2.0'
     compile 'com.amazonaws:aws-android-sdk-core:2.2.0'
     compile 'com.amazonaws:aws-android-sdk-s3:2.2.0'
-    compile 'com.crittercism:crittercism-android-agent:5.0.6'
-    compile 'com.android.support:appcompat-v7:22.1.1'
-    compile 'com.android.support:support-v4:22.1.1'
+    compile 'com.google.maps.android:android-maps-utils:0.3.4'
     compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.mcxiaoke.volley:library:1.0.18'
+    compile 'com.firebase:firebase-client-android:2.3.1'
+    compile 'com.firebase:geofire:1.1.1'
+    compile 'com.crittercism:crittercism-android-agent:5.0.6'
+    compile 'com.mixpanel.android:mixpanel-android:4.6.4'
+    compile 'com.google.android.gms:play-services-ads:7.8.0'
 }

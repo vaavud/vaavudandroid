@@ -32,6 +32,7 @@ import com.crittercism.app.Crittercism;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenSource;
 import com.facebook.Session;
+import com.firebase.client.Firebase;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.vaavud.android.R;
 import com.vaavud.android.measure.MeasurementController;
@@ -124,6 +125,7 @@ public class MainActivity extends ActionBarActivity implements SelectedListener,
 				setContentView(R.layout.activity_main);
 
 				Crittercism.initialize(getApplicationContext(), "520b8fa5558d6a2757000003");
+				Firebase.setAndroidContext(getApplicationContext());
 
 				VaavudDatabase.getInstance(getApplicationContext()).setPropertyAsBoolean(KEY_IS_FIRST_FLOW,false);
 

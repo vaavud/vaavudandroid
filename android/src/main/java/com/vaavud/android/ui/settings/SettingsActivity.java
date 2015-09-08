@@ -4,7 +4,7 @@ import android.content.pm.ActivityInfo;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.v7.app.ActionBarActivity;
+
 import android.support.v7.app.AppCompatActivity;
 import android.view.OrientationEventListener;
 
@@ -21,7 +21,7 @@ import com.vaavud.android.R;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsActivity extends AppCompatActivity {
 
 		private static final int ROTATION_THRESHOLD = 45;
 		private OrientationEventListener orientationListener;
@@ -56,7 +56,7 @@ public class SettingsActivity extends ActionBarActivity {
 						}
 				};
 
-				getSupportFragmentManager().beginTransaction()
+				getFragmentManager().beginTransaction()
 								.replace(android.R.id.content, new SettingsFragment())
 								.commit();
 		}

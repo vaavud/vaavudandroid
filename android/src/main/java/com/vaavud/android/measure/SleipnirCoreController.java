@@ -5,6 +5,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
+import com.firebase.client.Firebase;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.vaavud.android.measure.sensor.DataManager;
 import com.vaavud.android.measure.sensor.LocationUpdateManager;
 import com.vaavud.android.model.VaavudDatabase;
@@ -18,12 +21,15 @@ import com.vaavud.android.network.UploadManager;
 import com.vaavud.android.ui.calibration.CalibrationActivity;
 import com.vaavud.sleipnirSDK.SleipnirSDKController;
 import com.vaavud.sleipnirSDK.listener.SpeedListener;
+import com.vaavud.util.Constants;
 import com.vaavud.util.UUIDUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class SleipnirCoreController implements MeasurementController, SpeedListener {
@@ -52,6 +58,10 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 		private Float[] coefficients;
 		private Float playerVolume;
 		private String mFileName;
+
+		private Firebase firebaseClient;
+		private GeoFire geoFireSessionClient;
+		private String firebaseSessionKey;
 
 		private float calibrationProgress = 0F;
 
@@ -84,6 +94,10 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 						mFileName = appContext.getExternalCacheDir().getAbsolutePath() + "/" + name;
 //						Log.d("SleipnirCoreController",mFileName);
 				}
+
+				firebaseClient = new Firebase(Constants.FIREBASE_BASE_URL);
+				geoFireSessionClient = new GeoFire(new Firebase(Constants.FIREBASE_BASE_URL+Constants.FIREBASE_GEO+Constants.FIREBASE_SESSION));
+
 				sleipnirSDK = new SleipnirSDKController(mContext, mCalibrationMode, this, null, coefficients, mFileName);
 
 		}
@@ -210,6 +224,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 						measurementPoint.setTime(new Date());
 						measurementPoint.setWindSpeed(currentActualValueMS);
 						measurementPoint.setWindDirection(currentDirection);
+						updateFirebaseDataPoint(measurementPoint);
 
 						VaavudDatabase.getInstance(appContext).insertMeasurementPoint(measurementPoint);
 
@@ -261,6 +276,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 
 				VaavudDatabase.getInstance(appContext).insertMeasurementSession(currentSession);
 
+				updateFirebaseDataSession(currentSession, true);
 				startMeasuring();
 
 				handler.post(readDataRunnable);
@@ -278,7 +294,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 				VaavudDatabase.getInstance(appContext).updateDynamicMeasurementSession(currentSession);
 
 				uploadManager.triggerUpload();
-
+				updateFirebaseDataSession(currentSession,false);
 				for (MeasurementReceiver measurementReceiver : measurementReceivers) {
 						measurementReceiver.measurementFinished(currentSession);
 				}
@@ -358,6 +374,50 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 				if (mContext instanceof CalibrationActivity) {
 						CalibrationActivity activity = (CalibrationActivity) mContext;
 						activity.calibrationCoefficients(coefficients);
+				}
+		}
+
+		private void updateFirebaseDataPoint(MeasurementPoint point) {
+				Map<String, String> data = new HashMap<String, String>();
+				if (firebaseSessionKey.length()>0) {
+						data.put("sessionKey", firebaseSessionKey);
+						data.put("time", Long.toString(point.getTime().getTime()));
+						data.put("speed", Float.toString(point.getWindSpeed()));
+						if (point.getWindDirection() != null) {
+								data.put("direction", Float.toString(point.getWindSpeed()));
+						}
+						firebaseClient.child(Constants.FIREBASE_WIND).push().setValue(data);
+				}
+		}
+
+		private void updateFirebaseDataSession(MeasurementSession session, boolean isFirstTime) {
+
+				Map<String, String> data = new HashMap<String, String>();
+				if (isFirstTime){
+
+						data.put("timeStart", Long.toString(session.getStartTime().getTime()));
+						data.put("deviceKey", session.getDevice());
+						firebaseSessionKey = firebaseClient.child(Constants.FIREBASE_SESSION).push().getKey();
+						firebaseClient.child(Constants.FIREBASE_SESSION).child(firebaseSessionKey).setValue(data);
+
+				}else {
+
+						data.put("timeStart", Long.toString(session.getStartTime().getTime()));
+						data.put("deviceKey", session.getDevice());
+						data.put("timeStop", Long.toString(session.getEndTime().getTime()));
+						data.put("timeUploaded", Long.toString(new Date().getTime()));
+						data.put("windMean", Float.toString(session.getWindSpeedAvg()));
+						data.put("windMax", Float.toString(session.getWindSpeedMax()));
+						if (session.getWindDirection() != null) {
+								data.put("windDirection", Float.toString(session.getWindDirection()));
+						}
+						if (session.getPosition() != null) {
+								data.put("locLat", Double.toString(session.getPosition().getLatitude()));
+								data.put("locLon", Double.toString(session.getPosition().getLongitude()));
+						}
+						firebaseClient.child(Constants.FIREBASE_SESSION).child(firebaseSessionKey).setValue(data);
+						geoFireSessionClient.setLocation(firebaseSessionKey, new GeoLocation(session.getPosition().getLatitude(), session.getPosition().getLongitude()));
+
 				}
 		}
 

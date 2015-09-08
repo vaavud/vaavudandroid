@@ -3,6 +3,9 @@ package com.vaavud.android.measure;
 import android.content.Context;
 import android.os.Handler;
 
+import com.firebase.client.Firebase;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.vaavud.android.measure.sensor.DataManager;
 import com.vaavud.android.measure.sensor.FFTManager;
 import com.vaavud.android.measure.sensor.LocationUpdateManager;
@@ -14,11 +17,14 @@ import com.vaavud.android.model.entity.LatLng;
 import com.vaavud.android.model.entity.MeasurementPoint;
 import com.vaavud.android.model.entity.MeasurementSession;
 import com.vaavud.android.network.UploadManager;
+import com.vaavud.util.Constants;
 import com.vaavud.util.UUIDUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class VaavudCoreController implements MeasurementController {
@@ -37,6 +43,11 @@ public class VaavudCoreController implements MeasurementController {
 		private Handler handler;
 		private List<MeasurementReceiver> measurementReceivers;
 		private MeasureStatus status;
+
+		private Firebase firebaseClient;
+		private GeoFire geoFireSessionClient;
+		private String firebaseSessionKey;
+
 
 		private Runnable readDataRunnable = new Runnable() {
 				@Override
@@ -62,6 +73,9 @@ public class VaavudCoreController implements MeasurementController {
 				myFFTManager = new FFTManager(appContext, dataManager); // add stuff?
 				handler = new Handler();
 				device = Device.getInstance(appContext);
+				firebaseClient = new Firebase(Constants.FIREBASE_BASE_URL);
+				geoFireSessionClient = new GeoFire(new Firebase(Constants.FIREBASE_BASE_URL+Constants.FIREBASE_GEO+Constants.FIREBASE_SESSION));
+
 				startController();
 		}
 
@@ -186,6 +200,7 @@ public class VaavudCoreController implements MeasurementController {
 						measurementPoint.setWindSpeed(currentActualValueMS);
 						measurementPoint.setWindDirection(null);
 
+						updateFirebaseDataPoint(measurementPoint);
 						VaavudDatabase.getInstance(appContext).insertMeasurementPoint(measurementPoint);
 
 						for (MeasurementReceiver measurementReceiver : measurementReceivers) {
@@ -238,8 +253,9 @@ public class VaavudCoreController implements MeasurementController {
 				currentSession.setEndIndex(0);
 				currentSession.setPosition(locationManager.getLocation());
 
-				VaavudDatabase.getInstance(appContext).insertMeasurementSession(currentSession);
 
+				VaavudDatabase.getInstance(appContext).insertMeasurementSession(currentSession);
+				updateFirebaseDataSession(currentSession,true);
 				startMeasuring();
 
 				return currentSession;
@@ -254,7 +270,8 @@ public class VaavudCoreController implements MeasurementController {
 				VaavudDatabase.getInstance(appContext).updateDynamicMeasurementSession(currentSession);
 
 				uploadManager.triggerUpload();
-
+				updateFirebaseDataSession(currentSession, false);
+				firebaseSessionKey="";
 				for (MeasurementReceiver measurementReceiver : measurementReceivers) {
 						measurementReceiver.measurementFinished(currentSession);
 				}
@@ -295,4 +312,50 @@ public class VaavudCoreController implements MeasurementController {
 		public void removeMeasurementReceiver(MeasurementReceiver measurementReceiver) {
 				measurementReceivers.remove(measurementReceiver);
 		}
+
+
+		private void updateFirebaseDataPoint(MeasurementPoint point) {
+				Map<String, String> data = new HashMap<String, String>();
+				if (firebaseSessionKey.length()>0) {
+						data.put("sessionKey", firebaseSessionKey);
+						data.put("time", Long.toString(point.getTime().getTime()));
+						data.put("speed", Float.toString(point.getWindSpeed()));
+						if (point.getWindDirection() != null) {
+								data.put("direction", Float.toString(point.getWindSpeed()));
+						}
+						firebaseClient.child(Constants.FIREBASE_WIND).push().setValue(data);
+				}
+		}
+
+		private void updateFirebaseDataSession(MeasurementSession session, boolean isFirstTime) {
+
+				Map<String, String> data = new HashMap<String, String>();
+				if (isFirstTime){
+
+						data.put("timeStart", Long.toString(session.getStartTime().getTime()));
+						data.put("deviceKey", session.getDevice());
+						firebaseSessionKey = firebaseClient.child(Constants.FIREBASE_SESSION).push().getKey();
+						firebaseClient.child(Constants.FIREBASE_SESSION).child(firebaseSessionKey).setValue(data);
+
+				}else {
+
+						data.put("timeStart", Long.toString(session.getStartTime().getTime()));
+						data.put("deviceKey", session.getDevice());
+						data.put("timeStop", Long.toString(session.getEndTime().getTime()));
+						data.put("timeUploaded", Long.toString(new Date().getTime()));
+						data.put("windMean", Float.toString(session.getWindSpeedAvg()));
+						data.put("windMax", Float.toString(session.getWindSpeedMax()));
+						if (session.getWindDirection() != null) {
+								data.put("windDirection", Float.toString(session.getWindDirection()));
+						}
+						if (session.getPosition() != null) {
+								data.put("locLat", Double.toString(session.getPosition().getLatitude()));
+								data.put("locLon", Double.toString(session.getPosition().getLongitude()));
+						}
+						firebaseClient.child(Constants.FIREBASE_SESSION).child(firebaseSessionKey).setValue(data);
+						geoFireSessionClient.setLocation(firebaseSessionKey, new GeoLocation(session.getPosition().getLatitude(), session.getPosition().getLongitude()));
+
+				}
+		}
+
 }

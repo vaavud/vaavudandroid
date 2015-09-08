@@ -1,8 +1,5 @@
 include ':androidHoloCircularProgressBar'
 include ':facebookSDK'
-include ':volley'
-include ':androidmapsutils'
-include ':androidsupportv4preferencefragmentmaster'
 include ':viewPagerIndicator'
 include ':slidinguppanel'
 include ':sleipnirSDK'
