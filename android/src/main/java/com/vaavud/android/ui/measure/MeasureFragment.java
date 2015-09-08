@@ -120,14 +120,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		private static final String TAG = "Vaavud:MeasureFrag";
 
 		private static final String MIXPANEL_TOKEN = "757f6311d315f94cdfc8d16fb4d973c0";
-		private Handler shareHandler = new Handler();
-		private Runnable shareRunnable = new Runnable() {
-				@Override
-				public void run() {
-//
-				}
-		};
-
+		private boolean shareButtonEnabled=false;
 
 		public MeasureFragment() {
 				super();
@@ -204,7 +197,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 										startButton.setLayoutParams(params);
 										shareButton.setVisibility(View.VISIBLE);
 										startButtonLayout.addView(shareButton);
-
+										shareButtonEnabled=true;
 //										startButton.getLayoutParams().width=newSize;
 //										shareButton.setVisibility(View.VISIBLE);
 //										shareButton.setLayoutParams(new RelativeLayout.LayoutParams(size-newSize, RelativeLayout.LayoutParams.WRAP_CONTENT));
@@ -221,7 +214,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 										LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
 										startButton.setLayoutParams(params);
 										startButton.setTextColor(getResources().getColor(R.color.white));
-
+										shareButtonEnabled=false;
 										start();
 										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
 												//MixPanel
@@ -247,6 +240,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 								MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Start Share Dialog", null);
 						}
 				});
+				shareButtonEnabled = false;
 
 				// create graph
 
@@ -385,11 +379,17 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				if (getMeasurementController().isMeasuring()) {
 						getMeasurementController().addMeasurementReceiver(this);
 						startButton.setText(getResources().getString(R.string.button_stop));
-						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
+//						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
+						startButton.setBackgroundColor(getResources().getColor(R.color.red));
 						measurementStarted = true;
 				} else {
 						startButton.setText(getResources().getString(R.string.button_start));
-						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
+						if (shareButtonEnabled) {
+//								startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
+								startButton.setBackgroundColor(getResources().getColor(R.color.white));
+						}else{
+								startButton.setBackgroundColor(getResources().getColor(R.color.blue));
+						}
 						measurementStarted = false;
 				}
 		}
@@ -457,7 +457,9 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 
 		private void start() {
-				arrowView.setVisibility(View.INVISIBLE);
+				if (((MainActivity)getActivity()).hasCompass()) {
+						arrowView.setVisibility(View.INVISIBLE);
+				}
 				if (!measurementStarted) {
 
 //			Log.d(TAG,"Start Measurement");
@@ -586,7 +588,10 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 //		Log.d(TAG,"Update Wind Speed");
 
 				if (getMeasurementController().isMeasuring()) {
-						if (currentDirection != null) {
+						if (currentDirection == null && ((MainActivity)getActivity()).hasCompass()){
+								directionText.setText("-");
+						}
+						else if (currentDirection != null && ((MainActivity)getActivity()).hasCompass()) {
 								arrowView.setVisibility(View.VISIBLE);
 								Bitmap arrow = BitmapFactory.decodeResource(context.getResources(), R.drawable.wind_arrow);
 								if (arrow == null) return;
@@ -599,8 +604,6 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 								arrowView.setImageBitmap(rotatedBitmap);
 								arrowView.setScaleType(ScaleType.CENTER);
 
-						} else {
-								directionText.setText("-");
 						}
 				}
 				actualText.setText(currentUnit.format(currentActualValueMS));

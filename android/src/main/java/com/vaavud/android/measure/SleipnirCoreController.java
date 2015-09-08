@@ -294,7 +294,7 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 				VaavudDatabase.getInstance(appContext).updateDynamicMeasurementSession(currentSession);
 
 				uploadManager.triggerUpload();
-				updateFirebaseDataSession(currentSession,false);
+				updateFirebaseDataSession(currentSession, false);
 				for (MeasurementReceiver measurementReceiver : measurementReceivers) {
 						measurementReceiver.measurementFinished(currentSession);
 				}
@@ -401,23 +401,24 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 						firebaseClient.child(Constants.FIREBASE_SESSION).child(firebaseSessionKey).setValue(data);
 
 				}else {
-
+//						Log.d(TAG, "FirebaseSessionKey: " + firebaseSessionKey);
 						data.put("timeStart", Long.toString(session.getStartTime().getTime()));
 						data.put("deviceKey", session.getDevice());
 						data.put("timeStop", Long.toString(session.getEndTime().getTime()));
 						data.put("timeUploaded", Long.toString(new Date().getTime()));
-						data.put("windMean", Float.toString(session.getWindSpeedAvg()));
-						data.put("windMax", Float.toString(session.getWindSpeedMax()));
+						if (session.getWindSpeedAvg()!=null && session.getWindSpeedMax()!=null) {
+								data.put("windMean", Float.toString(session.getWindSpeedAvg()));
+								data.put("windMax", Float.toString(session.getWindSpeedMax()));
+						}
 						if (session.getWindDirection() != null) {
 								data.put("windDirection", Float.toString(session.getWindDirection()));
 						}
 						if (session.getPosition() != null) {
 								data.put("locLat", Double.toString(session.getPosition().getLatitude()));
 								data.put("locLon", Double.toString(session.getPosition().getLongitude()));
+								geoFireSessionClient.setLocation(firebaseSessionKey, new GeoLocation(session.getPosition().getLatitude(), session.getPosition().getLongitude()));
 						}
 						firebaseClient.child(Constants.FIREBASE_SESSION).child(firebaseSessionKey).setValue(data);
-						geoFireSessionClient.setLocation(firebaseSessionKey, new GeoLocation(session.getPosition().getLatitude(), session.getPosition().getLongitude()));
-
 				}
 		}
 

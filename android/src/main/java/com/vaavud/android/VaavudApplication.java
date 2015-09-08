@@ -1,8 +1,10 @@
 package com.vaavud.android;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.hardware.SensorManager;
+import android.support.multidex.MultiDex;
 import android.view.OrientationEventListener;
 
 import com.crittercism.app.Crittercism;
@@ -24,6 +26,13 @@ public class VaavudApplication extends Application {
         VaavudDatabase.getInstance(this);
 
     }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
 
 
 
