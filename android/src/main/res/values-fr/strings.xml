@@ -108,7 +108,7 @@
     <string name="option_delete">Effacer</string>
 	
 	<!-- Share Items -->
-    <string name="share_to_facebook_title">Partager sur Facebook ?</string>
+    <string name="share_to_facebook_title">Partager</string>
     <string name="share_guide">À quoi cela ressemble ?</string>
     <string name="share_take_photo">Prendre une photo</string>
     <string name="share_choose_existing">Choisir une photo existante</string>

@@ -4,6 +4,7 @@
     <color name="blue_20">#CCECF9</color>
     <color name="blue_pressed">#008ECF</color>
     <color name="red">#D2252D</color>
+    <color name="red_pressed">#FF0000</color>
     <color name="white">#FFFFFF</color>
     <color name="lightgray">#FAFAFA</color>
     <color name="midgray">#EEEEEE</color>

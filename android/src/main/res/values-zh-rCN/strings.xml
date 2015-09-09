@@ -109,7 +109,7 @@
     <string name="option_delete">刪除</string>
 	
     <!-- Share Items -->
-    <string name="share_to_facebook_title">分享至Facebook？</string>
+    <string name="share_to_facebook_title">分享</string>
     <string name="share_guide">它是什么样的？</string>
     <string name="share_take_photo">拍照</string>
     <string name="share_choose_existing">选择现有的</string>

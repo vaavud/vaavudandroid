@@ -112,7 +112,7 @@
     <string name="option_delete">Delete</string>
     
     <!-- Share Items -->
-    <string name="share_to_facebook_title">Share to Facebook?</string>
+    <string name="share_to_facebook_title">Share</string>
     <string name="share_guide">What\'s it like</string>
     <string name="share_take_photo">Take Photo</string>
     <string name="share_choose_existing">Choose Existing</string>

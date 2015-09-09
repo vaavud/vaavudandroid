@@ -109,7 +109,7 @@
     <string name="option_delete">지우다</string>
 	
 	<!-- Share Items -->
-    <string name="share_to_facebook_title">페이스 북에 공유?</string>
+    <string name="share_to_facebook_title">공유</string>
     <string name="share_guide">그것은 어떻습니까?</string>
     <string name="share_take_photo">사진찍기</string>
     <string name="share_choose_existing">기존에서 선택</string>

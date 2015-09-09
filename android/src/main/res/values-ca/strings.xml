@@ -109,7 +109,7 @@
     <string name="option_delete">Esborrar</string>
 	
     <!-- Share Items -->
-    <string name="share_to_facebook_title">Compartir a Facebook?</string>
+    <string name="share_to_facebook_title">Compartir </string>
     <string name="share_guide">Què sents?</string>
     <string name="share_take_photo">Pren una foto</string>
     <string name="share_choose_existing">Tria una existent</string>

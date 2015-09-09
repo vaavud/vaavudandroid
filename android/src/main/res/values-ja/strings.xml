@@ -109,7 +109,7 @@
     <string name="option_delete">消す</string>
 	
 	<!-- Share Items -->
-    <string name="share_to_facebook_title">Facebookでシェアしますか？</string>
+    <string name="share_to_facebook_title">シェア</string>
     <string name="share_guide">これはどのようになるのですか？</string>
     <string name="share_take_photo">写真を撮影</string>
     <string name="share_choose_existing">既存のものを選択</string>

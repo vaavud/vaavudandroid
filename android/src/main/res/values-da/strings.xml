@@ -110,7 +110,7 @@
     <string name="option_delete">Slet</string>
 	
 	<!-- Share Items -->
-	    <string name="share_to_facebook_title">Del på Facebook?</string>
+	    <string name="share_to_facebook_title">Del </string>
 	    <string name="share_guide">Hvordan er det?</string>
 	    <string name="share_take_photo">Tag foto</string>
 	    <string name="share_choose_existing">Vælg eksisterende</string>

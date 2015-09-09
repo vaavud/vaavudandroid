@@ -112,7 +112,7 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 		private SpeedUnit currentUnit;
 		private DirectionUnit currentDirectionUnit;
-		private boolean measurementStarted;
+		private boolean measurementStarted=false;
 		private boolean UIupdate = false;
 		private Context context;
 
@@ -131,7 +131,6 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		public void onAttach(Activity activity) {
 				super.onAttach(activity);
 				context = activity;
-
 		}
 
 		@Override
@@ -176,45 +175,35 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				startButtonLayout = (LinearLayout) view.findViewById(R.id.startButtonLayout);
 				startButton = (Button) view.findViewById(R.id.startButton);
 				startButton.setText(getResources().getString(R.string.button_start));
-				startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
+				startButton.setBackgroundResource(R.drawable.button_rounded_blue);
 
 				shareButton = new Button(context);
 				LinearLayout.LayoutParams paramsShare = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 0.60f);
 				paramsShare.setMargins(10, 0, 10, 0);
 				shareButton.setLayoutParams(paramsShare);
 				shareButton.setBackgroundResource(R.drawable.button_rounded_blue);
-				shareButton.setText("SHARE");
+				shareButton.setText(getResources().getString(R.string.share_to_facebook_title).toUpperCase());
 				shareButton.setTextColor(getResources().getColor(R.color.white));
 				shareButton.setTextSize(23);
+
+				shareButton.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+								new ScreenshotGenerator().execute();
+								MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Start Share Dialog", null);
+						}
+				});
+				shareButtonEnabled = false;
+
 
 				startButton.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
 								if (measurementStarted) {
-										startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-										startButton.setTextColor(getResources().getColor(R.color.blue));
-										LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 0.40f);
-										startButton.setLayoutParams(params);
-										shareButton.setVisibility(View.VISIBLE);
-										startButtonLayout.addView(shareButton);
-										shareButtonEnabled=true;
-//										startButton.getLayoutParams().width=newSize;
-//										shareButton.setVisibility(View.VISIBLE);
-//										shareButton.setLayoutParams(new RelativeLayout.LayoutParams(size-newSize, RelativeLayout.LayoutParams.WRAP_CONTENT));
+										//Stop Measurement
 										stop();
-//										if (currentMaxValueMS != null && currentMeanValueMS != null && ((MainActivity) getActivity()).isFacebookSharingEnabled()) {
-//												FragmentManager fragmentManager = ((Activity)context).getSupportFragmentManager();
-//												FacebookSharingDialog fbFragment = new FacebookSharingDialog(getActivity(), currentMeanValueMS, currentMaxValueMS, currentPosition);
-//												fbFragment.show(fragmentManager, "PostToFB");
-//										}
 								} else {
-										if (shareButton != null) {
-												startButtonLayout.removeView(shareButton);
-										}
-										LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
-										startButton.setLayoutParams(params);
-										startButton.setTextColor(getResources().getColor(R.color.white));
-										shareButtonEnabled=false;
+										//Start Measurement
 										start();
 										if (context != null && Device.getInstance(context.getApplicationContext()).isMixpanelEnabled()) {
 												//MixPanel
@@ -233,14 +222,6 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 						}
 				});
 
-				shareButton.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-								new ScreenshotGenerator().execute();
-								MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Start Share Dialog", null);
-						}
-				});
-				shareButtonEnabled = false;
 
 				// create graph
 
@@ -379,16 +360,20 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 				if (getMeasurementController().isMeasuring()) {
 						getMeasurementController().addMeasurementReceiver(this);
 						startButton.setText(getResources().getString(R.string.button_stop));
-//						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
-						startButton.setBackgroundColor(getResources().getColor(R.color.red));
+						startButton.setTextColor(getResources().getColor(R.color.white));
+						startButton.setBackgroundResource(R.drawable.button_rounded_red);
 						measurementStarted = true;
 				} else {
 						startButton.setText(getResources().getString(R.string.button_start));
 						if (shareButtonEnabled) {
-//								startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
-								startButton.setBackgroundColor(getResources().getColor(R.color.white));
+								startButton.setBackgroundResource(R.drawable.button_rounded_white);
+								startButton.setTextColor(getResources().getColor(R.color.blue));
 						}else{
-								startButton.setBackgroundColor(getResources().getColor(R.color.blue));
+								if (shareButton!=null) {
+										startButtonLayout.removeView(shareButton);
+								}
+								startButton.setBackgroundResource(R.drawable.button_rounded_blue);
+								startButton.setTextColor(getResources().getColor(R.color.white));
 						}
 						measurementStarted = false;
 				}
@@ -477,9 +462,16 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 								mChartView.repaint();
 						}
 
+						if (shareButton != null) {
+								startButtonLayout.removeView(shareButton);
+						}
+						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
+						startButton.setLayoutParams(params);
+						startButton.setTextColor(getResources().getColor(R.color.white));
 						startButton.setText(getResources().getString(R.string.button_stop));
-						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
-//						shareButton.setVisibility(View.INVISIBLE);
+						startButton.setBackgroundResource(R.drawable.button_rounded_red);
+						shareButtonEnabled = false;
+
 						informationText.setVisibility(View.VISIBLE);
 
 						currentDirection = null;
@@ -493,23 +485,30 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 		}
 
 		private void stop() {
+//				Log.d(TAG, "Stop Measurement: MeasurementStarted "+measurementStarted);
 				if (measurementStarted) {
-//						Log.d(TAG, "Stop Measurement");
+						measurementStarted = false;
 						if (getMeasurementController().isMeasuring()) {
 								getMeasurementController().stopSession();
 
 						}
-//
 ////						getMeasurementController().removeMeasurementReceiver(this);
 						if (getMeasurementController() instanceof SleipnirCoreController) {
 								getMeasurementController().stopController();
 						}
 						clearProgressBar();
-						measurementStarted = false;
 
+
+						startButton.setBackgroundResource(R.drawable.button_rounded_white);
 						startButton.setText(getResources().getString(R.string.button_start));
-//						startButton.getBackground().setColorFilter(view.getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
-//						startButton.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+						startButton.setTextColor(getResources().getColor(R.color.blue));
+
+						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 0.40f);
+						startButton.setLayoutParams(params);
+						shareButton.setVisibility(View.VISIBLE);
+						startButtonLayout.addView(shareButton);
+						shareButtonEnabled = true;
+
 						informationText.setVisibility(View.INVISIBLE);
 				}
 		}
@@ -560,7 +559,9 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 						MixpanelAPI.getInstance(context.getApplicationContext(), MIXPANEL_TOKEN).track("Stop Measurement", props);
 				}
 				getMeasurementController().removeMeasurementReceiver(this);
-				stop();
+//				if (measurementStarted) {
+//						stop();
+//				}
 
 		}
 
@@ -762,11 +763,11 @@ public class MeasureFragment extends Fragment implements MeasurementReceiver, Se
 
 //								sendIntent.setType("text/plain");
 						startActivity(sendIntent);
-						startButtonLayout.removeView(shareButton);
-						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
-						startButton.setLayoutParams(params);
-						startButton.setBackgroundResource(R.drawable.button_rounded_blue);
-						startButton.setTextColor(getResources().getColor(R.color.white));
+//						startButtonLayout.removeView(shareButton);
+//						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
+//						startButton.setLayoutParams(params);
+//						startButton.setBackgroundResource(R.drawable.button_rounded_blue);
+//						startButton.setTextColor(getResources().getColor(R.color.white));
 
 				}
 		}
