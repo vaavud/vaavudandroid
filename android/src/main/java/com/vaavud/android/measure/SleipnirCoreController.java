@@ -378,13 +378,13 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 		}
 
 		private void updateFirebaseDataPoint(MeasurementPoint point) {
-				Map<String, String> data = new HashMap<String, String>();
+				Map<String, Object> data = new HashMap<String, Object>();
 				if (firebaseSessionKey.length()>0) {
 						data.put("sessionKey", firebaseSessionKey);
-						data.put("time", Long.toString(point.getTime().getTime()));
-						data.put("speed", Float.toString(point.getWindSpeed()));
+						data.put("time", point.getTime().getTime());
+						data.put("speed",point.getWindSpeed());
 						if (point.getWindDirection() != null) {
-								data.put("direction", Float.toString(point.getWindSpeed()));
+								data.put("direction", point.getWindSpeed());
 						}
 						firebaseClient.child(Constants.FIREBASE_WIND).push().setValue(data);
 				}
@@ -392,30 +392,30 @@ public class SleipnirCoreController implements MeasurementController, SpeedListe
 
 		private void updateFirebaseDataSession(MeasurementSession session, boolean isFirstTime) {
 
-				Map<String, String> data = new HashMap<String, String>();
+				Map<String, Object> data = new HashMap<String, Object>();
 				if (isFirstTime){
 
-						data.put("timeStart", Long.toString(session.getStartTime().getTime()));
+						data.put("timeStart", session.getStartTime().getTime());
 						data.put("deviceKey", session.getDevice());
 						firebaseSessionKey = firebaseClient.child(Constants.FIREBASE_SESSION).push().getKey();
 						firebaseClient.child(Constants.FIREBASE_SESSION).child(firebaseSessionKey).setValue(data);
 
 				}else {
 //						Log.d(TAG, "FirebaseSessionKey: " + firebaseSessionKey);
-						data.put("timeStart", Long.toString(session.getStartTime().getTime()));
+						data.put("timeStart", session.getStartTime().getTime());
 						data.put("deviceKey", session.getDevice());
-						data.put("timeStop", Long.toString(session.getEndTime().getTime()));
-						data.put("timeUploaded", Long.toString(new Date().getTime()));
+						data.put("timeStop", session.getEndTime().getTime());
+						data.put("timeUploaded", new Date().getTime());
 						if (session.getWindSpeedAvg()!=null && session.getWindSpeedMax()!=null) {
-								data.put("windMean", Float.toString(session.getWindSpeedAvg()));
-								data.put("windMax", Float.toString(session.getWindSpeedMax()));
+								data.put("windMean", session.getWindSpeedAvg());
+								data.put("windMax", session.getWindSpeedMax());
 						}
 						if (session.getWindDirection() != null) {
-								data.put("windDirection", Float.toString(session.getWindDirection()));
+								data.put("windDirection", session.getWindDirection());
 						}
 						if (session.getPosition() != null) {
-								data.put("locLat", Double.toString(session.getPosition().getLatitude()));
-								data.put("locLon", Double.toString(session.getPosition().getLongitude()));
+								data.put("locLat", session.getPosition().getLatitude());
+								data.put("locLon", session.getPosition().getLongitude());
 								geoFireSessionClient.setLocation(firebaseSessionKey, new GeoLocation(session.getPosition().getLatitude(), session.getPosition().getLongitude()));
 						}
 						firebaseClient.child(Constants.FIREBASE_SESSION).child(firebaseSessionKey).setValue(data);
