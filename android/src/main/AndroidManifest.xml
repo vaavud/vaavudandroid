@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vaavud.android"
-    android:versionCode="20150909"
-    android:versionName="0.5.2.1" >
+    android:versionCode="20150915"
+    android:versionName="0.5.2.2" >
 
     <uses-sdk
         android:minSdkVersion="14"
