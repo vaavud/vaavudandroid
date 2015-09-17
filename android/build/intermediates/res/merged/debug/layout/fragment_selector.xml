@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgray"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".LoginFragment" >
+
+	<TextView
+	    android:id="@+id/labelText"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+		android:layout_marginBottom="15dp"
+	    android:layout_centerHorizontal="true"
+	    android:layout_marginTop="15dp"
+	    android:gravity="bottom|center"
+	    android:text="@string/history_register_teaser"
+	    android:textSize="16sp" />
+
+	<Button
+	    android:id="@+id/signUpButton"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/labelText"
+	    android:layout_alignLeft="@+id/orLabeltext"
+	    android:background="@drawable/button_rounded_blue"
+	    android:layout_marginBottom="14dp"
+	    android:text="@string/register_title_signup"
+	    android:textColor="@color/white"
+	    android:textSize="16sp" />
+
+	<Button
+	    android:id="@+id/logInButton"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/signUpButton"
+	    android:layout_alignLeft="@+id/orLabeltext"
+	    android:layout_marginBottom="15dp"
+	    android:background="@drawable/button_rounded_white"
+	    android:text="@string/register_title_login"
+	    android:textColor="@color/blue"
+	    android:textSize="16sp" />
+
+</RelativeLayout><!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/layout/fragment_selector.xml -->

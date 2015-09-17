@@ -1,0 +1,239 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:keepScreenOn="true"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                tools:context=".MeasureFragment">
+
+    <RelativeLayout
+        android:id="@+id/measurement_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/informationText"
+        android:background="@color/lightgray">
+
+        <TextView
+            android:id="@+id/actualLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif"
+            android:gravity="bottom|left"
+            android:text="CURRENT"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/directionLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif"
+            android:gravity="bottom|right"
+            android:text="@string/direction_unit"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/maxLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/actualText"
+            android:layout_below="@+id/actualText"
+            android:fontFamily="sans-serif"
+            android:gravity="bottom|left"
+            android:text="MAX"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/maxText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/maxLabelText"
+            android:layout_below="@+id/maxLabelText"
+            android:fontFamily="sans-serif"
+            android:gravity="top|left"
+            android:text="-"
+            android:textColor="@color/blue"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/directionText"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignRight="@+id/directionLabelText"
+            android:layout_below="@+id/directionLabelText"
+            android:fontFamily="sans-serif"
+            android:gravity="center|right"
+            android:text="-"
+            android:textColor="@color/red"
+            android:textSize="50sp"/>
+
+        <TextView
+            android:id="@+id/unitLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/actualText"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif"
+            android:gravity="bottom|left"
+            android:text="UNIT"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/meanText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/directionText"
+            android:layout_below="@+id/meanLabeltext"
+            android:fontFamily="sans-serif"
+            android:gravity="top|left"
+            android:text="-"
+            android:textColor="@color/red"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/actualText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/actualLabelText"
+            android:layout_below="@+id/actualLabelText"
+            android:fontFamily="sans-serif"
+            android:gravity="top|left"
+            android:text="-"
+            android:textColor="@color/blue"
+            android:textSize="50sp"/>
+
+        <ImageView
+            android:id="@+id/arrowView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/directionText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:fontFamily="sans-serif"/>
+
+        <Button
+            android:id="@+id/unitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/unitLabelText"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/transparent"
+            android:fontFamily="sans-serif"
+            android:gravity="top|center_horizontal"
+            android:text="m/s"
+            android:textColor="@color/blue"
+            android:textSize="25sp"/>
+
+
+        <TextView
+            android:id="@+id/meanLabeltext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/unitLabelText"
+            android:layout_alignRight="@+id/directionLabelText"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif"
+            android:gravity="bottom|left"
+            android:text="AVERAGE"
+            android:textSize="12sp"/>
+
+        <LinearLayout
+            android:id="@+id/chart"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/unitButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+
+            android:orientation="horizontal"
+            >
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/informationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="sans-serif"
+        android:text="InformationText"
+        android:textSize="16sp"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_above="@+id/startButtonLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:max="30"
+        android:progressDrawable="@drawable/progress_bar_blue"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="5dp"/>
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/startButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+    <Button
+        android:id="@+id/startButton"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_rounded_blue"
+        android:fontFamily="sans-serif"
+        android:text="@string/button_start"
+        android:textColor="@color/white"
+        android:textSize="23sp"/>
+
+        <!--<Button-->
+            <!--android:id="@+id/shareButton"-->
+            <!--android:layout_weight="0.30"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:visibility="visible"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:background="@color/com_facebook_blue"-->
+            <!--android:fontFamily="sans-serif"-->
+            <!--android:text="Share"-->
+            <!--android:layout_marginBottom="5dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="23sp"/>-->
+    </LinearLayout>
+
+</RelativeLayout><!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/layout/fragment_measure.xml -->

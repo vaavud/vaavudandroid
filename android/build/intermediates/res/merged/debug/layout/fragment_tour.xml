@@ -1,0 +1,117 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+ 	<ImageView
+        android:id="@+id/imageBackground"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:scaleType="centerCrop"
+    	/>
+ 	<ImageView
+	        android:id="@+id/imageLogo"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="30dp"
+	        android:src="@drawable/logo" />
+	<RelativeLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical"
+	    android:paddingBottom="20dp"
+	    android:paddingLeft="15dp"
+	    android:paddingRight="15dp"
+	    android:paddingTop="40dp" >
+		<Button
+		    android:id="@+id/button_blue"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="160dp"
+		    android:background="@drawable/button_rounded_blue"
+		    android:padding="10dp"
+		    android:text="Button_blue"
+		    android:textColor="@color/white"
+		    android:textSize="16sp" />
+
+	    <Button
+	        android:id="@+id/button_white"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:layout_below="@+id/button_blue"
+	        android:padding="10dp"
+	        android:layout_marginTop="20dp"
+	        android:background="@drawable/button_rounded_white"
+	        android:textColor="@color/blue"
+	        android:text="Button_white"
+	        android:textSize="16sp" />
+	
+	    <Button
+	        android:id="@+id/button_skip"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_above="@+id/pagerIndicatorLayout"
+	        android:layout_marginBottom="30dp"
+	        android:layout_alignLeft="@+id/pagerIndicatorLayout"
+	        android:padding="10dp"
+	        android:background="@android:color/transparent"
+	        android:text="Button_skip"
+	        android:textColor="@android:color/white"
+	        android:textSize="16sp" />
+		<TextView
+	        android:id="@+id/section_label"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignBaseline="@+id/button_skip"
+	        android:layout_alignBottom="@+id/button_skip"
+	        android:layout_alignLeft="@+id/button_skip"
+	        android:layout_above="@+id/pagerIndicatorLayout"
+	        android:gravity="center_horizontal"
+	        android:padding="5dp"
+	        android:textColor="@color/white"
+	        android:textSize="16sp" />
+		
+		<Button
+		    android:id="@+id/button_gotIt"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_above="@+id/pagerIndicatorLayout"
+		    android:layout_marginBottom="60dp"
+		    android:layout_alignParentLeft="true"
+		    android:layout_alignParentRight="true"
+		    android:background="@drawable/button_rounded_white"
+		    android:padding="10dp"
+		    android:text="Button_skip"
+		    android:textColor="@color/blue"
+		    android:textSize="16sp" />
+		
+	    <RelativeLayout
+	        android:id="@+id/pagerIndicatorLayout"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp"
+	        android:layout_alignLeft="@+id/button_white"
+	        android:layout_alignParentBottom="true"
+	        android:layout_marginBottom="15dp" >
+		 
+        <com.viewpagerindicator.CirclePageIndicator
+	            android:id="@+id/pagerIndicator"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content" />
+	    </RelativeLayout>
+
+	    <TextView
+	        android:id="@+id/question_label"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignLeft="@+id/button_blue"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginTop="110dp"
+	        android:gravity="center_horizontal"
+	        android:padding="5dp"
+	        android:text="question"
+	        android:textColor="@color/white"
+	        android:textSize="16sp" />
+
+	</RelativeLayout>
+</FrameLayout><!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/layout/fragment_tour.xml -->

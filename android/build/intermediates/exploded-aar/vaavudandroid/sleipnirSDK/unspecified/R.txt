@@ -1,0 +1,5 @@
+int string button_ok 0x7f020000
+int string connection_toast 0x7f020001
+int string permision_toast 0x7f020002
+int string sound_disclaimer 0x7f020003
+int string sound_disclaimer_title 0x7f020004

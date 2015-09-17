@@ -1,0 +1,189 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MeasurementMapFragment" >
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/map_hoursTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp"
+        android:text="24 hours"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/map_unitTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp"
+        android:text="km/h"
+        android:textColor="@color/white" />
+
+    <com.vaavud.android.ui.map.TouchPassThroughSlidingUpPanelLayout
+        android:id="@+id/sliding_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false" />
+
+        <RelativeLayout
+            android:id="@+id/info_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white" >
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/info_mapThumbnailImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:maxHeight="100dp"
+                android:maxWidth="100dp"
+                android:minHeight="100dp"
+                android:minWidth="100dp" />
+
+            <RelativeLayout
+                android:id="@+id/info_detailsLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/info_mapThumbnailImageView"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@id/info_mapThumbnailImageView" >
+
+                <ImageView
+                    android:id="@+id/info_windArrowView"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/info_hoursAgoTextView"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp" />
+
+                <TextView
+                    android:id="@+id/info_hoursAgoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="5 hours ago" />
+
+                <TextView
+                    android:id="@+id/info_maxLabelTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="MAX" />
+                
+			    <TextView
+			        android:id="@+id/info_maxTextView"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/info_maxLabelTextView"
+			        android:layout_toRightOf="@+id/info_maxLabelTextView"
+			        android:text="28.8"
+			        android:textColor="@color/blue"
+			        android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/info_unitTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:text="km/h" />
+
+                <TextView
+                    android:id="@+id/info_avgSpeedTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/info_unitTextView"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/info_unitTextView"
+                    android:text="28.8"
+                    android:textColor="@color/red"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:id="@+id/info_windTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/info_hoursAgoTextView"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/info_windArrowView"
+                    android:text="-"
+                    android:textColor="@color/red"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/info_nearbyTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/info_mapThumbnailImageView"
+                android:layout_marginTop="10dp"
+                android:background="@color/lightgray"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="2dp"
+                android:text="NEARBY MEASUREMENTS" />
+
+            <ListView
+                android:id="@+id/info_nearbyListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/info_nearbyTextView" >
+            </ListView>
+        </RelativeLayout>
+    </com.vaavud.android.ui.map.TouchPassThroughSlidingUpPanelLayout>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mapProgressBar"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"/>
+
+</RelativeLayout><!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/layout/fragment_map.xml -->

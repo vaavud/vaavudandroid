@@ -1,0 +1,191 @@
+<RelativeLayout
+    android:id="@+id/sharing_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgray">
+
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/logo"
+        />
+
+
+    <TextView
+        android:id="@+id/directionLabelText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:gravity="bottom|center"
+        android:text="WIND DIRECTION"
+        android:textSize="12sp"
+        android:layout_below="@+id/image_logo"
+        android:layout_centerHorizontal="true"/>
+    <LinearLayout
+        android:id="@+id/directionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@+id/directionLabelText"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+    <ImageView
+        android:id="@+id/image_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/wind_arrow"
+        android:layout_marginRight="20dp"
+        />
+    <TextView
+        android:id="@+id/directionTextShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:gravity="bottom|center"
+        android:text="-"
+        android:textColor="@color/red"
+        android:textSize="50sp"
+        android:layout_marginLeft="20dp"
+        />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/maxLabelText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="40dp"
+        android:layout_below="@+id/directionLayout"
+        android:fontFamily="sans-serif"
+        android:gravity="bottom|center"
+        android:text="MAX SPEED"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/maxTextShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|center"
+        android:fontFamily="sans-serif"
+        android:text="-"
+        android:textColor="@color/blue"
+        android:textSize="30sp"
+        android:layout_below="@+id/maxLabelText"
+        android:layout_alignLeft="@+id/maxLabelText"
+        android:layout_alignStart="@+id/maxLabelText"
+        android:layout_alignRight="@+id/maxLabelText"
+        android:layout_alignEnd="@+id/maxLabelText"/>
+
+
+    <TextView
+        android:id="@+id/meanLabeltext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="40dp"
+        android:layout_below="@+id/directionLayout"
+        android:fontFamily="sans-serif"
+        android:gravity="bottom|center"
+        android:text="AVERAGE SPEED"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/meanTextShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:gravity="bottom|center"
+        android:text="-"
+        android:textColor="@color/red"
+        android:textSize="30sp"
+        android:layout_below="@+id/meanLabeltext"
+        android:layout_alignRight="@+id/meanLabeltext"
+        android:layout_alignEnd="@+id/meanLabeltext"
+        android:layout_alignLeft="@+id/meanLabeltext"
+        android:layout_alignStart="@+id/meanLabeltext"/>
+
+    <TextView
+        android:id="@+id/unitTextShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:gravity="bottom|center"
+        android:text="-"
+        android:textColor="@color/red"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/meanLabeltext"
+        />
+
+    <TextView
+        android:id="@+id/poweredBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:gravity="bottom|center"
+        android:text="Measurement taken with Vaavud"
+        android:textSize="10sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/meanTextShare"/>
+
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/chartShare"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="150dp"-->
+        <!--android:layout_below="@id/unitButtonShare"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:background="@android:color/transparent"-->
+        <!--android:orientation="horizontal"/>-->
+
+
+    <ImageView
+        android:id="@+id/mapShare"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:layout_below="@+id/poweredBy"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal|center_vertical"/>
+
+    <TextView
+        android:id="@+id/locationShare"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:layout_below="@+id/poweredBy"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:text=""
+        android:gravity="center_horizontal|bottom"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:shadowColor="@color/black"
+        android:shadowRadius="1.9"
+        android:textSize="30sp"/>
+    <TextView
+        android:id="@+id/date_view"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center_horizontal|top"
+        android:text="Date of Today"
+        android:textSize="10sp"
+        android:textColor="@color/white"
+        android:shadowColor="@color/black"
+        android:shadowRadius="2.9"
+        android:layout_below="@+id/poweredBy"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>
+
+<!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/layout/view_sharing.xml -->

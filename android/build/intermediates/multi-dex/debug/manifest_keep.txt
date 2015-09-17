@@ -1,0 +1,20 @@
+-keep class com.vaavud.android.VaavudApplication {
+    <init>();
+    void attachBaseContext(android.content.Context);
+}
+-keep class com.vaavud.android.ui.MainActivity { <init>(); }
+-keep class com.vaavud.android.ui.tour.TourActivity { <init>(); }
+-keep class com.vaavud.android.ui.calibration.CalibrationActivity { <init>(); }
+-keep class com.vaavud.android.ui.settings.SettingsActivity { <init>(); }
+-keep class com.vaavud.android.ui.about.AboutActivity { <init>(); }
+-keep class com.vaavud.android.ui.login.LoginActivity { <init>(); }
+-keep class com.facebook.LoginActivity { <init>(); }
+-keep class com.vaavud.android.network.NetworkService { <init>(); }
+-keep class com.google.android.gms.ads.AdActivity { <init>(); }
+-keep class com.google.android.gms.ads.purchase.InAppPurchaseActivity { <init>(); }
+-keep public class * extends android.app.backup.BackupAgent {
+    <init>();
+}
+-keep public class * extends java.lang.annotation.Annotation {
+    *;
+}

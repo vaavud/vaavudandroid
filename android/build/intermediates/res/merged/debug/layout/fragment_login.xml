@@ -1,0 +1,78 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgray"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:scrollbars="none" >
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".LoginFragment" > 
+
+    <Button
+	    android:id="@+id/fbLoginButton"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginTop="15dp"
+	    android:background="@drawable/com_facebook_button_blue"
+	    android:text="@string/register_button_login_with_facebook"
+	    android:textColor="@color/white"
+	    android:textSize="16sp" />
+	
+	<EditText
+        android:id="@+id/userPasswordtext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/userEmailtext"
+        android:layout_below="@+id/userEmailtext"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textSize="16sp"
+        android:hint="@string/register_field_password">
+     </EditText>
+
+	<EditText
+	    android:id="@+id/userEmailtext"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/fbAuthButton"
+	    android:layout_below="@+id/orLabeltext"
+	    android:ems="10"
+	    android:textSize="16sp"
+	    android:hint="@string/register_field_email"
+	    android:inputType="textEmailAddress">
+        </EditText>
+
+	<TextView
+	    android:id="@+id/orLabeltext"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/userEmailtext"
+	    android:layout_below="@+id/fbLoginButton"
+	    android:gravity="bottom|center"
+	    android:layout_marginTop="15dp"
+	    android:layout_marginBottom="15dp"
+	    android:text="@string/register_or"
+	    android:textSize="16sp" />
+
+	<Button
+	    android:id="@+id/loginButton"
+	    android:layout_width="150dp"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/userPasswordtext"
+	    android:layout_marginTop="15dp"
+	    android:background="@drawable/button_rounded_white"
+	    android:text="@string/register_button_login"
+	    android:textColor="@color/blue"
+	    android:textSize="16sp" />
+
+</RelativeLayout>
+</ScrollView><!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/layout/fragment_login.xml -->

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/home/dgalindo/vaavudandroid/android/build/intermediates/exploded-aar/vaavudandroid/facebookSDK/unspecified/res/values-ldpi/values-ldpi.xml -->
+    <eat-comment/>
+    <dimen name="com_facebook_picker_divider_width">1px</dimen>
+</resources>

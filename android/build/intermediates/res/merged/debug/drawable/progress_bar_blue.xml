@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+        xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:id="@android:id/background">
+                <shape>
+                        <corners
+                                android:radius="5dip" />
+                        <gradient
+                                android:startColor="@color/vaavudgray_20"
+                                android:centerColor="@color/vaavudgray_20"
+                                android:centerY="0.50"
+                                android:endColor="@color/vaavudgray_20"
+                                android:angle="270" />
+                </shape>
+        </item>
+        <item
+                android:id="@android:id/progress">
+                <clip>
+                        <shape>
+                                <corners
+                                        android:radius="5dip" />
+                                <gradient
+                                        android:startColor="@color/blue_pressed"
+                                        android:endColor="@color/blue_pressed"
+                                        />
+                        </shape>
+                </clip>
+        </item>
+</layer-list><!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/drawable/progress_bar_blue.xml -->

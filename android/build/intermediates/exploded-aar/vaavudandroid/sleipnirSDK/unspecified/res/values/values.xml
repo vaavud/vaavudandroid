@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Users/juan/SourceCode/AndroidSleipnirSDK/sleipnirSDK/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="button_ok">OK</string>
+    <string name="connection_toast">Sleipnir connected</string>
+    <string name="permision_toast">Plug in again Sleipnir</string>
+    <string name="sound_disclaimer">The sleipnir wind meter works by magic - and by drawing an audio signal from your phone. So please click OK to the volume level warning</string>
+    <string name="sound_disclaimer_title">Warning</string>
+</resources>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/history_view_item">    
+    <LinearLayout 
+        android:id="@+id/history_dateView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        />
+    
+    <TextView
+        android:id="@+id/history_unitTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/history_mapThumbnailImageView"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:text="km/h"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/history_averageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/history_unitTextView"
+        android:layout_alignBottom="@+id/history_mapThumbnailImageView"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/history_unitTextView"
+        android:text="14.4"
+        android:textColor="@color/red"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/history_timeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/history_unitTextView"
+        android:layout_alignTop="@+id/history_mapThumbnailImageView"
+        android:text="15:00"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/history_maxSpeedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/history_mapThumbnailImageView"
+        android:layout_alignBaseline="@+id/history_unitTextView"
+        android:layout_toRightOf="@+id/history_maxTextView"
+        android:layout_marginLeft="10dp"
+        android:text="28.8"
+        android:textColor="@color/blue"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/history_maxTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/history_unitTextView"
+        android:layout_alignBottom="@+id/history_mapThumbnailImageView"
+        android:layout_toRightOf="@+id/history_mapThumbnailImageView"
+        android:layout_marginLeft="10dp"
+        android:text="MAX"
+        android:textSize="12dp" />
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/history_mapThumbnailImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignLeft="@+id/history_dateView"
+        android:layout_below="@+id/history_dateView"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:clickable="true"
+        android:maxHeight="100dp"
+        android:maxWidth="100dp"
+        android:minHeight="100dp"
+        android:minWidth="100dp"
+        />
+	<ImageView
+        android:id="@+id/history_windArrowView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignTop="@+id/history_mapThumbnailImageView"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/history_mapThumbnailImageView"/>
+
+    <TextView
+        android:id="@+id/history_windTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/history_maxSpeedTextView"
+        android:layout_alignBottom="@+id/history_windArrowView"
+        android:textColor="@color/red"
+        android:text="-"
+        android:textSize="20sp" />
+
+</RelativeLayout><!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/layout/listview_row_history.xml -->

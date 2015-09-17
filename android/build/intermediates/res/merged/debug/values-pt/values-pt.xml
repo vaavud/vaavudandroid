@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/home/dgalindo/vaavudandroid/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values-pt/values-pt.xml -->
+    <eat-comment/>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"Navegar para a página inicial"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"Navegar para cima"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"Mais opções"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"Concluído"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"Ver tudo"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"Selecione um aplicativo"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"Limpar consulta"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"Consulta de pesquisa"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"Pesquisar"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"Enviar consulta"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"Pesquisa por voz"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"Compartilhar com"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"Compartilhar com %s"</string>
+    <!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/values-pt/strings.xml -->
+    <eat-comment/>
+    <string name="about_title">Sobre</string>
+    <string name="about_vaavud_text">A Vaavud è uma start-up tecnológica dinamarquesa.\n A nossa missão é fornecer informação meteorológica personalizada e de alta resolução.\n Para saber mais e para comprar um medidor de vento Vaavud, visite Vaavud.com\n © Vaavud ApS 2014, todos os direitos reservados\n Versāo: %1$s</string>
+    <string name="app_id">624217360948538</string>
+    <string name="app_name">Vaavud</string>
+    <string name="back">Voltar</string>
+    <string name="button_buy">Comprar um medidor de vento</string>
+    <string name="button_cancel">Cancelar</string>
+    <string name="button_done">Feito</string>
+    <string name="button_enable_share">Activar partilha no facebook</string>
+    <string name="button_ok">OK</string>
+    <string name="button_settings">Definições</string>
+    <string name="button_settings_measuring_tips">Dicas para medir o vento</string>
+    <string name="button_start">Iniciar</string>
+    <string name="button_stop">Parar</string>
+    <string name="calibration">Calibração</string>
+    <string name="calibration_accessmenu_text">Pode calibrar o seu Sleipnir a qualquer momento através do menu de parâmetros.</string>
+    <string name="calibration_cancel_text">Cancelar</string>
+    <string name="calibration_completed_text">Calibração Completa!</string>
+    <string name="calibration_finish_text">Feito</string>
+    <string name="calibration_howto_text">Como calibrar o seu Sleipnir</string>
+    <string name="calibration_later_text">Fazer isto mais tarde</string>
+    <string name="calibration_message_text">Sopre e aguarde até abrandar para soprar novamente</string>
+    <string name="calibration_not_sleipnir_toast">Sleipnir não conectado</string>
+    <string name="calibration_sending_dialog_title">A enviar relatório...</string>
+    <string name="calibration_start_text">Iniciar Calibração</string>
+    <string name="calibration_tip_text">Vá para o interior e sopre firmemente no medidor de vento e quando abrandar sopre novamente.</string>
+    <string name="calibration_upload_dialog_text">Enviar relatório do erro para ser analisado?</string>
+    <string name="calibration_upload_dialog_title">Hmmm...Algo não esta bem</string>
+    <!-- From: file:/home/dgalindo/vaavudandroid/android/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.8.0/res/values-pt/common_strings.xml -->
+    <eat-comment/>
+    <string msgid="6428604800157361567" name="common_android_wear_notification_needs_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> exige uma atualização para o app Android Wear."</string>
+    <string msgid="2453027084525739603" name="common_android_wear_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> só funciona com uma atualização para o app Android Wear."</string>
+    <string msgid="1366439133145190222" name="common_android_wear_update_title">"Atualizar o Android Wear"</string>
+    <string msgid="6534628256897874213" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> exige um ou mais Google Play Services que não estão disponíveis no momento. Entre em contato com o desenvolvedor para receber assistência."</string>
+    <string msgid="4181637455539816337" name="common_google_play_services_enable_button">"Ativar o Google Play Services"</string>
+    <string msgid="4896236883690196080" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> só funciona com o Google Play Services ativado."</string>
+    <string msgid="529078775174559253" name="common_google_play_services_enable_title">"Ative o Google Play Services"</string>
+    <string msgid="2443362625939284971" name="common_google_play_services_error_notification_requested_by_msg">"Solicitado por <ns1:g id="APP_NAME">%1$s</ns1:g>"</string>
+    <string msgid="8515591849428043265" name="common_google_play_services_install_button">"Instalar o Google Play Services"</string>
+    <string msgid="8836325110837822534" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> não funciona sem o Google Play Services, o qual não está instalado no seu smartphone."</string>
+    <string msgid="542176290824754127" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> não funciona sem o Google Play Services, o qual não está instalado no seu tablet."</string>
+    <string msgid="26645092511305524" name="common_google_play_services_install_title">"Instale o Google Play Services"</string>
+    <string msgid="4983316348021735578" name="common_google_play_services_invalid_account_text">"A conta especificada não existe no dispositivo. Escolha outra conta."</string>
+    <string msgid="1066672360770936753" name="common_google_play_services_invalid_account_title">"Conta inválida"</string>
+    <string msgid="2583358409598976717" name="common_google_play_services_needs_enabling_title">"Um app requer a ativação do Google Play Services."</string>
+    <string msgid="9038847255613537209" name="common_google_play_services_network_error_text">"É necessária uma conexão de dados para conectar ao Google Play Services."</string>
+    <string msgid="3827284619958211114" name="common_google_play_services_network_error_title">"Erro na rede"</string>
+    <string msgid="1388129345631079938" name="common_google_play_services_notification_needs_update_title">"Um app requer a atualização do Google Play Services."</string>
+    <string msgid="1852570676146674985" name="common_google_play_services_notification_ticker">"Erro do Google Play Services"</string>
+    <string msgid="5194079840165204725" name="common_google_play_services_sign_in_failed_text">"Erro ao fazer login na conta especificada. Escolha outra conta."</string>
+    <string msgid="8164948898147532159" name="common_google_play_services_sign_in_failed_title">"Falha de login"</string>
+    <string msgid="4762332809710093730" name="common_google_play_services_unknown_issue">"Problema desconhecido com o Google Play Services."</string>
+    <string msgid="7682982632307307938" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> depende do Google Play Services, o qual não é compatível com seu dispositivo. Entre em contato com o fabricante para receber assistência."</string>
+    <string msgid="6334768798839376943" name="common_google_play_services_unsupported_title">"Play Services"</string>
+    <string msgid="8932944190611227642" name="common_google_play_services_update_button">"Atualizar"</string>
+    <string msgid="5709479369299147668" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> só funciona com uma versão atualizada do Google Play Services."</string>
+    <string msgid="6006316683626838685" name="common_google_play_services_update_title">"Atualize o Google Play Services"</string>
+    <string msgid="2201289642219771610" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> não funciona sem o Google Play Services, o qual está sendo atualizado no momento."</string>
+    <string msgid="815008177440683245" name="common_google_play_services_updating_title">"Google Play Services em atualização"</string>
+    <string msgid="411506735369601515" name="common_open_on_phone">"Abrir no smartphone"</string>
+    <string msgid="9071884888741449141" name="common_signin_button_text">"Login"</string>
+    <string msgid="2429381841831957106" name="common_signin_button_text_long">"Fazer login com o Google"</string>
+    <!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/values-pt/strings.xml -->
+    <eat-comment/>
+    <string name="conectivity_error_message">Certifique-se de que tem ligação por dados, por pacotes ou por Wi-Fi.</string>
+    <string name="direction_unit">Direção</string>
+    <string name="heading_average">Média</string>
+    <string name="heading_current">Atual</string>
+    <string name="heading_max">Máx.</string>
+    <string name="heading_nearby_measurements">Medidas Próximas</string>
+    <string name="heading_unit">Unidade</string>
+    <string name="history_go_to_measure">Vá até \"Medir\" e prima \"Iniciar\" para começar!</string>
+    <string name="history_no_measurements">Ainda sem medições</string>
+    <string name="history_register_teaser">Inscreva-se para ver todo o seu histórico de medições</string>
+    <string name="history_title">Histórico</string>
+    <string name="info_keep_steady">Mantenha estável e na vertical</string>
+    <string name="info_measuring">Medição em progresso</string>
+    <string name="info_no_audio_signal">Sem sinal de áudio</string>
+    <string name="info_no_signal">Sem sinal</string>
+    <string name="instruction_flow_screen_1">Aqui estão algumas dicas para fazer uma boa medição de vento</string>
+    <string name="instruction_flow_screen_2">Para obter o máximo de precisão segure o telefone na vertical e estável sobre a cabeça</string>
+    <string name="instruction_flow_screen_3">Não se coloque atrás de vegetação, equipamento, rochas, etc.</string>
+    <string name="instruction_flow_screen_4">Continue a medir até que a barra de progresso esteja cheia para obter uma medição adequada.</string>
+    <string name="intro_flow_got_it_button">Ok, já percebi!</string>
+    <string name="intro_flow_have_a_wind_meter">Já tem um medidor de vento Vaavud?</string>
+    <string name="intro_flow_later_button">Mais tarde</string>
+    <string name="intro_flow_no_button">Não</string>
+    <string name="intro_flow_screen_1">TO medidor de vento Vaavud torna o teu telefone numa ferramenta meteorológica de alta tecnologia.</string>
+    <string name="intro_flow_screen_2">Utilize o mapa para verificar as condições em tempo real do seu local favorito antes de sair.</string>
+    <string name="intro_flow_skip_button">Saltar por agora</string>
+    <string name="intro_flow_want_buy">Quer comprar um medidor de vento agora?</string>
+    <string name="intro_flow_yes_button">Sim</string>
+    <string name="link_privacy_policy">Política de Privacidade</string>
+    <string name="link_terms_of_service">Termos do Serviço</string>
+    <string name="map_refresh_error_message">Certifique-se de que tem ligação por dados, por pacotes ou por Wi-Fi.</string>
+    <string name="map_refresh_error_title">Erro na Atualização do Mapa</string>
+    <string name="message_sure">Tem a certeza?</string>
+    <!-- From: file:/home/dgalindo/vaavudandroid/android/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/res/values-pt/values-pt.xml -->
+    <eat-comment/>
+    <string msgid="4271159405637008602" name="mr_media_route_button_content_description">"Saída de mídia"</string>
+    <string msgid="7553005460920830010" name="mr_media_route_chooser_searching">"Procurando dispositivos…"</string>
+    <string msgid="7106830097177242655" name="mr_media_route_chooser_title">"Conectar ao dispositivo"</string>
+    <string msgid="109793632378378069" name="mr_media_route_controller_disconnect">"Desconectar"</string>
+    <string msgid="5441529851481176817" name="mr_system_route_name">"Sistema"</string>
+    <string msgid="7498112907524977311" name="mr_user_route_category_name">"Dispositivos"</string>
+    <!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/values-pt/strings.xml -->
+    <eat-comment/>
+    <string name="no_compass_measurements">Este telemóvel\nnão tem um\ncompasso digital</string>
+    <string name="option_about">Sobre</string>
+    <string name="option_delete">Eliminar</string>
+    <string name="option_login">Iniciar/Inscriçāo</string>
+    <string name="option_logout">Terminar Sessāo</string>
+    <string name="register_button_create">Criar</string>
+    <string name="register_button_login">Iniciar Sessāo</string>
+    <string name="register_button_login_with_facebook">Inicie sessāo com o Facebook</string>
+    <string name="register_button_logout">Terminar Sessāo</string>
+    <string name="register_create_feedback_email_empty_message">Nāo daremos o seu e-mail a terceiros!</string>
+    <string name="register_create_feedback_email_empty_title">Introduza o seu e-mail</string>
+    <string name="register_create_feedback_first_name_empty_message">Basta o seu primeiro nome.</string>
+    <string name="register_create_feedback_first_name_empty_title">Introduza o seu nome</string>
+    <string name="register_create_feedback_password_short_message">4 caracteres ou mais.</string>
+    <string name="register_create_feedback_password_short_title">Palavra-passe demasiado pequena</string>
+    <string name="register_facebook_disclaimer">Nunca publicaremos no Facebook sem a sua autorizaçāo</string>
+    <string name="register_feedback_account_exists_login_with_facebook">Iniciar sessāo com o Facebook.</string>
+    <string name="register_feedback_account_exists_message">E-mail ou palavra-passe incorretos.</string>
+    <string name="register_feedback_account_exists_provide_password">Forneça a palavra-passe da conta Vaavud para iniciar a sessāo com o Facebook:</string>
+    <string name="register_feedback_account_exists_title">A conta já existe</string>
+    <string name="register_feedback_conecting_server">A carregar...</string>
+    <string name="register_feedback_error_message">Por favor, tente novamente mais tarde.</string>
+    <string name="register_feedback_error_title">Erro</string>
+    <string name="register_feedback_invalid_credentials_message">E-mail ou palavra-passe nāo estāo corretos.</string>
+    <string name="register_feedback_invalid_credentials_title">Impossível iniciar sessāo</string>
+    <string name="register_feedback_malformed_email_message">Nāo parece ser um endereço de e-mail válido.</string>
+    <string name="register_feedback_malformed_email_title">E-mail incorreto</string>
+    <string name="register_feedback_no_reachability_message">Certifique-se de que tem ligaçāo por dados, por pacotes ou por Wi-Fi.</string>
+    <string name="register_feedback_no_reachability_title">Problema de ligaçāo</string>
+    <string name="register_field_email">E-mail</string>
+    <string name="register_field_first_name">Primeiro nome</string>
+    <string name="register_field_last_name">Apelido</string>
+    <string name="register_field_password">Palavra-passe</string>
+    <string name="register_or">Ou</string>
+    <string name="register_signup_with_facebook">Inscreva-se com o Facebook</string>
+    <string name="register_terms_and">e</string>
+    <string name="register_title_login">Inicio de Sessāo</string>
+    <string name="register_title_signup">Inscriçāo</string>
+    <string name="rel_time_1_day_ago">1 dia atrás</string>
+    <string name="rel_time_1_hour_ago">1 hora atrás</string>
+    <string name="rel_time_1_min_ago">1 min. atrás</string>
+    <string name="rel_time_future">futuro</string>
+    <string name="rel_time_now">agora mesmo</string>
+    <string name="rel_time_x_days_ago">%d dias atrás</string>
+    <string name="rel_time_x_hours_ago">%d horas atrás</string>
+    <string name="rel_time_x_mins_ago">%d minutos atrás</string>
+    <string name="share_choose_existing">Choose Existing</string>
+    <string name="share_guide">What\'s it like</string>
+    <string name="share_take_photo">Take Photo</string>
+    <string name="share_to_facebook_title">Compartilhar</string>
+    <string name="sound_disclaimer">O medidor de vento Sleipnir funciona com magia - e através do sinal de audio do smartphone. É necessário clicar em OK no próximo aviso do volume de audio.</string>
+    <string name="sound_disclaimer_title">Aviso</string>
+    <string name="tab_about">Sobre</string>
+    <string name="tab_history">Histórico</string>
+    <string name="tab_map">Mapa</string>
+    <string name="tab_measure">Medir</string>
+    <string name="title_activity_about">Sobre</string>
+    <string name="title_activity_calibration">Calibração</string>
+    <string name="title_activity_login">Inicio de Sessāo</string>
+    <string name="title_activity_settings">Definições</string>
+    <string name="unit_bft">bft</string>
+    <string name="unit_cardinal">Cardeal</string>
+    <string name="unit_degrees">Graus</string>
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_kn">kt</string>
+    <string name="unit_mph">mph</string>
+    <string name="unit_ms">m/s</string>
+    <string name="x_hours">%d horas</string>
+</resources>

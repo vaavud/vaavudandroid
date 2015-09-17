@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/home/dgalindo/vaavudandroid/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values-zh-rTW/values-zh-rTW.xml -->
+    <eat-comment/>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"瀏覽首頁"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"向上瀏覽"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"更多選項"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"完成"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"查看全部"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"選擇應用程式"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"清除查詢"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"搜尋查詢"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"搜尋"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"提交查詢"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"語音搜尋"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"選擇分享對象"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"與「%s」分享"</string>
+    <!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/values-zh-rTW/strings.xml -->
+    <eat-comment/>
+    <string name="about_title">關於</string>
+    <string name="about_vaavud_text">Vaavud 是一家丹麥新創企業. \n 我们的任务是提供高分辨、个性化的天气信息。\n垂詢詳細資料或購買 Vaavud 風速計，請瀏覽 Vaavud.com\n © Vaavud ApS 2014著作權所有，并保留一切權利\n版本：%1$s</string>
+    <string name="app_id">624217360948538</string>
+    <string name="app_name">Vaavud</string>
+    <string name="back">返回</string>
+    <string name="button_buy">購買風力計</string>
+    <string name="button_cancel">取消</string>
+    <string name="button_done">完成</string>
+    <string name="button_enable_share">啟用Facebook分享</string>
+    <string name="button_ok">確定</string>
+    <string name="button_settings">設定</string>
+    <string name="button_settings_measuring_tips">測量小貼士</string>
+    <string name="button_start">開始</string>
+    <string name="button_stop">停止</string>
+    <string name="calibration">校準</string>
+    <string name="calibration_accessmenu_text">您可以在任何時間透過設置菜單來校準 Sleipnir 。</string>
+    <string name="calibration_cancel_text">取消</string>
+    <string name="calibration_completed_text">校準完成！</string>
+    <string name="calibration_finish_text">完成</string>
+    <string name="calibration_howto_text">如何校準你的</string>
+    <string name="calibration_later_text">稍後再做</string>
+    <string name="calibration_message_text">吹，等到它減慢時再次吹</string>
+    <string name="calibration_not_sleipnir_toast">Sleipnir未连接</string>
+    <string name="calibration_sending_dialog_title">发送报告中...</string>
+    <string name="calibration_start_text">開始校準</string>
+    <string name="calibration_tip_text">到室內，在減慢時，牢牢吹進風儀。</string>
+    <string name="calibration_upload_dialog_text">您想要把错误报告发给Vaavud做进一步分析吗?</string>
+    <string name="calibration_upload_dialog_title">唔...出错了。</string>
+    <!-- From: file:/home/dgalindo/vaavudandroid/android/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.8.0/res/values-zh-rTW/common_strings.xml -->
+    <eat-comment/>
+    <string msgid="6428604800157361567" name="common_android_wear_notification_needs_update_text">"「<ns1:g id="APP_NAME">%1$s</ns1:g>」要求更新 Android Wear 應用程式。"</string>
+    <string msgid="2453027084525739603" name="common_android_wear_update_text">"您必須更新 Android Wear 應用程式，才能執行「<ns1:g id="APP_NAME">%1$s</ns1:g>」。"</string>
+    <string msgid="1366439133145190222" name="common_android_wear_update_title">"更新 Android Wear"</string>
+    <string msgid="6534628256897874213" name="common_google_play_services_api_unavailable_text">"「<ns1:g id="APP_NAME">%1$s</ns1:g>」需要用到一或多項 Google Play 服務才能運作，但這些服務目前未提供存取。請與開發人員聯絡，向對方尋求協助。"</string>
+    <string msgid="4181637455539816337" name="common_google_play_services_enable_button">"啟用 Google Play 服務"</string>
+    <string msgid="4896236883690196080" name="common_google_play_services_enable_text">"您必須啟用 Google Play 服務，「<ns1:g id="APP_NAME">%1$s</ns1:g>」才能運作。"</string>
+    <string msgid="529078775174559253" name="common_google_play_services_enable_title">"啟用 Google Play 服務"</string>
+    <string msgid="2443362625939284971" name="common_google_play_services_error_notification_requested_by_msg">"「<ns1:g id="APP_NAME">%1$s</ns1:g>」提出要求"</string>
+    <string msgid="8515591849428043265" name="common_google_play_services_install_button">"取得 Google Play 服務"</string>
+    <string msgid="8836325110837822534" name="common_google_play_services_install_text_phone">"您的手機並未安裝 Google Play 服務，因此無法執行「<ns1:g id="APP_NAME">%1$s</ns1:g>」。"</string>
+    <string msgid="542176290824754127" name="common_google_play_services_install_text_tablet">"您的平板電腦並未安裝 Google Play 服務，因此無法執行「<ns1:g id="APP_NAME">%1$s</ns1:g>」。"</string>
+    <string msgid="26645092511305524" name="common_google_play_services_install_title">"取得 Google Play 服務"</string>
+    <string msgid="4983316348021735578" name="common_google_play_services_invalid_account_text">"這個裝置上沒有您所指定的帳戶，請選擇其他帳戶。"</string>
+    <string msgid="1066672360770936753" name="common_google_play_services_invalid_account_title">"無效的帳戶"</string>
+    <string msgid="2583358409598976717" name="common_google_play_services_needs_enabling_title">"應用程式要求啟用 Google Play 服務。"</string>
+    <string msgid="9038847255613537209" name="common_google_play_services_network_error_text">"需要數據連線才能連上 Google Play 服務。"</string>
+    <string msgid="3827284619958211114" name="common_google_play_services_network_error_title">"網路錯誤"</string>
+    <string msgid="1388129345631079938" name="common_google_play_services_notification_needs_update_title">"應用程式要求更新 Google Play 服務。"</string>
+    <string msgid="1852570676146674985" name="common_google_play_services_notification_ticker">"Google Play 服務發生錯誤"</string>
+    <string msgid="5194079840165204725" name="common_google_play_services_sign_in_failed_text">"登入指定的帳戶時發生錯誤，請選擇其他帳戶。"</string>
+    <string msgid="8164948898147532159" name="common_google_play_services_sign_in_failed_title">"登入失敗"</string>
+    <string msgid="4762332809710093730" name="common_google_play_services_unknown_issue">"Google Play 服務發生不明問題。"</string>
+    <string msgid="7682982632307307938" name="common_google_play_services_unsupported_text">"「<ns1:g id="APP_NAME">%1$s</ns1:g>」需要用到 Google Play 服務才能運作，但您的裝置並不支援該服務。請與您的裝置製造商聯絡，向對方尋求協助。"</string>
+    <string msgid="6334768798839376943" name="common_google_play_services_unsupported_title">"Google Play 服務"</string>
+    <string msgid="8932944190611227642" name="common_google_play_services_update_button">"更新"</string>
+    <string msgid="5709479369299147668" name="common_google_play_services_update_text">"您必須更新 Google Play 服務，才能執行「<ns1:g id="APP_NAME">%1$s</ns1:g>」。"</string>
+    <string msgid="6006316683626838685" name="common_google_play_services_update_title">"更新 Google Play 服務"</string>
+    <string msgid="2201289642219771610" name="common_google_play_services_updating_text">"「<ns1:g id="APP_NAME">%1$s</ns1:g>」需要用到的 Google Play 服務目前在更新中，因此無法執行該應用程式。"</string>
+    <string msgid="815008177440683245" name="common_google_play_services_updating_title">"正在更新 Google Play 服務"</string>
+    <string msgid="411506735369601515" name="common_open_on_phone">"在手機上開啟"</string>
+    <string msgid="9071884888741449141" name="common_signin_button_text">"登入"</string>
+    <string msgid="2429381841831957106" name="common_signin_button_text_long">"使用 Google 帳戶登入"</string>
+    <!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/values-zh-rTW/strings.xml -->
+    <eat-comment/>
+    <string name="conectivity_error_message">確認您開啟行動數據或 Wi-Fi 連線。</string>
+    <string name="direction_unit">方向</string>
+    <string name="heading_average">平均</string>
+    <string name="heading_current">當前</string>
+    <string name="heading_max">最大</string>
+    <string name="heading_nearby_measurements">附近測量值</string>
+    <string name="heading_unit">單位</string>
+    <string name="history_go_to_measure">轉到測量頁面，按開始進行測量！</string>
+    <string name="history_no_measurements">尚無測量值</string>
+    <string name="history_register_teaser">登入查看您的全部測量歷史記錄</string>
+    <string name="history_title">歷史記錄</string>
+    <string name="info_keep_steady">保持垂直和穩定</string>
+    <string name="info_measuring">正在測量</string>
+    <string name="info_no_audio_signal">無音頻訊號</string>
+    <string name="info_no_signal">無訊號</string>
+    <string name="instruction_flow_screen_1">以下是進行正確風力測量的一些小貼士。</string>
+    <string name="instruction_flow_screen_2">為了獲得最大的精確度，請垂直握穩手機於您的頭部上方。</string>
+    <string name="instruction_flow_screen_3">切勿站在植被、設備、巖石等後面。</string>
+    <string name="instruction_flow_screen_4">請持續測量，直至進度指示器走滿能夠獲得一個恰當的平均。</string>
+    <string name="intro_flow_got_it_button">好的，明白！</string>
+    <string name="intro_flow_have_a_wind_meter">您是否已經擁有一個Vaavud風力計？</string>
+    <string name="intro_flow_later_button">以後再說</string>
+    <string name="intro_flow_no_button">否</string>
+    <string name="intro_flow_screen_1">Vaavud風力計能夠將您的手機變成一種高科技的氣象工具。</string>
+    <string name="intro_flow_screen_2">出行前，使用實時地圖檢查您最喜歡的地點的狀況。</string>
+    <string name="intro_flow_skip_button">暫時跳過</string>
+    <string name="intro_flow_want_buy">您是否想要馬上購買一個風力計？</string>
+    <string name="intro_flow_yes_button">是</string>
+    <string name="link_privacy_policy">隱私權原則</string>
+    <string name="link_terms_of_service">服務條款</string>
+    <string name="map_refresh_error_message">確認您開啟行動數據或 Wi-Fi 連線。</string>
+    <string name="map_refresh_error_title">題圖刷新錯誤</string>
+    <string name="message_sure">您確定嗎？</string>
+    <!-- From: file:/home/dgalindo/vaavudandroid/android/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/res/values-zh-rTW/values-zh-rTW.xml -->
+    <eat-comment/>
+    <string msgid="4271159405637008602" name="mr_media_route_button_content_description">"媒體輸出"</string>
+    <string msgid="7553005460920830010" name="mr_media_route_chooser_searching">"正在搜尋裝置..."</string>
+    <string msgid="7106830097177242655" name="mr_media_route_chooser_title">"連線至裝置"</string>
+    <string msgid="109793632378378069" name="mr_media_route_controller_disconnect">"中斷連線"</string>
+    <string msgid="5441529851481176817" name="mr_system_route_name">"系統"</string>
+    <string msgid="7498112907524977311" name="mr_user_route_category_name">"裝置"</string>
+    <!-- From: file:/home/dgalindo/vaavudandroid/android/src/main/res/values-zh-rTW/strings.xml -->
+    <eat-comment/>
+    <string name="no_compass_measurements">這部\n電話里沒有\n數位羅盤</string>
+    <string name="option_about">關於</string>
+    <string name="option_delete">删除</string>
+    <string name="option_login">登入/註冊</string>
+    <string name="option_logout">登出</string>
+    <string name="register_button_create">建立</string>
+    <string name="register_button_login">登入</string>
+    <string name="register_button_login_with_facebook">使用 Facebook 登入</string>
+    <string name="register_button_logout">登出</string>
+    <string name="register_create_feedback_email_empty_message">我們不會將您的電子郵件透露給第三方！</string>
+    <string name="register_create_feedback_email_empty_title">輸入您的電子郵件</string>
+    <string name="register_create_feedback_first_name_empty_message">輸入名即可。</string>
+    <string name="register_create_feedback_first_name_empty_title">輸入名字</string>
+    <string name="register_create_feedback_password_short_message">至少4個字符。</string>
+    <string name="register_create_feedback_password_short_title">密碼太短</string>
+    <string name="register_facebook_disclaimer">未經您同意，我們絕不會張貼到 Facebook</string>
+    <string name="register_feedback_account_exists_login_with_facebook">使用 Facebook 登入。</string>
+    <string name="register_feedback_account_exists_message">電子郵件或密碼不正確。</string>
+    <string name="register_feedback_account_exists_provide_password">提供允許使用 Facebook 登入 Vaavud 帳戶所使用的密碼：</string>
+    <string name="register_feedback_account_exists_title">帳戶已存在</string>
+    <string name="register_feedback_conecting_server">加载...</string>
+    <string name="register_feedback_error_message">請稍後再試。</string>
+    <string name="register_feedback_error_title">錯誤</string>
+    <string name="register_feedback_invalid_credentials_message">電子郵件或密碼不正確。</string>
+    <string name="register_feedback_invalid_credentials_title">無法登入</string>
+    <string name="register_feedback_malformed_email_message">似乎不是有效電子郵件。</string>
+    <string name="register_feedback_malformed_email_title">電子郵件不正確</string>
+    <string name="register_feedback_no_reachability_message">確認您開啟行動數據或 Wi-Fi 連線。</string>
+    <string name="register_feedback_no_reachability_title">連線問題</string>
+    <string name="register_field_email">電子郵件</string>
+    <string name="register_field_first_name">名</string>
+    <string name="register_field_last_name">姓</string>
+    <string name="register_field_password">密碼</string>
+    <string name="register_or">或</string>
+    <string name="register_signup_with_facebook">使用 Facebook 註冊</string>
+    <string name="register_terms_and">和</string>
+    <string name="register_title_login">登入</string>
+    <string name="register_title_signup">註冊</string>
+    <string name="rel_time_1_day_ago">1天前</string>
+    <string name="rel_time_1_hour_ago">1小時前</string>
+    <string name="rel_time_1_min_ago">1分鐘前</string>
+    <string name="rel_time_future">未來</string>
+    <string name="rel_time_now">現在</string>
+    <string name="rel_time_x_days_ago">%d天前</string>
+    <string name="rel_time_x_hours_ago">%d小時前</string>
+    <string name="rel_time_x_mins_ago">%d分鐘前</string>
+    <string name="share_choose_existing">選擇現有的</string>
+    <string name="share_guide">它是什麽樣的？</string>
+    <string name="share_take_photo">拍照</string>
+    <string name="share_to_facebook_title">分享</string>
+    <string name="sound_disclaimer">  Sleipnir测风仪像魔法般运行——通过从您的电话获取音频信号。所以请在音量大小警告处点击OK。</string>
+    <string name="sound_disclaimer_title">注意</string>
+    <string name="tab_about">關於</string>
+    <string name="tab_history">歷史記錄</string>
+    <string name="tab_map">地圖</string>
+    <string name="tab_measure">測量</string>
+    <string name="title_activity_about">關於</string>
+    <string name="title_activity_calibration">校準</string>
+    <string name="title_activity_login">登入</string>
+    <string name="title_activity_settings">設定</string>
+    <string name="unit_bft">蒲福風級</string>
+    <string name="unit_kmh">公里/時</string>
+    <string name="unit_kn">節</string>
+    <string name="unit_mph">英里/時</string>
+    <string name="unit_ms">米/秒</string>
+    <string name="x_hours">%d小時</string>
+</resources>

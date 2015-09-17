@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/home/dgalindo/vaavudandroid/androidHoloCircularProgressBar/src/main/res"><file path="/home/dgalindo/vaavudandroid/androidHoloCircularProgressBar/src/main/res/values/attrs.xml" qualifiers=""><declare-styleable name="HoloCircularProgressBar">
+        <attr format="dimension" name="stroke_width"/>
+        <attr format="float" name="progress"/>
+        <attr format="float" name="marker_progress"/>
+        <attr format="color" name="progress_color"/>
+        <attr format="color" name="progress_background_color"/>
+        <attr format="boolean" name="thumb_visible"/>
+        <attr format="boolean" name="marker_visible"/>
+        <attr name="android:gravity"/>
+    </declare-styleable><attr format="reference" name="circularProgressBarStyle"/></file><file path="/home/dgalindo/vaavudandroid/androidHoloCircularProgressBar/src/main/res/values/styles.xml" qualifiers=""><style name="CircularProgressBarLight">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="stroke_width">5dp</item>
+        <item format="float" name="progress">0.1</item>
+        <item name="progress_color">#ffff4444</item>
+        <item name="progress_background_color">#aaa</item>
+        <item name="marker_visible">true</item>
+        <item name="thumb_visible">true</item>
+    </style><style name="CircularProgressBar">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="stroke_width">20dp</item>
+        <item format="float" name="progress">0.1</item>
+        <item name="progress_color">#ffff4444</item>
+        <item name="progress_background_color">#ffffffff</item>
+        <item name="marker_visible">false</item>
+        <item name="thumb_visible">false</item>
+    </style></file></source><source path="/home/dgalindo/vaavudandroid/androidHoloCircularProgressBar/build/generated/res/rs/release"/><source path="/home/dgalindo/vaavudandroid/androidHoloCircularProgressBar/build/generated/res/resValues/release"/></dataSet><dataSet config="release"><source path="/home/dgalindo/vaavudandroid/androidHoloCircularProgressBar/src/release/res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="HoloCircularProgressBar"><attr format="dimension" name="stroke_width"/><attr format="float" name="progress"/><attr format="float" name="marker_progress"/><attr format="color" name="progress_color"/><attr format="color" name="progress_background_color"/><attr format="boolean" name="thumb_visible"/><attr format="boolean" name="marker_visible"/><attr name="android:gravity"/></declare-styleable></configuration></mergedItems></merger>
